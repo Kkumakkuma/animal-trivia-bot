@@ -231,34 +231,18 @@ def _make_static_clip(arr: np.ndarray, duration: float, position, fade_in=0.3, f
     return clip
 
 
-def _make_caption_bg_clip(width: int, height: int, duration: float):
-    """자막 뒤 반투명 검정 박스 (가독성)."""
-    img = Image.new("RGBA", (width, height), (0, 0, 0, 140))
-    arr = np.array(img)
-    return ImageClip(arr, transparent=True).set_duration(duration)
-
-
-def _make_caption_window(text: str, start: float, end: float, base_size=104):
-    """fact/intro/outro 자막을 [start, end) 구간에 표시. 큰 글씨 + 반투명 박스."""
+def _make_caption_window(text: str, start: float, end: float, base_size=80):
+    """fact/intro/outro 자막을 [start, end) 구간에 표시. 박스 없음, 외곽선만으로 가독성."""
     if end <= start:
         return None
     arr = _fit_caption_image(text, base_size, VIDEO_WIDTH - 80, max_lines=3)
     if arr.shape[0] <= 1:
         return None
-    h, w = arr.shape[0], arr.shape[1]
-    # 반투명 박스 (글자 영역 약간 패딩)
-    pad = 30
-    bg_h = h + pad * 2
-    bg_w = w
-    bg = _make_caption_bg_clip(bg_w, bg_h, end - start)
-    bg = bg.set_start(start).set_position(("center", int(VIDEO_HEIGHT * 0.55) - pad))
-    bg = bg.crossfadein(0.2).crossfadeout(0.2)
-
     text_clip = ImageClip(arr, transparent=True).set_duration(end - start).set_start(start)
     y = int(VIDEO_HEIGHT * 0.55)
     text_clip = text_clip.set_position(("center", y))
     text_clip = text_clip.crossfadein(0.25).crossfadeout(0.25)
-    return [bg, text_clip]
+    return [text_clip]
 
 
 def _make_hook_clip(text: str, duration: float):
@@ -367,9 +351,8 @@ def compose(
         layers.append(hook_clip)
 
     for w in timeline:
-        cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=104)
+        cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=80)
         if cap:
-            # cap은 [bg, text] 리스트 → 둘 다 추가
             layers.extend(cap)
 
     brand = _make_brand_clip(total_dur)
