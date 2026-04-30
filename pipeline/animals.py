@@ -126,6 +126,34 @@ Output STRICT JSON only:
     if not isinstance(facts, list) or len(facts) < 3:
         facts = [f"{display} are way more interesting than people think."] * 3
     facts = [str(f).strip() for f in facts[:3]]
+    # 짧으면 GPT 한 번 더 호출해서 길이 확장 시도
+    if any(len(f.split()) < 16 for f in facts):
+        log.warning(f"facts too short ({[len(f.split()) for f in facts]}), expanding...")
+        try:
+            from openai import OpenAI
+            client = OpenAI(api_key=OPENAI_API_KEY)
+            expand_prompt = f"""Rewrite each fact to EXACTLY 20-26 words. Add specific numbers, comparisons, surprising consequences. Keep them TRUE.
+
+Original facts:
+1. {facts[0]}
+2. {facts[1]}
+3. {facts[2]}
+
+Output STRICT JSON: {{"facts": ["fact1 (20-26 words)", "fact2", "fact3"]}}"""
+            r2 = client.chat.completions.create(
+                model=META_MODEL,
+                messages=[{"role": "user", "content": expand_prompt}],
+                response_format={"type": "json_object"},
+                temperature=0.7,
+                max_tokens=600,
+            )
+            d2 = json.loads(r2.choices[0].message.content)
+            new_facts = d2.get("facts") or []
+            if isinstance(new_facts, list) and len(new_facts) >= 3:
+                facts = [str(f).strip() for f in new_facts[:3]]
+                log.info(f"facts expanded to {[len(f.split()) for f in facts]}")
+        except Exception as e:
+            log.warning(f"expand 실패 — 원본 유지: {e}")
 
     return {
         "animal_key": animal_key,
@@ -214,8 +242,13 @@ Generate a ~35-second script about {display} ({single}). Structure:
 - 30~35s: outro CTA
 
 HARD RULES:
-- Each fact MUST be ONE SENTENCE, 18~25 words (NOT shorter, NOT longer). Add a specific number/measurement plus a concrete comparison or detail. Subtitles auto-split into 3-4 word phrases on screen, so length is fine for readability.
-- Facts must be SURPRISING / counter-intuitive / shocking with specifics — not generic ("they live in groups" is BAD; "they hold hands while sleeping so they don't drift apart in the current" is GOOD). Always include a number/measurement (e.g. "270 degrees", "5 minutes", "40 yards", "20,000 leaves a day"). Add comparison when possible ("more than half their body weight").
+- Each fact MUST be exactly 20~26 words. NOT LESS THAN 20. NOT MORE THAN 26. Count the words. Three facts under 18 words each = REJECT and rewrite.
+- Each fact = ONE long sentence. Pack a specific number + a concrete comparison/extra detail.
+- BAD example (8 words): "Crocodiles can hold their breath for an hour."
+- GOOD example (22 words): "Crocodiles can hold their breath for over an hour underwater, slowing their heart rate to just 2 or 3 beats per minute."
+- BAD example (10 words): "Owls can rotate their heads almost 270 degrees around."
+- GOOD example (24 words): "Owls can rotate their heads almost 270 degrees around because they have 14 neck vertebrae — twice as many as humans, who only have 7."
+- Always include a specific number/measurement. Always add a comparison or surprising consequence.
 - Target spoken length per fact: ~8 seconds. So 22 words is the sweet spot.
 - Plain spoken English, no jargon, no emoji.
 - Title: catchy, max 90 chars, includes "{display}" or "{single}". NEVER use "compilation", "best of", "top 10".
