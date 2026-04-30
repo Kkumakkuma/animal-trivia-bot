@@ -2,6 +2,7 @@
 import logging
 import os
 import pickle
+import random
 
 from config import (
     CONTAINS_SYNTHETIC_MEDIA,
@@ -15,6 +16,40 @@ SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.force-ssl",
 ]
+
+# 업로드 후 자동 댓글 풀 (engagement boost)
+COMMENT_HOOKS = [
+    "Which fact surprised you most? 👇",
+    "Did you know any of these already?",
+    "What's your favorite animal? Tag it!",
+    "Tag a friend who loves animals 🐾",
+    "Which one blew your mind?",
+    "Drop your favorite animal in the comments",
+    "Save this for later 💾",
+    "Comment another wild fact you know!",
+    "Like if you learned something new ✨",
+    "What animal should we cover next?",
+]
+
+
+def post_auto_comment(svc, video_id: str, text: str = None) -> str:
+    if not text:
+        text = random.choice(COMMENT_HOOKS)
+    try:
+        body = {
+            "snippet": {
+                "videoId": video_id,
+                "topLevelComment": {
+                    "snippet": {"textOriginal": text}
+                }
+            }
+        }
+        resp = svc.commentThreads().insert(part="snippet", body=body).execute()
+        log.info(f"auto-comment posted: {video_id} — {text[:40]}")
+        return resp.get("id")
+    except Exception as e:
+        log.warning(f"auto-comment 실패 (영상은 정상): {e}")
+        return None
 
 
 def get_service():
@@ -104,5 +139,8 @@ def upload(video_path: str, title: str, description: str, tags: list,
                 log.info(f"localizations update: {len(localizations)}")
             except Exception as e:
                 log.warning(f"localizations update 실패 (영상은 정상): {e}")
+
+    # 업로드 후 자동 댓글 (engagement boost)
+    post_auto_comment(svc, video_id)
 
     return url
