@@ -30,6 +30,16 @@ jobs:
           python-version: '3.11'
           cache: 'pip'
 
+      # 회피 상태 영속화 (동물/댓글)
+      - name: Restore avoid state cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            used_animals.json
+            used_comments.json
+          key: avoid-state-${{ github.run_id }}
+          restore-keys: avoid-state-
+
       - name: Install ffmpeg + ImageMagick + 폰트
         run: |
           sudo apt-get update -qq

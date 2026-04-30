@@ -32,9 +32,33 @@ COMMENT_HOOKS = [
 ]
 
 
+USED_COMMENTS_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "used_comments.json")
+
+
+def _load_used_comments() -> list:
+    import json as _json
+    if not os.path.exists(USED_COMMENTS_PATH):
+        return []
+    try:
+        return _json.load(open(USED_COMMENTS_PATH, encoding="utf-8"))
+    except Exception:
+        return []
+
+
+def _save_used_comments(used: list, keep: int = 5):
+    import json as _json
+    _json.dump(used[-keep:], open(USED_COMMENTS_PATH, "w", encoding="utf-8"))
+
+
 def post_auto_comment(svc, video_id: str, text: str = None) -> str:
     if not text:
-        text = random.choice(COMMENT_HOOKS)
+        used = _load_used_comments()
+        pool = [c for c in COMMENT_HOOKS if c not in used[-5:]]
+        if not pool:
+            pool = COMMENT_HOOKS
+        text = random.choice(pool)
+        used.append(text)
+        _save_used_comments(used)
     try:
         body = {
             "snippet": {
