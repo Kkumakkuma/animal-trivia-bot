@@ -93,28 +93,47 @@ def add_film_grain(img, opacity=18):
 
 
 def draw_pawprint(draw, cx, cy, scale=1.0, color=None, alpha=255):
-    """발자국 (paw print) 단순 형태 — 4개 발가락 + 큰 패드."""
+    """발자국 — 자연스러운 동물 발 (큰 둥근 하트형 패드 + 4개 발가락 fan 배치)."""
     if color is None:
         color = PALETTE["text_white"]
     fill = (*color[:3], alpha) if len(color) == 3 else color
 
-    pad_w = int(80 * scale)
-    pad_h = int(70 * scale)
-    # 큰 패드 (하단)
-    draw.ellipse([cx - pad_w // 2, cy - pad_h // 4,
-                  cx + pad_w // 2, cy + int(pad_h * 0.75)], fill=fill)
+    # 메인 패드 — 하트형 (양옆 둥글게 + 아래 뾰족)
+    pad_w = int(140 * scale)
+    pad_h = int(120 * scale)
+    pad_top = cy - int(pad_h * 0.15)
+    pad_bottom = cy + int(pad_h * 0.85)
+    # 좌측 둥근 부분
+    draw.ellipse([cx - pad_w // 2, pad_top,
+                  cx - pad_w // 2 + int(pad_w * 0.65), pad_top + int(pad_h * 0.75)],
+                 fill=fill)
+    # 우측 둥근 부분
+    draw.ellipse([cx + pad_w // 2 - int(pad_w * 0.65), pad_top,
+                  cx + pad_w // 2, pad_top + int(pad_h * 0.75)],
+                 fill=fill)
+    # 가운데 + 하단 (마름모/하트 끝)
+    draw.polygon([
+        (cx - int(pad_w * 0.42), pad_top + int(pad_h * 0.45)),
+        (cx + int(pad_w * 0.42), pad_top + int(pad_h * 0.45)),
+        (cx, pad_bottom),
+    ], fill=fill)
+    # 가운데 메우기 (둥근 사각)
+    draw.ellipse([cx - int(pad_w * 0.32), pad_top + int(pad_h * 0.20),
+                  cx + int(pad_w * 0.32), pad_top + int(pad_h * 0.70)],
+                 fill=fill)
 
-    # 4개 발가락 (상단)
-    toe_r = int(22 * scale)
-    toe_offsets = [
-        (int(-50 * scale), int(-50 * scale)),
-        (int(-18 * scale), int(-65 * scale)),
-        (int(18 * scale), int(-65 * scale)),
-        (int(50 * scale), int(-50 * scale)),
+    # 4개 발가락 — fan 곡선 배치, 패드 위에 가까이
+    toe_r_outer = int(26 * scale)
+    toe_r_inner = int(28 * scale)
+    # 위치: 부채꼴 (가운데 두 개가 더 위로, 양 끝은 약간 아래로)
+    toes = [
+        (cx + int(-78 * scale), cy + int(-70 * scale), toe_r_outer),
+        (cx + int(-30 * scale), cy + int(-100 * scale), toe_r_inner),
+        (cx + int(30 * scale), cy + int(-100 * scale), toe_r_inner),
+        (cx + int(78 * scale), cy + int(-70 * scale), toe_r_outer),
     ]
-    for dx, dy in toe_offsets:
-        draw.ellipse([cx + dx - toe_r, cy + dy - toe_r,
-                      cx + dx + toe_r, cy + dy + toe_r], fill=fill)
+    for tx, ty, tr in toes:
+        draw.ellipse([tx - tr, ty - tr, tx + tr, ty + tr], fill=fill)
 
 
 def make_banner():
@@ -140,10 +159,10 @@ def make_banner():
     tag_font_size = 50
     tag_font = find_font(tag_font_size, bold=False)
 
-    # 발자국 그룹 (좌측 + 우측)
-    paw_scale = 0.7
-    paw_h = int(140 * paw_scale)
-    gap_paw_title = 14
+    # 발자국 그룹 (좌측 + 우측) — 새 발자국이 좀 더 크니 scale 0.6
+    paw_scale = 0.6
+    paw_h = int(180 * paw_scale)  # 새 발자국 더 큼 (패드 + 발가락)
+    gap_paw_title = 18
     gap_title_tag = 10
 
     group_h = paw_h + gap_paw_title + title_font_size + gap_title_tag + tag_font_size
@@ -200,8 +219,8 @@ def make_profile():
     draw.ellipse([margin, margin, S - margin, S - margin],
                  outline=PALETTE["accent"], width=10)
 
-    # 큰 발자국 (가운데 위쪽)
-    draw_pawprint(draw, cx=S // 2, cy=int(S * 0.40), scale=3.6,
+    # 큰 발자국 (가운데 위쪽) — 새 비율 적용
+    draw_pawprint(draw, cx=S // 2, cy=int(S * 0.43), scale=2.6,
                   color=PALETTE["text_white"], alpha=255)
 
     # 채널명 (원 안 하단, 흰 텍스트 + 검정 테두리)
@@ -250,15 +269,15 @@ def make_watermark():
                             outline=(*PALETTE["accent"], 230), width=2)
 
     # 발자국 + 라벨 그룹 정 가운데 정렬
-    paw_h = 56
-    gap = 8
+    paw_h = 64  # 새 발자국 비율
+    gap = 10
     label_h = 16
     group_h = paw_h + gap + label_h
     group_top = (S - group_h) // 2
 
-    # 발자국 (위)
-    paw_cy = group_top + paw_h // 2
-    draw_pawprint(odraw, cx=S // 2, cy=paw_cy, scale=0.32,
+    # 발자국 (위) — 새 비율 적용
+    paw_cy = group_top + paw_h // 2 + 5
+    draw_pawprint(odraw, cx=S // 2, cy=paw_cy, scale=0.28,
                   color=PALETTE["text_white"], alpha=240)
 
     # 라벨 — 흰 글씨 + 검정 테두리
