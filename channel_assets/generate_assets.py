@@ -93,46 +93,38 @@ def add_film_grain(img, opacity=18):
 
 
 def draw_pawprint(draw, cx, cy, scale=1.0, color=None, alpha=255):
-    """발자국 — 자연스러운 동물 발 (큰 둥근 하트형 패드 + 4개 발가락 fan 배치)."""
+    """곰 발바닥 — 큰 둥근 사각 패드 + 발가락 5개 호 형태로 배치."""
     if color is None:
         color = PALETTE["text_white"]
     fill = (*color[:3], alpha) if len(color) == 3 else color
 
-    # 메인 패드 — 하트형 (양옆 둥글게 + 아래 뾰족)
-    pad_w = int(140 * scale)
-    pad_h = int(120 * scale)
-    pad_top = cy - int(pad_h * 0.15)
-    pad_bottom = cy + int(pad_h * 0.85)
-    # 좌측 둥근 부분
-    draw.ellipse([cx - pad_w // 2, pad_top,
-                  cx - pad_w // 2 + int(pad_w * 0.65), pad_top + int(pad_h * 0.75)],
-                 fill=fill)
-    # 우측 둥근 부분
-    draw.ellipse([cx + pad_w // 2 - int(pad_w * 0.65), pad_top,
-                  cx + pad_w // 2, pad_top + int(pad_h * 0.75)],
-                 fill=fill)
-    # 가운데 + 하단 (마름모/하트 끝)
-    draw.polygon([
-        (cx - int(pad_w * 0.42), pad_top + int(pad_h * 0.45)),
-        (cx + int(pad_w * 0.42), pad_top + int(pad_h * 0.45)),
-        (cx, pad_bottom),
-    ], fill=fill)
-    # 가운데 메우기 (둥근 사각)
-    draw.ellipse([cx - int(pad_w * 0.32), pad_top + int(pad_h * 0.20),
-                  cx + int(pad_w * 0.32), pad_top + int(pad_h * 0.70)],
-                 fill=fill)
+    # 곰 발바닥 메인 패드 — 둥근 사각형 (가로로 약간 넓고 모서리 둥근)
+    pad_w = int(180 * scale)
+    pad_h = int(135 * scale)
+    pad_top = cy - int(pad_h * 0.08)
+    pad_left = cx - pad_w // 2
+    pad_right = cx + pad_w // 2
+    pad_bottom = pad_top + pad_h
+    radius = int(45 * scale)
+    draw.rounded_rectangle([pad_left, pad_top, pad_right, pad_bottom],
+                           radius=radius, fill=fill)
 
-    # 4개 발가락 — fan 곡선 배치, 패드 위에 가까이
-    toe_r_outer = int(26 * scale)
-    toe_r_inner = int(28 * scale)
-    # 위치: 부채꼴 (가운데 두 개가 더 위로, 양 끝은 약간 아래로)
+    # 발가락 5개 — 패드 위에 자연스러운 호 형태 (가운데 가장 위, 양쪽 살짝 내려옴)
+    # 곰은 발가락 5개. 가장 좌측이 작고 (엄지 역할) 나머지는 비슷
+    toe_r_small = int(22 * scale)
+    toe_r = int(26 * scale)
+    toe_y_base = cy - int(50 * scale)
     toes = [
-        (cx + int(-78 * scale), cy + int(-70 * scale), toe_r_outer),
-        (cx + int(-30 * scale), cy + int(-100 * scale), toe_r_inner),
-        (cx + int(30 * scale), cy + int(-100 * scale), toe_r_inner),
-        (cx + int(78 * scale), cy + int(-70 * scale), toe_r_outer),
+        # (x_offset, y_offset_from_toe_y_base, radius)
+        (int(-95 * scale), int(20 * scale), toe_r_small),     # 가장 좌측 (작게, 살짝 아래)
+        (int(-55 * scale), int(-15 * scale), toe_r),          # 좌
+        (int(0 * scale),   int(-32 * scale), toe_r),          # 가운데 (가장 위)
+        (int(55 * scale),  int(-15 * scale), toe_r),          # 우
+        (int(95 * scale),  int(20 * scale), toe_r_small),     # 가장 우측 (작게, 살짝 아래)
     ]
-    for tx, ty, tr in toes:
+    for dx, dy, tr in toes:
+        tx = cx + dx
+        ty = toe_y_base + dy
         draw.ellipse([tx - tr, ty - tr, tx + tr, ty + tr], fill=fill)
 
 
