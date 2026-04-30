@@ -1,0 +1,116 @@
+name: Animal Trivia Auto Upload
+
+on:
+  # KST 00:00 / 06:00 / 12:00 / 18:00  →  UTC 15:00 / 21:00 / 03:00 / 09:00
+  schedule:
+    - cron: '0 15 * * *'
+    - cron: '0 21 * * *'
+    - cron: '0 3 * * *'
+    - cron: '0 9 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: animal-trivia-auto
+  cancel-in-progress: true
+
+jobs:
+  generate-and-upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install ffmpeg + ImageMagick + 폰트
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg imagemagick fonts-dejavu fonts-liberation
+          sudo sed -i 's|<policy domain="path" rights="none" pattern="@\*"|<policy domain="path" rights="read|write" pattern="@*"|g' /etc/ImageMagick-6/policy.xml || true
+
+      - name: Install Python deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Restore secrets
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          PEXELS_API_KEY: ${{ secrets.PEXELS_API_KEY }}
+          YT_CLIENT_SECRET_B64: ${{ secrets.YT_CLIENT_SECRET_B64 }}
+          YT_TOKEN_B64: ${{ secrets.YT_TOKEN_B64 }}
+        run: |
+          mkdir -p credentials
+          printf "OPENAI_API_KEY=%s\n" "$OPENAI_API_KEY" > .env
+          printf "PEXELS_API_KEY=%s\n" "$PEXELS_API_KEY" >> .env
+          echo "$YT_CLIENT_SECRET_B64" | base64 -d > credentials/youtube_client_secret.json
+          echo "$YT_TOKEN_B64" | base64 -d > credentials/youtube_token.json
+          chmod 600 .env credentials/*
+
+      - name: Generate + Upload
+        id: generate
+        run: |
+          set -o pipefail
+          python main.py 2>&1 | tee run_stdout.log
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: logs-${{ github.run_id }}
+          path: |
+            run_stdout.log
+            output/
+          retention-days: 5
+          if-no-files-found: ignore
+
+      - name: Telegram notify
+        if: always()
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          OUTCOME: ${{ steps.generate.outcome }}
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import os, re, urllib.request, urllib.parse
+          from datetime import datetime, timedelta, timezone
+          KST = timezone(timedelta(hours=9))
+          ok = os.environ.get("OUTCOME") == "success"
+          icon = "🦦" if ok else "❌"
+
+          yt_url, animal, locales = None, None, None
+          try:
+              content = open("run_stdout.log", encoding="utf-8", errors="ignore").read()[-12000:]
+              m = re.search(r"https?://(?:youtu\.be/|(?:www\.)?youtube\.com/(?:watch\?v=|shorts/))[\w\-]+", content)
+              if m: yt_url = m.group(0)
+              am = re.search(r"=== 동물: (\w+)", content)
+              if am: animal = am.group(1)
+              lm = re.search(r"localizations 완료: ([\w,]+)", content)
+              if lm: locales = lm.group(1)
+          except Exception:
+              pass
+
+          lines = [
+              f"{icon} 동물쇼츠 {'발행 완료' if ok else '실패'}",
+              f"📅 {datetime.now(KST).strftime('%Y-%m-%d %H:%M')} KST",
+          ]
+          if animal: lines.append(f"🐾 동물: {animal}")
+          if locales: lines.append(f"🌐 다국어: {locales}")
+          if yt_url: lines.append(f"🎥 {yt_url}")
+          if not ok:
+              lines.append(f"⚠️ Run: https://github.com/Kkumakkuma/animal-trivia-bot/actions/runs/{os.environ['RUN_ID']}")
+
+          text = "\n".join(lines)
+          tg = f"https://api.telegram.org/bot{os.environ['TELEGRAM_BOT_TOKEN']}/sendMessage"
+          payload = urllib.parse.urlencode({"chat_id": os.environ["TELEGRAM_CHAT_ID"], "text": text}).encode()
+          urllib.request.urlopen(urllib.request.Request(tg, data=payload), timeout=15)
+          print(text)
+          PY
