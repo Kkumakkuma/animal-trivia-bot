@@ -47,8 +47,17 @@ META_MODEL = "gpt-4o-mini"
 
 # edge-tts voice (영문)
 TTS_VOICE = "en-US-AriaNeural"  # 자연스러운 여성 보이스
-TTS_RATE = "+5%"  # 살짝 빠르게 (60초 안에 fact 3개)
+TTS_RATE = "+12%"  # 인기 트리비아 채널 페이스에 맞춤
 TTS_PITCH = "+0Hz"
+
+# 자막 스타일
+CAPTION_BASE_SIZE = 80
+CAPTION_Y_RATIO = 0.50  # 화면 정중앙 (인스타 UI 버튼 회피)
+CAPTION_PHRASE_SIZE = 4  # 한 자막에 3-4 단어 묶음 (TikTok 스타일)
+CAPTION_HIGHLIGHT_NUMBERS = True  # 숫자는 옐로우 강조
+
+# BGM (선택) — assets/bgm/*.mp3 풀에서 랜덤. 없으면 BGM 없이 진행
+BGM_VOLUME_DB = -22  # TTS 가리지 않게 작게
 
 # 동물 사전 — Pexels에서 잘 뽑히는 동물 위주
 ANIMALS = {

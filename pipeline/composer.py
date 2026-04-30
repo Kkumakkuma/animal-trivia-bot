@@ -31,6 +31,12 @@ from moviepy.editor import (
 )
 
 from config import (
+    BASE_DIR,
+    BGM_VOLUME_DB,
+    CAPTION_BASE_SIZE,
+    CAPTION_HIGHLIGHT_NUMBERS,
+    CAPTION_PHRASE_SIZE,
+    CAPTION_Y_RATIO,
     FONT_PATH,
     VIDEO_BITRATE,
     VIDEO_DURATION_SEC,
@@ -231,18 +237,72 @@ def _make_static_clip(arr: np.ndarray, duration: float, position, fade_in=0.3, f
     return clip
 
 
-def _make_caption_window(text: str, start: float, end: float, base_size=80):
-    """fact/intro/outro 자막을 [start, end) 구간에 표시. 박스 없음, 외곽선만으로 가독성."""
+_NUMBER_RE = re.compile(r"\d")
+
+
+def _phrase_color(text: str):
+    """숫자 포함 phrase는 옐로우, 아니면 흰색."""
+    if CAPTION_HIGHLIGHT_NUMBERS and _NUMBER_RE.search(text):
+        return (255, 220, 0, 255)  # 옐로우
+    return (255, 255, 255, 255)
+
+
+def _make_phrase_clip(phrase_text: str, start: float, end: float, base_size=None):
+    """짧은 phrase (3-4단어) 자막. 짧은 시간이라 fade도 빠르게."""
+    base_size = base_size or CAPTION_BASE_SIZE
     if end <= start:
         return None
-    arr = _fit_caption_image(text, base_size, VIDEO_WIDTH - 80, max_lines=3)
+    fg = _phrase_color(phrase_text)
+    # 짧은 phrase라 max_lines=2면 충분
+    size = base_size
+    while size >= 56:
+        font_path = _find_font()
+        font = ImageFont.truetype(font_path, size) if font_path else ImageFont.load_default()
+        tmp = Image.new("RGBA", (VIDEO_WIDTH - 60, 100), (0, 0, 0, 0))
+        td = ImageDraw.Draw(tmp)
+        lines = _wrap_text(td, phrase_text, font, VIDEO_WIDTH - 80)
+        if len(lines) <= 2:
+            break
+        size -= 4
+    arr = _make_text_image(phrase_text, size, VIDEO_WIDTH - 80, fg=fg, stroke_width=3)
     if arr.shape[0] <= 1:
         return None
-    text_clip = ImageClip(arr, transparent=True).set_duration(end - start).set_start(start)
-    y = int(VIDEO_HEIGHT * 0.55)
-    text_clip = text_clip.set_position(("center", y))
-    text_clip = text_clip.crossfadein(0.25).crossfadeout(0.25)
-    return [text_clip]
+    clip = ImageClip(arr, transparent=True).set_duration(end - start).set_start(start)
+    y = int(VIDEO_HEIGHT * CAPTION_Y_RATIO)
+    clip = clip.set_position(("center", y))
+    clip = clip.crossfadein(0.08).crossfadeout(0.08)
+    return clip
+
+
+def _split_into_phrases(words: list, line_start: float, line_end: float,
+                       phrase_size: int = None) -> list:
+    """word_cues를 3-4단어 phrase로 묶기. 절대 시간 기준 (line_start 더해서)."""
+    phrase_size = phrase_size or CAPTION_PHRASE_SIZE
+    if not words:
+        return []
+    phrases = []
+    cursor = 0
+    while cursor < len(words):
+        chunk = words[cursor:cursor + phrase_size]
+        if not chunk:
+            break
+        text = " ".join(w["text"] for w in chunk)
+        start = line_start + chunk[0]["start"]
+        end_w = line_start + chunk[-1]["end"]
+        phrases.append({"text": text, "start": start, "end": end_w})
+        cursor += phrase_size
+
+    # 끊김 없도록 끝 시간을 다음 phrase 시작으로 (마지막은 line_end로)
+    for i in range(len(phrases) - 1):
+        phrases[i]["end"] = phrases[i + 1]["start"]
+    if phrases:
+        phrases[-1]["end"] = line_end
+    return phrases
+
+
+def _make_caption_window(text: str, start: float, end: float, base_size=80):
+    """words 없을 때 fallback: 라인 통째로 자막."""
+    return [_make_phrase_clip(text, start, end, base_size)]
 
 
 def _make_hook_clip(text: str, duration: float):
@@ -272,6 +332,21 @@ def _make_vignette_clip(duration: float):
     vig = _vignette_image()
     arr = np.array(vig)
     return ImageClip(arr, transparent=True).set_duration(duration).set_position((0, 0))
+
+
+def _pick_bgm():
+    """assets/bgm/*.mp3 풀에서 랜덤 1개. 없으면 None."""
+    import random
+    bgm_dir = os.path.join(BASE_DIR, "assets", "bgm")
+    if not os.path.isdir(bgm_dir):
+        return None
+    files = [
+        os.path.join(bgm_dir, f) for f in os.listdir(bgm_dir)
+        if f.lower().endswith((".mp3", ".m4a", ".wav", ".ogg"))
+    ]
+    if not files:
+        return None
+    return random.choice(files)
 
 
 def _build_background(bg_paths: list, segment_durations: list, total_dur: float):
@@ -321,7 +396,12 @@ def compose(
         ac = ac.set_start(start)
         audio_clips.append(ac)
         end = start + line["duration"]
-        timeline.append({"text": line["text"], "start": start, "end": end})
+        timeline.append({
+            "text": line["text"],
+            "start": start,
+            "end": end,
+            "words": line.get("words", []),
+        })
         cursor = end + pad_between
 
     raw_total = cursor - pad_between + end_pad
@@ -333,9 +413,29 @@ def compose(
         if w["end"] > total_dur:
             w["end"] = total_dur
 
-    # 2) 오디오 합성 — 단일 트랙
-    full_audio = CompositeAudioClip(audio_clips).set_duration(total_dur)
-    full_audio = full_audio.fx(afx.audio_fadein, 0.3).fx(afx.audio_fadeout, 0.5)
+    # 2) 오디오 합성 — TTS 트랙 + (선택) BGM
+    voice_audio = CompositeAudioClip(audio_clips).set_duration(total_dur)
+    voice_audio = voice_audio.fx(afx.audio_fadein, 0.3).fx(afx.audio_fadeout, 0.5)
+
+    bgm_path = _pick_bgm()
+    if bgm_path:
+        try:
+            bgm = AudioFileClip(bgm_path)
+            if bgm.duration < total_dur:
+                # 짧으면 loop
+                from moviepy.audio.fx.all import audio_loop
+                bgm = audio_loop(bgm, duration=total_dur)
+            else:
+                bgm = bgm.subclip(0, total_dur)
+            bgm = bgm.volumex(10 ** (BGM_VOLUME_DB / 20.0))
+            bgm = bgm.fx(afx.audio_fadein, 0.5).fx(afx.audio_fadeout, 1.0)
+            full_audio = CompositeAudioClip([bgm, voice_audio])
+            log.info(f"bgm mix: {os.path.basename(bgm_path)} ({BGM_VOLUME_DB}dB)")
+        except Exception as e:
+            log.warning(f"bgm 적용 실패 → voice only: {e}")
+            full_audio = voice_audio
+    else:
+        full_audio = voice_audio
 
     # 3) 배경 — 3개 영상을 fact 구간에 맞춰 자르기
     # 단순화: total_dur을 3등분 (intro/outro는 첫·마지막 영상에 포함)
@@ -350,10 +450,20 @@ def compose(
     if hook_clip is not None:
         layers.append(hook_clip)
 
+    # phrase 단위 자막 (TikTok karaoke 스타일)
     for w in timeline:
-        cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=80)
-        if cap:
-            layers.extend(cap)
+        words = w.get("words") or []
+        if words:
+            phrases = _split_into_phrases(words, w["start"], w["end"])
+            for ph in phrases:
+                clip = _make_phrase_clip(ph["text"], ph["start"], ph["end"])
+                if clip is not None:
+                    layers.append(clip)
+        else:
+            # fallback (words 못 받았을 때)
+            cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=CAPTION_BASE_SIZE)
+            if cap:
+                layers.extend([c for c in cap if c is not None])
 
     brand = _make_brand_clip(total_dur)
     if brand is not None:
