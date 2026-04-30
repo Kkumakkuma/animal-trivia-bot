@@ -208,14 +208,15 @@ def make_meta(animal_key: str) -> dict:
     prompt = f"""You are a viral YouTube Shorts scriptwriter for an animal trivia channel called "Animal Trivia 60s".
 Benchmark: NatGeo Wild, BBC Earth, Bright Side, Animals Around The Globe — punchy hook, surprising fact, CTA.
 
-Generate a ~30-second script about {display} ({single}). Structure:
+Generate a ~35-second script about {display} ({single}). Structure:
 - 0~3s: hook line (must START with "Did you know" or "Wait until you see" or "This is why" — proven viral templates)
-- 3~28s: three SHORT punchy facts, each ~7 seconds spoken
-- 28~32s: outro CTA
+- 3~30s: three RICH facts, each ~8-9 seconds spoken (about 22 words each)
+- 30~35s: outro CTA
 
 HARD RULES:
-- Each fact MUST be EXACTLY ONE SENTENCE, 10~14 words. NOT MORE THAN 14. Subtitles split into 3-4 word phrases on screen, so each fact must be tight.
-- Facts must be SURPRISING / counter-intuitive / shocking — not generic ("they live in groups" is BAD; "they hold hands while sleeping" is GOOD). Include a specific number/measurement when possible (e.g. "270 degrees", "5 minutes", "40 yards").
+- Each fact MUST be ONE SENTENCE, 18~25 words (NOT shorter, NOT longer). Add a specific number/measurement plus a concrete comparison or detail. Subtitles auto-split into 3-4 word phrases on screen, so length is fine for readability.
+- Facts must be SURPRISING / counter-intuitive / shocking with specifics — not generic ("they live in groups" is BAD; "they hold hands while sleeping so they don't drift apart in the current" is GOOD). Always include a number/measurement (e.g. "270 degrees", "5 minutes", "40 yards", "20,000 leaves a day"). Add comparison when possible ("more than half their body weight").
+- Target spoken length per fact: ~8 seconds. So 22 words is the sweet spot.
 - Plain spoken English, no jargon, no emoji.
 - Title: catchy, max 90 chars, includes "{display}" or "{single}". NEVER use "compilation", "best of", "top 10".
 - Description: 2 sentences hook + 5 hashtags (no emoji).
