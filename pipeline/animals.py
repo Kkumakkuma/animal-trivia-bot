@@ -48,11 +48,16 @@ def pick_random_animal(exclude_keys: list = None) -> dict:
     prompt = f"""You are a viral wildlife scriptwriter for YouTube Shorts channel "Animal Trivia 60s".
 Pick ONE surprising animal RIGHT NOW and write a 30-second script.
 
-ANIMAL POOL (mix of well-known and lesser-known):
-- Well-known: otter, fox, owl, octopus, dolphin, elephant, penguin, capybara, sloth, raven, shark, squirrel, bee, hedgehog, koala, panda, kangaroo, cheetah, wolf, eagle, hummingbird, seahorse, jellyfish, starfish, butterfly, ladybug...
-- Lesser-known/rare (people don't usually know these): pangolin, axolotl, glass frog, mantis shrimp, naked mole rat, fennec fox, peacock spider, immortal jellyfish, blobfish, leafy seadragon, tardigrade, aye-aye, okapi, tarsier, narwhal, dumbo octopus, vampire squid, anglerfish, frilled shark, snub-nosed monkey, saiga antelope, fossa, binturong, pink fairy armadillo, kakapo, hoatzin, shoebill, sun bear, Japanese spider crab, bombardier beetle, peacock mantis shrimp, walking shark, giant isopod, yeti crab, leaf-tailed gecko, sunfish, chevrotain, dik-dik, gerenuk, secretary bird, Honduran white bat, Philippine eagle, axolotl, archerfish, cassowary, harpy eagle...
+CRITICAL CONSTRAINT: pexels_keywords MUST find PORTRAIT video on Pexels. So you must pick animals that are
+WELL-PHOTOGRAPHED on stock footage sites. Avoid extremely rare creatures with no video footage.
 
-Aim for about 50% of picks to be the lesser-known group — viewers love surprising animals they've never heard of.
+GOOD ANIMAL POOL (these have abundant Pexels portrait video):
+- Common: otter, fox, owl, dolphin, octopus, elephant, penguin, sloth, bear, lion, tiger, panda, cheetah, leopard, kangaroo, koala, eagle, hawk, falcon, parrot, hummingbird, butterfly, bee, dragonfly, spider, crab, lobster, jellyfish, starfish, sea turtle, frog, gecko, chameleon, snake, hedgehog, squirrel, deer, raccoon, wolf, husky, monkey, orangutan, gorilla, chimpanzee, zebra, giraffe, hippo, rhino, buffalo, antelope, horse, donkey, goat, sheep, alpaca, llama, cow, pig, duck, goose, swan, flamingo, peacock, parakeet, cardinal, macaw, ostrich, pelican, heron, seagull, shark, manta ray, fish (clownfish, lionfish, pufferfish, eel), seahorse, dolphin, whale, seal, walrus, sea lion
+- Surprising-but-photographed: capybara, axolotl, fennec fox, red panda, sugar glider, pangolin, ocelot, anteater, tapir, lemur, mantis shrimp, narwhal (rare), nudibranch, sea slug, glass frog (rare on pexels), poison dart frog, leaf insect, stick insect, peacock spider (very rare), shoebill stork, secretary bird, harpy eagle, cassowary, kiwi, tasmanian devil, quokka, numbat, echidna, platypus, wombat, bilby, marsupial mole
+
+AVOID (poor Pexels coverage): naked mole rat, blobfish, immortal jellyfish, tardigrade, pink fairy armadillo, aye-aye, kakapo, hoatzin, snub-nosed monkey, walking shark, yeti crab, vampire squid, leafy seadragon (mostly aquariums), bombardier beetle, dumbo octopus, frilled shark.
+
+Aim for about 60% common + 40% surprising-but-photographed. Prioritize coverage over rarity — viewer engagement requires actual visual.
 
 AVOID picking these animals (recently used): {exclude_str}
 

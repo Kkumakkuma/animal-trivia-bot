@@ -58,27 +58,52 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
     used = _load_used()
 
     if forced_animal:
-        # legacy 사전 강제 픽 (CLI 테스트용)
         meta = animals._legacy_meta(forced_animal)
+        animal_key = meta["animal_key"]
+        work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
+        os.makedirs(work_dir, exist_ok=True)
+        bg_paths = pexels.fetch_backgrounds(meta["pexels_keywords"], work_dir, n=3)
     else:
-        # GPT 동적 픽 (희귀종 포함)
-        meta = animals.pick_random_animal(exclude_keys=used)
-    animal_key = meta["animal_key"]
+        # GPT 동적 픽 + Pexels 영상 검증 재시도 (최대 3번)
+        meta = None
+        bg_paths = None
+        retry_used = list(used)
+        for attempt in range(3):
+            try_meta = animals.pick_random_animal(exclude_keys=retry_used)
+            ak = try_meta["animal_key"]
+            log.info(f"[try {attempt+1}/3] picked animal: {ak} ({try_meta['display']})")
+            wd = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), ak)
+            os.makedirs(wd, exist_ok=True)
+            try:
+                bgs = pexels.fetch_backgrounds(try_meta["pexels_keywords"], wd, n=3)
+            except RuntimeError as e:
+                log.warning(f"[try {attempt+1}] Pexels 못 찾음 ({try_meta['display']}): {e} → GPT 재픽")
+                retry_used.append(ak)
+                continue
+            meta = try_meta
+            animal_key = ak
+            work_dir = wd
+            bg_paths = bgs
+            break
+
+        if meta is None or bg_paths is None:
+            # 끝까지 못 찾으면 well-known fallback (사전)
+            log.warning("3번 재시도 실패 → legacy 사전 fallback")
+            meta = animals._legacy_meta(animals.pick_animal(exclude=used))
+            animal_key = meta["animal_key"]
+            work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
+            os.makedirs(work_dir, exist_ok=True)
+            bg_paths = pexels.fetch_backgrounds(meta["pexels_keywords"], work_dir, n=3)
+
     log.info(f"=== 동물: {animal_key} ({meta['display']}, {meta['category']}) ===")
     log.info(f"title_en: {meta['title_en']}")
     log.info(f"hook: {meta['hook']}")
     for i, f in enumerate(meta["facts"]):
         log.info(f"fact[{i}]: {f}")
 
-    work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
-    os.makedirs(work_dir, exist_ok=True)
-
     # 1) TTS (intro + fact x3 + outro)
     tts_texts = [meta["intro"]] + list(meta["facts"]) + [meta["outro"]]
     tts_lines = tts.synth_lines(tts_texts, work_dir, prefix="tts")
-
-    # 2) 배경 영상 3개 (GPT 추천 키워드 → Pexels)
-    bg_paths = pexels.fetch_backgrounds(meta["pexels_keywords"], work_dir, n=3)
 
     # 3) BGM — 동물 카테고리 기반 음악쇼츠 GDrive read-only 다운로드
     from pipeline import bgm as bgm_mod
