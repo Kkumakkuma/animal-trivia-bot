@@ -55,37 +55,44 @@ def _save_used(used):
 def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool = False) -> dict:
     from pipeline import animals, pexels, tts, composer, translator
 
-    rng = random.Random()
     used = _load_used()
 
     if forced_animal:
-        animal_key = forced_animal
+        # legacy 사전 강제 픽 (CLI 테스트용)
+        meta = animals._legacy_meta(forced_animal)
     else:
-        animal_key = animals.pick_animal(rng, exclude=used)
-    log.info(f"=== 동물: {animal_key} ({ANIMALS[animal_key]['display']}) ===")
-
-    work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
-    os.makedirs(work_dir, exist_ok=True)
-
-    # 1) 메타 (hook/intro/facts/outro/title/description)
-    meta = animals.make_meta(animal_key)
+        # GPT 동적 픽 (희귀종 포함)
+        meta = animals.pick_random_animal(exclude_keys=used)
+    animal_key = meta["animal_key"]
+    log.info(f"=== 동물: {animal_key} ({meta['display']}, {meta['category']}) ===")
     log.info(f"title_en: {meta['title_en']}")
     log.info(f"hook: {meta['hook']}")
     for i, f in enumerate(meta["facts"]):
         log.info(f"fact[{i}]: {f}")
 
-    # 2) TTS (intro + fact x3 + outro)
+    work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
+    os.makedirs(work_dir, exist_ok=True)
+
+    # 1) TTS (intro + fact x3 + outro)
     tts_texts = [meta["intro"]] + list(meta["facts"]) + [meta["outro"]]
     tts_lines = tts.synth_lines(tts_texts, work_dir, prefix="tts")
 
-    # 3) 배경 영상 3개
-    bg_paths = pexels.fetch_backgrounds(ANIMALS[animal_key]["pexels_keywords"], work_dir, n=3)
+    # 2) 배경 영상 3개 (GPT 추천 키워드 → Pexels)
+    bg_paths = pexels.fetch_backgrounds(meta["pexels_keywords"], work_dir, n=3)
+
+    # 3) BGM — 동물 카테고리 기반 음악쇼츠 GDrive read-only 다운로드
+    from pipeline import bgm as bgm_mod
+    bgm_path = bgm_mod.fetch_bgm_by_category(meta["category"], work_dir)
+    if bgm_path:
+        log.info(f"bgm: {os.path.basename(bgm_path)}")
+    else:
+        log.info("bgm: 없음 — voice only 진행")
 
     # 4) 영상 합성
     out_video = os.path.join(
         work_dir, f"{animal_key}_{datetime.now().strftime('%H%M%S')}.mp4"
     )
-    composer.compose(bg_paths, tts_lines, meta["hook"], out_video)
+    composer.compose(bg_paths, tts_lines, meta["hook"], out_video, bgm_path=bgm_path)
     log.info(f"video: {out_video} ({os.path.getsize(out_video) / 1024 / 1024:.1f}MB)")
 
     # 5) 7개국 localizations
@@ -113,7 +120,7 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             default_language="en",
         )
 
-    # 7) 사용 기록
+    # 7) 사용 기록 (GPT 회피용)
     used.append(animal_key)
     _save_used(used)
 

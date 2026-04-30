@@ -380,6 +380,7 @@ def compose(
     output_path: str,
     pad_between: float = 0.35,
     end_pad: float = 0.6,
+    bgm_path: str = None,
 ) -> str:
     """tts_lines: [{"text", "path", "duration"}] (intro + fact x3 + outro 순서)
     bg_paths: Pexels mp4 경로 리스트 (3개 권장)
@@ -417,12 +418,12 @@ def compose(
     voice_audio = CompositeAudioClip(audio_clips).set_duration(total_dur)
     voice_audio = voice_audio.fx(afx.audio_fadein, 0.3).fx(afx.audio_fadeout, 0.5)
 
-    bgm_path = _pick_bgm()
-    if bgm_path:
+    # 명시 인자 우선, 없으면 로컬 풀에서 픽
+    chosen_bgm = bgm_path or _pick_bgm()
+    if chosen_bgm:
         try:
-            bgm = AudioFileClip(bgm_path)
+            bgm = AudioFileClip(chosen_bgm)
             if bgm.duration < total_dur:
-                # 짧으면 loop
                 from moviepy.audio.fx.all import audio_loop
                 bgm = audio_loop(bgm, duration=total_dur)
             else:
@@ -430,7 +431,7 @@ def compose(
             bgm = bgm.volumex(10 ** (BGM_VOLUME_DB / 20.0))
             bgm = bgm.fx(afx.audio_fadein, 0.5).fx(afx.audio_fadeout, 1.0)
             full_audio = CompositeAudioClip([bgm, voice_audio])
-            log.info(f"bgm mix: {os.path.basename(bgm_path)} ({BGM_VOLUME_DB}dB)")
+            log.info(f"bgm mix: {os.path.basename(chosen_bgm)} ({BGM_VOLUME_DB}dB)")
         except Exception as e:
             log.warning(f"bgm 적용 실패 → voice only: {e}")
             full_audio = voice_audio
