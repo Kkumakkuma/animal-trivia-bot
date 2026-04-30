@@ -328,6 +328,49 @@ def _make_brand_clip(duration: float, text="@AnimalTrivia60s"):
     return clip
 
 
+def _make_jolt_flash(duration: float = 0.5):
+    """영상 시작 시각 jolt — 짧은 화이트 플래시로 스크롤 멈춤 유도."""
+    arr = np.full((VIDEO_HEIGHT, VIDEO_WIDTH, 4), [255, 255, 255, 255], dtype=np.uint8)
+    clip = ImageClip(arr, transparent=True).set_duration(duration).set_start(0)
+    clip = clip.crossfadeout(duration)  # alpha 100→0 fade
+    return clip
+
+
+def _make_cta_card_clip(start: float, duration: float):
+    """마지막 4-5초 CTA — 큰 'FOLLOW + LIKE' 카드 (옐로우, 두꺼운 외곽선)."""
+    if duration <= 0:
+        return []
+    layers = []
+    # 큰 메인 텍스트
+    big_arr = _make_text_image(
+        "FOLLOW + LIKE",
+        font_size=140,
+        max_width=VIDEO_WIDTH - 60,
+        fg=(255, 220, 0, 255),
+        stroke_color=(0, 0, 0, 255),
+        stroke_width=6,
+    )
+    big_clip = ImageClip(big_arr, transparent=True).set_duration(duration).set_start(start)
+    big_clip = big_clip.set_position(("center", int(VIDEO_HEIGHT * 0.42)))
+    big_clip = big_clip.crossfadein(0.3)
+    layers.append(big_clip)
+
+    # 보조 텍스트
+    small_arr = _make_text_image(
+        "for more animal facts",
+        font_size=64,
+        max_width=VIDEO_WIDTH - 80,
+        fg=(255, 255, 255, 240),
+        stroke_color=(0, 0, 0, 220),
+        stroke_width=3,
+    )
+    small_clip = ImageClip(small_arr, transparent=True).set_duration(duration).set_start(start)
+    small_clip = small_clip.set_position(("center", int(VIDEO_HEIGHT * 0.62)))
+    small_clip = small_clip.crossfadein(0.4)
+    layers.append(small_clip)
+    return layers
+
+
 def _make_vignette_clip(duration: float):
     vig = _vignette_image()
     arr = np.array(vig)
@@ -447,12 +490,18 @@ def compose(
     # 4) 비네트 + hook + brand + 자막
     layers = [bg_clip, _make_vignette_clip(total_dur)]
 
+    # 시각 jolt (첫 0.5초 화이트 플래시 — 스크롤 멈춤 유도)
+    layers.append(_make_jolt_flash(0.5))
+
     hook_clip = _make_hook_clip(hook, total_dur)
     if hook_clip is not None:
         layers.append(hook_clip)
 
     # phrase 단위 자막 (TikTok karaoke 스타일)
-    for w in timeline:
+    # 마지막 라인(outro)은 CTA 카드와 겹치니 자막에서 제외
+    for i, w in enumerate(timeline):
+        if i == len(timeline) - 1:
+            continue
         words = w.get("words") or []
         if words:
             phrases = _split_into_phrases(words, w["start"], w["end"])
@@ -461,7 +510,6 @@ def compose(
                 if clip is not None:
                     layers.append(clip)
         else:
-            # fallback (words 못 받았을 때)
             cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=CAPTION_BASE_SIZE)
             if cap:
                 layers.extend([c for c in cap if c is not None])
@@ -469,6 +517,11 @@ def compose(
     brand = _make_brand_clip(total_dur)
     if brand is not None:
         layers.append(brand)
+
+    # 마지막 4초 CTA 카드 (FOLLOW + LIKE)
+    cta_dur = min(4.0, total_dur * 0.18)  # 영상 18% 또는 4초 중 작은 값
+    cta_start = max(0.0, total_dur - cta_dur)
+    layers.extend(_make_cta_card_clip(cta_start, cta_dur))
 
     final = CompositeVideoClip(layers, size=(VIDEO_WIDTH, VIDEO_HEIGHT)).set_duration(total_dur)
     final = final.set_audio(full_audio)
