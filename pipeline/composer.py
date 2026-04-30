@@ -202,10 +202,10 @@ def _make_text_image(text: str, font_size: int, max_width: int,
     return np.array(img)
 
 
-def _fit_caption_image(text: str, base_size: int, max_width: int, max_lines: int = 4) -> np.ndarray:
-    """자막 폰트 자동 축소: max_lines 안에 들어갈 때까지."""
+def _fit_caption_image(text: str, base_size: int, max_width: int, max_lines: int = 3) -> np.ndarray:
+    """자막 폰트 자동 축소: max_lines 안에 들어갈 때까지. 최소 사이즈 64로 가독성 보장."""
     size = base_size
-    while size >= 32:
+    while size >= 64:
         font_path = _find_font()
         if font_path:
             font = ImageFont.truetype(font_path, size)
@@ -213,11 +213,11 @@ def _fit_caption_image(text: str, base_size: int, max_width: int, max_lines: int
             font = ImageFont.load_default()
         tmp = Image.new("RGBA", (max_width, 100), (0, 0, 0, 0))
         td = ImageDraw.Draw(tmp)
-        lines = _wrap_text(td, text, font, max_width - 80)
+        lines = _wrap_text(td, text, font, max_width - 60)
         if len(lines) <= max_lines:
             break
         size -= 4
-    return _make_text_image(text, size, max_width)
+    return _make_text_image(text, size, max_width, fg=(255, 255, 255, 255), stroke_width=3)
 
 
 def _make_static_clip(arr: np.ndarray, duration: float, position, fade_in=0.3, fade_out=0.3):
@@ -231,19 +231,34 @@ def _make_static_clip(arr: np.ndarray, duration: float, position, fade_in=0.3, f
     return clip
 
 
-def _make_caption_window(text: str, start: float, end: float, base_size=68):
-    """fact/intro/outro 자막을 [start, end) 구간에 표시."""
+def _make_caption_bg_clip(width: int, height: int, duration: float):
+    """자막 뒤 반투명 검정 박스 (가독성)."""
+    img = Image.new("RGBA", (width, height), (0, 0, 0, 140))
+    arr = np.array(img)
+    return ImageClip(arr, transparent=True).set_duration(duration)
+
+
+def _make_caption_window(text: str, start: float, end: float, base_size=104):
+    """fact/intro/outro 자막을 [start, end) 구간에 표시. 큰 글씨 + 반투명 박스."""
     if end <= start:
         return None
-    arr = _fit_caption_image(text, base_size, VIDEO_WIDTH - 100)
+    arr = _fit_caption_image(text, base_size, VIDEO_WIDTH - 80, max_lines=3)
     if arr.shape[0] <= 1:
         return None
-    clip = ImageClip(arr, transparent=True).set_duration(end - start).set_start(start)
-    # 화면 중하단 (40~70%)
+    h, w = arr.shape[0], arr.shape[1]
+    # 반투명 박스 (글자 영역 약간 패딩)
+    pad = 30
+    bg_h = h + pad * 2
+    bg_w = w
+    bg = _make_caption_bg_clip(bg_w, bg_h, end - start)
+    bg = bg.set_start(start).set_position(("center", int(VIDEO_HEIGHT * 0.55) - pad))
+    bg = bg.crossfadein(0.2).crossfadeout(0.2)
+
+    text_clip = ImageClip(arr, transparent=True).set_duration(end - start).set_start(start)
     y = int(VIDEO_HEIGHT * 0.55)
-    clip = clip.set_position(("center", y))
-    clip = clip.crossfadein(0.25).crossfadeout(0.25)
-    return clip
+    text_clip = text_clip.set_position(("center", y))
+    text_clip = text_clip.crossfadein(0.25).crossfadeout(0.25)
+    return [bg, text_clip]
 
 
 def _make_hook_clip(text: str, duration: float):
@@ -352,9 +367,10 @@ def compose(
         layers.append(hook_clip)
 
     for w in timeline:
-        cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=68)
-        if cap is not None:
-            layers.append(cap)
+        cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=104)
+        if cap:
+            # cap은 [bg, text] 리스트 → 둘 다 추가
+            layers.extend(cap)
 
     brand = _make_brand_clip(total_dur)
     if brand is not None:

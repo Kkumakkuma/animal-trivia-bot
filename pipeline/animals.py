@@ -62,19 +62,19 @@ def make_meta(animal_key: str) -> dict:
         return fallback
 
     prompt = f"""You are a YouTube Shorts scriptwriter for an animal trivia channel called "Animal Trivia 60s".
-Generate a ~50 second script about {display} ({single}). The video has:
-- 0~4s: short intro line spoken by a narrator
-- 4~52s: three surprising true facts about {single}, each spoken in ~14-16 seconds
-- 52~58s: short outro CTA
+Generate a ~30-35 second script about {display} ({single}). The video has:
+- 0~3s: short intro line
+- 3~28s: three punchy true facts about {single}, each spoken in ~8 seconds
+- 28~34s: short outro CTA
 
 Rules:
-- Each fact MUST be 40~55 words, two short sentences. Add a small concrete detail or comparison so the spoken length lands around 14 seconds. Surprising or counter-intuitive when possible. True and verifiable.
+- Each fact MUST be EXACTLY ONE SHORT SENTENCE, 16~24 words MAX. The fact is shown as on-screen subtitle so it MUST stay short for big readable text. Surprising or counter-intuitive when possible. True and verifiable. NEVER two sentences in a fact.
 - Plain conversational English, no jargon. No emoji anywhere.
 - Title: catchy YouTube Shorts title, max 90 chars, includes "{display}" or "{single}". NEVER use "compilation", "best of", "top 10".
 - Description: 2-3 sentences hook + 5 hashtags at the end (no emoji).
 - Hook (on-screen text): 2-4 words, e.g. "{display} • Trivia" or "Wild {display} Facts".
-- Intro: 6~12 words, hook the viewer (e.g. "Wait — {single}s do THIS?").
-- Outro: 6~10 words CTA (e.g. "Follow for more animal facts.").
+- Intro: 5~9 words, hook the viewer (e.g. "Wait — {single}s do THIS?").
+- Outro: 5~8 words CTA (e.g. "Follow for more animal facts.").
 
 Output STRICT JSON only:
 {{
