@@ -66,11 +66,12 @@ REQUIREMENTS:
 - Each fact ≤ 14 words. ONE sentence each.
 - Hook line MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro CTA MUST be one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
-- pexels_keywords: 5 keywords likely to find PORTRAIT video on Pexels (mix specific name + visual descriptors). For very rare animals, include broad fallback like "[category] close up" or "wild [category]".
+- pexels_keywords: 5 keywords. **EVERY keyword MUST contain the animal name** (e.g., for pangolin: "pangolin close up", "pangolin walking", "pangolin in wild", "pangolin tongue", "pangolin scales"). NEVER use generic terms like "wild mammal" or "scaly mammal" — those bring up wrong animal videos.
 - category: one of {sorted(_VALID_CATEGORIES)}.
 - Title: max 90 chars, includes the animal name. NEVER use "compilation", "best of", "top 10".
 - Description: 2 sentences + 5 hashtags (no emoji).
 - Hook (on-screen overlay text): 2-4 words like "Pangolins • Trivia".
+- **comment** (auto-pinned engagement comment under the video): ONE line 6-16 words, animal-specific, hooky and conversational. Reference a specific surprising trait of THIS animal. Examples: "Capybaras are basically chill kings of the rodent world 🌿" / "Hummingbird wings beat 80 times a second — your eyes can't even" / "Octopuses taste with their suckers — yes, really". Use 0-1 emoji max. NEVER generic ("Which fact surprised you?", "Tag a friend", "Like for more").
 
 Output STRICT JSON only:
 {{
@@ -78,13 +79,14 @@ Output STRICT JSON only:
   "display": "Pangolins",
   "single": "pangolin",
   "category": "mammal",
-  "pexels_keywords": ["pangolin close up", "pangolin walking", "wild pangolin", "scaly mammal", "pangolin tongue"],
+  "pexels_keywords": ["pangolin close up", "pangolin walking", "pangolin in wild", "pangolin tongue", "pangolin scales"],
   "title_en": "...",
   "description_en": "... #shorts #animalfacts #wildlife #didyouknow #pangolin",
   "hook": "Pangolins • Trivia",
   "intro": "Did you know pangolins do this?",
   "facts": ["fact1 (≤14 words)", "fact2", "fact3"],
   "outro": "Follow for more animal facts.",
+  "comment": "Pangolins are basically walking pinecones with attitude — change my mind",
   "tags": ["shorts","animals","animal facts","wildlife","trivia","did you know","pangolin","scales"]
 }}"""
 
@@ -173,6 +175,12 @@ Output STRICT JSON: {{"facts": ["fact1 (20-26 words)", "fact2", "fact3"]}}"""
         except Exception as e:
             log.warning(f"expand 실패 — 원본 유지: {e}")
 
+    # 댓글 — 동물별 맞춤 (GPT 생성). 누락 또는 빈 문자열이면 fallback.
+    comment = (d.get("comment") or "").strip()
+    if not comment or len(comment) < 10:
+        comment = f"What's the wildest thing you knew about {single}s?"
+    comment = comment[:280]  # YouTube 댓글 길이 안전선
+
     return {
         "animal_key": animal_key,
         "display": display,
@@ -185,6 +193,7 @@ Output STRICT JSON: {{"facts": ["fact1 (20-26 words)", "fact2", "fact3"]}}"""
         "intro": (d.get("intro") or f"Did you know {single}s do this?").strip(),
         "facts": facts,
         "outro": (d.get("outro") or "Follow for more animal facts.").strip(),
+        "comment": comment,
         "tags": d.get("tags") or ["shorts", "animals", "animal facts", "wildlife", "trivia",
                                   "did you know", animal_key.replace("_", " "), single, display],
     }

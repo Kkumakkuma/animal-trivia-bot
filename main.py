@@ -170,7 +170,7 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             "locales": list(locs.keys()),
         }
 
-    # 6) 업로드
+    # 6) 업로드 (동물별 맞춤 댓글 자동 포함)
     url = None
     if not no_upload:
         from pipeline import youtube_upload
@@ -181,6 +181,7 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             tags=meta["tags"],
             localizations=locs,
             default_language="en",
+            custom_comment=meta.get("comment"),
         )
 
     # 7) 사용 기록 (GPT 회피용)

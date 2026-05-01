@@ -99,7 +99,7 @@ def get_service():
 
 def upload(video_path: str, title: str, description: str, tags: list,
            thumbnail_path: str = None, localizations: dict = None,
-           default_language: str = "en") -> str:
+           default_language: str = "en", custom_comment: str = None) -> str:
     from googleapiclient.http import MediaFileUpload
 
     svc = get_service()
@@ -164,7 +164,7 @@ def upload(video_path: str, title: str, description: str, tags: list,
             except Exception as e:
                 log.warning(f"localizations update 실패 (영상은 정상): {e}")
 
-    # 업로드 후 자동 댓글 (engagement boost)
-    post_auto_comment(svc, video_id)
+    # 업로드 후 자동 댓글 (동물별 맞춤 우선, 없으면 generic fallback)
+    post_auto_comment(svc, video_id, text=custom_comment)
 
     return url
