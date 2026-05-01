@@ -71,7 +71,15 @@ REQUIREMENTS:
 - Title: max 90 chars, includes the animal name. NEVER use "compilation", "best of", "top 10".
 - Description: 2 sentences + 5 hashtags (no emoji).
 - Hook (on-screen overlay text): 2-4 words like "Pangolins • Trivia".
-- **comment** (auto-pinned engagement comment under the video): ONE line 6-16 words, animal-specific, hooky and conversational. Reference a specific surprising trait of THIS animal. Examples: "Capybaras are basically chill kings of the rodent world 🌿" / "Hummingbird wings beat 80 times a second — your eyes can't even" / "Octopuses taste with their suckers — yes, really". Use 0-1 emoji max. NEVER generic ("Which fact surprised you?", "Tag a friend", "Like for more").
+- **comment** (auto-pinned reply-magnet comment under the video): ONE line, 8-20 words.
+  GOAL: provoke viewers to actually reply, not just scroll past. Statement-of-fact comments get IGNORED. Pick ONE of these reply-magnet patterns and write a fresh line in that style, referencing THIS specific animal:
+  (a) Hot take / fight me — "Hot take: octopuses are smarter than 90% of dogs. Fight me 🐙"
+  (b) Forced choice / poll — "Capybara or otter — who would actually be the better roommate?"
+  (c) Reincarnation / what-if — "If reincarnation is real I'm coming back as a hummingbird. Who's with me?"
+  (d) Personal challenge — "Bet you can't watch a sloth for 30 seconds without smiling. Try it."
+  (e) Confession bait — "Confession: I would absolutely break a zoo rule to pet one. Anyone else?"
+  (f) Fill-in-the-blank — "If pangolins were a coworker, they'd be the one who ___"
+  Vary the pattern across animals. Use 0-1 emoji max. **NEVER** these dead patterns: "Which fact surprised you most?", "Tag a friend who...", "Did you know any of these?", "Like if you learned something" — those get zero replies.
 
 Output STRICT JSON only:
 {{
