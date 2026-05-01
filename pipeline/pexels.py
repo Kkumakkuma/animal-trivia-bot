@@ -67,14 +67,30 @@ def fetch_background(keywords: list, output_dir: str) -> str:
     raise RuntimeError(f"Pexels 배경 못 찾음: {last_err}")
 
 
-def fetch_backgrounds(keywords: list, output_dir: str, n: int = 3) -> list:
-    """동영상 N개를 다운로드 (각 fact 구간별로 다른 영상 사용)."""
+def fetch_backgrounds(keywords: list, output_dir: str, n: int = 3,
+                       animal_single: str = "") -> list:
+    """동영상 N개를 다운로드 (각 fact 구간별로 다른 영상).
+
+    animal_single: 안전 보장 — 모든 키워드가 동물명을 포함하지 않으면
+    fallback으로 동물명 단독 검색. generic 키워드("wild mammal" 등)로
+    엉뚱한 동물 매칭되는 문제 방지.
+    """
     paths = []
     used_ids = set()
     if not PEXELS_API_KEY:
         raise RuntimeError("PEXELS_API_KEY 없음")
     os.makedirs(output_dir, exist_ok=True)
     headers = {"Authorization": PEXELS_API_KEY}
+
+    # 동물명 검증 안전망 — 키워드에 동물명이 없으면 generic으로 매칭 위험
+    if animal_single:
+        single_lower = animal_single.lower()
+        verified = [kw for kw in keywords if single_lower in kw.lower()]
+        if not verified:
+            verified = [animal_single, f"{animal_single} close up",
+                        f"{animal_single} in wild"]
+        keywords = verified
+        log.info(f"pexels keywords (animal-locked): {keywords}")
 
     candidates = list(keywords) * 3  # 키워드 풀 늘림
     random.shuffle(candidates)

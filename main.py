@@ -52,6 +52,44 @@ def _save_used(used):
     json.dump(used[-USED_KEEP:], open(USED_PATH, "w", encoding="utf-8"))
 
 
+def fetch_verified_backgrounds(meta: dict, work_dir: str, n: int = 3,
+                                oversample: int = 2) -> list:
+    """비전 검증 통과한 동물 영상 N개 확보 — 잘못된 동물 영상 reject.
+
+    1. fetch_backgrounds로 N*oversample 개 후보 다운
+    2. 각 영상 첫 프레임을 GPT-4o-mini vision으로 검증
+    3. 통과한 영상 N개 누적, 미통과 reject + 파일 삭제
+    4. 부족하면 RuntimeError → 호출 측에서 다른 동물 픽
+    """
+    from pipeline import pexels, verify_visual
+    candidates = pexels.fetch_backgrounds(
+        meta["pexels_keywords"], work_dir,
+        n=n * oversample,
+        animal_single=meta["single"],
+    )
+    paths = []
+    for cand in candidates:
+        if len(paths) >= n:
+            break
+        ok = verify_visual.verify_animal(
+            cand, meta["single"],
+            animal_display=meta.get("display", ""),
+            animal_category=meta.get("category", ""),
+        )
+        if ok:
+            paths.append(cand)
+        else:
+            try:
+                os.remove(cand)
+            except Exception:
+                pass
+    if len(paths) < n:
+        raise RuntimeError(
+            f"비전 검증 통과 영상 부족 ({len(paths)}/{n}) — 다른 동물 픽 필요"
+        )
+    return paths
+
+
 def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool = False) -> dict:
     from pipeline import animals, pexels, tts, composer, translator
 
@@ -62,22 +100,22 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
         animal_key = meta["animal_key"]
         work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
         os.makedirs(work_dir, exist_ok=True)
-        bg_paths = pexels.fetch_backgrounds(meta["pexels_keywords"], work_dir, n=3)
+        bg_paths = fetch_verified_backgrounds(meta, work_dir, n=3)
     else:
-        # GPT 동적 픽 + Pexels 영상 검증 재시도 (최대 3번)
+        # GPT 동적 픽 + Pexels 매칭 + 비전 검증 재시도 (최대 5번)
         meta = None
         bg_paths = None
         retry_used = list(used)
-        for attempt in range(3):
+        for attempt in range(5):
             try_meta = animals.pick_random_animal(exclude_keys=retry_used)
             ak = try_meta["animal_key"]
-            log.info(f"[try {attempt+1}/3] picked animal: {ak} ({try_meta['display']})")
+            log.info(f"[try {attempt+1}/5] picked animal: {ak} ({try_meta['display']})")
             wd = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), ak)
             os.makedirs(wd, exist_ok=True)
             try:
-                bgs = pexels.fetch_backgrounds(try_meta["pexels_keywords"], wd, n=3)
+                bgs = fetch_verified_backgrounds(try_meta, wd, n=3)
             except RuntimeError as e:
-                log.warning(f"[try {attempt+1}] Pexels 못 찾음 ({try_meta['display']}): {e} → GPT 재픽")
+                log.warning(f"[try {attempt+1}] 검증 실패 ({try_meta['display']}): {e} → GPT 재픽")
                 retry_used.append(ak)
                 continue
             meta = try_meta
@@ -88,12 +126,12 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
 
         if meta is None or bg_paths is None:
             # 끝까지 못 찾으면 well-known fallback (사전)
-            log.warning("3번 재시도 실패 → legacy 사전 fallback")
+            log.warning("5번 재시도 실패 → legacy 사전 fallback")
             meta = animals._legacy_meta(animals.pick_animal(exclude=used))
             animal_key = meta["animal_key"]
             work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
             os.makedirs(work_dir, exist_ok=True)
-            bg_paths = pexels.fetch_backgrounds(meta["pexels_keywords"], work_dir, n=3)
+            bg_paths = fetch_verified_backgrounds(meta, work_dir, n=3)
 
     log.info(f"=== 동물: {animal_key} ({meta['display']}, {meta['category']}) ===")
     log.info(f"title_en: {meta['title_en']}")

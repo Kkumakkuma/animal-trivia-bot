@@ -112,11 +112,29 @@ Output STRICT JSON only:
     if category not in _VALID_CATEGORIES:
         category = "mammal"
 
-    pexels_kw = d.get("pexels_keywords") or [f"{single} close up", f"{single} wild", f"wild {category}"]
-    if not isinstance(pexels_kw, list) or len(pexels_kw) < 3:
-        pexels_kw = [f"{single} close up", f"{single} wild", f"wild {category}"]
-    # 항상 fallback 키워드 추가
-    pexels_kw = list(pexels_kw) + [f"wild {category}", f"{category} close up"]
+    # === 매칭 안전선: 모든 검색 키워드에 동물명(single) 반드시 포함 ===
+    # 이전 버그: "wild mammal", "mammal close up" 같은 generic fallback이 들어가
+    # capybara 검색 시 hedgehog/rabbit 영상까지 매칭됨 (애드센스/시청자 신뢰 직격).
+    raw_kw = d.get("pexels_keywords") or []
+    if not isinstance(raw_kw, list):
+        raw_kw = []
+    sanitized_kw = []
+    single_lower = single.lower()
+    for kw in raw_kw:
+        if not isinstance(kw, str):
+            continue
+        kw = kw.strip()
+        if not kw:
+            continue
+        if single_lower in kw.lower():
+            sanitized_kw.append(kw)
+        else:
+            # 동물명 없는 키워드는 prepend (generic 매칭 방지)
+            sanitized_kw.append(f"{single} {kw}")
+    if not sanitized_kw:
+        sanitized_kw = [single, f"{single} close up", f"{single} in the wild", f"{single} wildlife"]
+    # generic category fallback 제거 — 동물명 포함 키워드만
+    pexels_kw = sanitized_kw[:8]
 
     title_en = (d.get("title_en") or f"{display} Facts").strip()[:95]
     if _has_bad(title_en, _BAD_TITLE_EN):
