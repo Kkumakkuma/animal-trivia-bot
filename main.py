@@ -53,13 +53,17 @@ def _save_used(used):
 
 
 def fetch_verified_backgrounds(meta: dict, work_dir: str, n: int = 3,
-                                oversample: int = 2) -> list:
+                                oversample: int = 2, min_pass: int = None) -> list:
     """비전 검증 통과한 동물 영상 N개 확보 — 잘못된 동물 영상 reject.
 
     1. fetch_backgrounds로 N*oversample 개 후보 다운
     2. 각 영상 첫 프레임을 GPT-4o-mini vision으로 검증
-    3. 통과한 영상 N개 누적, 미통과 reject + 파일 삭제
-    4. 부족하면 RuntimeError → 호출 측에서 다른 동물 픽
+    3. 통과한 영상 N개 누적 (또는 min_pass개), 미통과 reject + 파일 삭제
+    4. min_pass 통과 시 부족분은 미검증 영상으로 채움 (legacy fallback에서 soft mode)
+    5. 부족하면 RuntimeError → 호출 측에서 다른 동물 픽
+
+    min_pass: None이면 strict (n개 다 통과). 값 주면 soft mode (min_pass개만 통과해도 OK,
+              나머지는 미검증 영상으로 채움 — legacy fallback에서 사용).
     """
     from pipeline import pexels, verify_visual
     candidates = pexels.fetch_backgrounds(
@@ -68,6 +72,7 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str, n: int = 3,
         animal_single=meta["single"],
     )
     paths = []
+    rejected = []
     for cand in candidates:
         if len(paths) >= n:
             break
@@ -79,15 +84,30 @@ def fetch_verified_backgrounds(meta: dict, work_dir: str, n: int = 3,
         if ok:
             paths.append(cand)
         else:
+            rejected.append(cand)
+
+    threshold = min_pass if min_pass is not None else n
+    if len(paths) >= threshold:
+        # soft mode에서 통과 부족분은 reject 영상으로 채움 (없는 것보단 나음)
+        while len(paths) < n and rejected:
+            paths.append(rejected.pop(0))
+        # 남은 reject는 삭제
+        for r in rejected:
             try:
-                os.remove(cand)
+                os.remove(r)
             except Exception:
                 pass
-    if len(paths) < n:
-        raise RuntimeError(
-            f"비전 검증 통과 영상 부족 ({len(paths)}/{n}) — 다른 동물 픽 필요"
-        )
-    return paths
+        return paths
+
+    # threshold 미달 — 모두 삭제하고 RuntimeError
+    for r in rejected:
+        try:
+            os.remove(r)
+        except Exception:
+            pass
+    raise RuntimeError(
+        f"비전 검증 통과 영상 부족 ({len(paths)}/{threshold}) — 다른 동물 픽 필요"
+    )
 
 
 def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool = False) -> dict:
@@ -125,19 +145,45 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             break
 
         if meta is None or bg_paths is None:
-            # 끝까지 못 찾으면 well-known fallback (사전) — 비전 검증 SKIP
-            # 사전의 동물은 Pexels 매칭이 사전 검증된 것이라 vision check 불필요.
-            # vision까지 통과 못해서 워크플로 전체 실패 → 사용자에게 빈 영상 = NG.
-            log.warning("5번 재시도 실패 → legacy 사전 fallback (vision 검증 스킵)")
-            from pipeline import pexels
-            meta = animals._legacy_meta(animals.pick_animal(exclude=used))
-            animal_key = meta["animal_key"]
-            work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
-            os.makedirs(work_dir, exist_ok=True)
-            bg_paths = pexels.fetch_backgrounds(
-                meta["pexels_keywords"], work_dir, n=3,
-                animal_single=meta["single"],
-            )
+            # 5번 재시도 실패 → legacy 사전 fallback (vision SOFT mode).
+            # axolotl 같은 희귀 fallback에서 generic underwater 영상 박히는 문제 차단:
+            # min_pass=1 — 최소 1개라도 vision 통과해야 동물 매칭 보장.
+            # 1개 통과 후 부족분은 reject 영상으로 채움 (vision 0/3 = 잘못된 영상만, 회피).
+            # 실패 시 다른 fallback 동물 5번까지 시도 — Pexels 커버리지 좋은 동물 자동 픽.
+            log.warning("5번 재시도 실패 → legacy 사전 fallback 시작 (vision SOFT mode)")
+            legacy_tries = list(used)
+            for legacy_attempt in range(5):
+                legacy_key = animals.pick_animal(exclude=legacy_tries)
+                legacy_meta = animals._legacy_meta(legacy_key)
+                wd = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), legacy_key)
+                os.makedirs(wd, exist_ok=True)
+                log.info(f"[legacy try {legacy_attempt+1}/5] {legacy_key} ({legacy_meta['display']})")
+                try:
+                    bgs = fetch_verified_backgrounds(legacy_meta, wd, n=3, min_pass=1)
+                except RuntimeError as e:
+                    log.warning(f"[legacy try {legacy_attempt+1}] vision 0/3 ({legacy_meta['display']}): {e} → 다음 fallback")
+                    legacy_tries.append(legacy_key)
+                    continue
+                meta = legacy_meta
+                animal_key = legacy_key
+                work_dir = wd
+                bg_paths = bgs
+                break
+
+            if meta is None or bg_paths is None:
+                # 5개 fallback 동물 다 vision 0/3 (Pexels 사이트 광범위 이슈) — 마지막 수단:
+                # vision 검증 없이 첫 fallback 동물 강제 사용 (워크플로 전체 실패 차단)
+                log.error("legacy fallback 5번도 vision 통과 0건 — 검증 없이 강제 발행")
+                from pipeline import pexels
+                meta = animals._legacy_meta(animals.pick_animal(exclude=used))
+                animal_key = meta["animal_key"]
+                work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
+                os.makedirs(work_dir, exist_ok=True)
+                bg_paths = pexels.fetch_backgrounds(
+                    meta["pexels_keywords"], work_dir, n=3,
+                    animal_single=meta["single"],
+                )
+
             # GPT로 fallback 동물의 facts/intro/outro 진짜 생성 (generic 템플릿 회피)
             try:
                 rich = animals.expand_legacy_to_rich(meta)
