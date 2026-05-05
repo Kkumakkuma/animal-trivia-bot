@@ -71,7 +71,16 @@ REQUIREMENTS:
 - Each fact MUST start differently (vary openers — never repeat "X are way more interesting" or any generic opener).
 - pexels_keywords: 5 keywords. **EVERY keyword MUST contain the animal name** (e.g., for pangolin: "pangolin close up", "pangolin walking", "pangolin in wild", "pangolin tongue", "pangolin scales"). NEVER use generic terms like "wild mammal" or "scaly mammal" — those bring up wrong animal videos.
 - category: one of {sorted(_VALID_CATEGORIES)}.
-- Title: max 90 chars, includes the animal name. NEVER use "compilation", "best of", "top 10".
+- **Title (CRITICAL — single most important CTR factor)**: max 70 chars, MUST include the animal name + a CURIOSITY GAP hook. NEVER use "compilation", "best of", "top 10", "Amazing Facts About X" (too generic, kills CTR).
+  Use ONE of these viral patterns (vary across animals):
+  (a) Shocking number: "Octopuses Have 9 Brains?! Here's Why"
+  (b) Wait what: "Wait, Pangolins Eat 70 Million Ants A Year"
+  (c) You'd never guess: "You Won't Believe What Sloths Do at 2AM"
+  (d) Conditional twist: "If Capybaras Could Vote, We'd Be in Trouble"
+  (e) The truth: "The Truth About Why Foxes Hide From Humans"
+  (f) Stop scrolling: "Stop Scrolling — A Cuttlefish Just Hypnotized You"
+  (g) Question hook: "How Do Hummingbirds Survive On 0% Sleep?"
+  Keep it punchy. Lowercase or Title Case both fine. NO emoji in title.
 - Description: 2 sentences + 5 hashtags (no emoji).
 - Hook (on-screen overlay text): 2-4 words like "Pangolins • Trivia".
 - **comment** (auto-pinned reply-magnet comment under the video): ONE line, 8-20 words.
@@ -152,6 +161,13 @@ Output STRICT JSON only:
     title_en = (d.get("title_en") or f"{display} Facts").strip()[:95]
     if _has_bad(title_en, _BAD_TITLE_EN):
         title_en = f"{display}: 3 Wild Facts"
+    # generic "Amazing Facts About X" / "Wild Facts About X" 패턴 reject — CTR 죽음
+    _generic = ["amazing facts about", "wild facts about", "interesting facts about",
+                "fascinating facts about", "facts you didn't know"]
+    if any(g in title_en.lower() for g in _generic):
+        log.warning(f"generic title pattern → CTR-friendly fallback: {title_en}")
+        # 동물별 hook fallback (number + question)
+        title_en = f"Wait — {display} Do This?!"
 
     facts = d.get("facts") or []
     if not isinstance(facts, list) or len(facts) < 3:
@@ -236,7 +252,14 @@ REQUIREMENTS:
 - Intro: 5-9 words, MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro: 4-7 words CTA, one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
 - Hook (overlay text): 2-4 words like "{display} • Trivia".
-- Title: max 90 chars, includes {display} or {single}. Never "compilation"/"best of"/"top 10".
+- **Title (CRITICAL CTR — pick ONE viral pattern, max 70 chars, must include "{single}" or "{display}", NO emoji)**:
+  (a) Shocking number: "{display} Have ___ ?! Here's Why"
+  (b) Wait what: "Wait, {display} Eat ___ A Year"
+  (c) You won't believe: "You Won't Believe What {display} Do at Night"
+  (d) Conditional twist: "If {display} Could ___, We'd Be in Trouble"
+  (e) Stop scrolling: "Stop Scrolling — A {single} Just ___"
+  (f) Question hook: "How Do {display} Survive ___?"
+  NEVER use "Amazing Facts About", "Wild Facts About", "Facts You Didn't Know" — generic patterns kill CTR.
 - Description: 2 sentences + 5 hashtags (no emoji).
 - comment (reply-magnet, 8-20 words): hot take / forced choice / what-if / personal challenge / confession bait / fill-in-the-blank. Vary across animals. 0-1 emoji max. NEVER "Which fact surprised you most?" or "Tag a friend".
 
@@ -266,9 +289,14 @@ Output STRICT JSON: {{
         raise RuntimeError(f"GPT facts 부족: {facts}")
     facts = [str(f).strip() for f in facts[:5] if str(f).strip()]
 
-    title_en = (d.get("title_en") or f"{display}: 4 Wild Facts").strip()[:95]
+    title_en = (d.get("title_en") or f"Wait — {display} Do This?!").strip()[:95]
     if _has_bad(title_en, _BAD_TITLE_EN):
-        title_en = f"{display}: 4 Wild Facts"
+        title_en = f"Wait — {display} Do This?!"
+    _generic = ["amazing facts about", "wild facts about", "interesting facts about",
+                "fascinating facts about", "facts you didn't know"]
+    if any(g in title_en.lower() for g in _generic):
+        log.warning(f"legacy expand: generic title → CTR-friendly fallback: {title_en}")
+        title_en = f"Wait — {display} Do This?!"
 
     comment = (d.get("comment") or "").strip()
     if not comment or len(comment) < 10:
