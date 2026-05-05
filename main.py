@@ -36,7 +36,7 @@ logging.basicConfig(
 log = logging.getLogger("animalbot")
 
 USED_PATH = os.path.join(BASE_DIR, "used_animals.json")
-USED_KEEP = 5  # 직전 5번 사용한 동물 회피
+USED_KEEP = 30  # 직전 30번 사용한 동물 회피 (4편/일 × 약 7.5일 — GPT 픽 다양성 확보)
 
 
 def _load_used():
@@ -125,13 +125,26 @@ def run_once(forced_animal: str = None, dry_run: bool = False, no_upload: bool =
             break
 
         if meta is None or bg_paths is None:
-            # 끝까지 못 찾으면 well-known fallback (사전)
-            log.warning("5번 재시도 실패 → legacy 사전 fallback")
+            # 끝까지 못 찾으면 well-known fallback (사전) — 비전 검증 SKIP
+            # 사전의 동물은 Pexels 매칭이 사전 검증된 것이라 vision check 불필요.
+            # vision까지 통과 못해서 워크플로 전체 실패 → 사용자에게 빈 영상 = NG.
+            log.warning("5번 재시도 실패 → legacy 사전 fallback (vision 검증 스킵)")
+            from pipeline import pexels
             meta = animals._legacy_meta(animals.pick_animal(exclude=used))
             animal_key = meta["animal_key"]
             work_dir = os.path.join(OUTPUT_DIR, datetime.now().strftime("%Y%m%d"), animal_key)
             os.makedirs(work_dir, exist_ok=True)
-            bg_paths = fetch_verified_backgrounds(meta, work_dir, n=3)
+            bg_paths = pexels.fetch_backgrounds(
+                meta["pexels_keywords"], work_dir, n=3,
+                animal_single=meta["single"],
+            )
+            # GPT로 fallback 동물의 facts/intro/outro 진짜 생성 (generic 템플릿 회피)
+            try:
+                rich = animals.expand_legacy_to_rich(meta)
+                meta.update(rich)
+                log.info(f"legacy → GPT-rich content 변환 완료 ({len(meta['facts'])} facts)")
+            except Exception as e:
+                log.warning(f"legacy GPT-rich 실패 → 기본 템플릿 유지: {e}")
 
     log.info(f"=== 동물: {animal_key} ({meta['display']}, {meta['category']}) ===")
     log.info(f"title_en: {meta['title_en']}")

@@ -43,10 +43,10 @@ def pick_random_animal(exclude_keys: list = None) -> dict:
         key = pick_animal(exclude=exclude_keys or [])
         return _legacy_meta(key)
 
-    exclude_str = ", ".join(exclude_keys[-10:]) if exclude_keys else "none"
+    exclude_str = ", ".join(exclude_keys[-30:]) if exclude_keys else "none"
 
     prompt = f"""You are a viral wildlife scriptwriter for YouTube Shorts channel "Animal Trivia 60s".
-Pick ONE surprising animal RIGHT NOW and write a 30-second script.
+Pick ONE surprising animal RIGHT NOW and write a 55-second script (1-minute Shorts).
 
 CRITICAL CONSTRAINT: pexels_keywords MUST find PORTRAIT video on Pexels. So you must pick animals that are
 WELL-PHOTOGRAPHED on stock footage sites. Avoid extremely rare creatures with no video footage.
@@ -63,9 +63,12 @@ AVOID picking these animals (recently used): {exclude_str}
 
 REQUIREMENTS:
 - The fact MUST be SURPRISING / counter-intuitive / shocking with a specific number when possible.
-- Each fact ≤ 14 words. ONE sentence each.
-- Hook line MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
+- **Each fact MUST be 32-42 words. NOT LESS THAN 32. NOT MORE THAN 42.** Count the words. Three short facts = REJECT and rewrite.
+- Each fact = ONE rich sentence packed with a specific number + comparison/context + surprising consequence. Spoken at TTS rate +12% this gives ~12s per fact.
+- Provide EXACTLY 4 facts (not 3). Total spoken length target: intro ~3s + 4 facts × ~12s + outro ~3s ≈ 54s.
+- Hook line (intro narration) MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro CTA MUST be one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
+- Each fact MUST start differently (vary openers — never repeat "X are way more interesting" or any generic opener).
 - pexels_keywords: 5 keywords. **EVERY keyword MUST contain the animal name** (e.g., for pangolin: "pangolin close up", "pangolin walking", "pangolin in wild", "pangolin tongue", "pangolin scales"). NEVER use generic terms like "wild mammal" or "scaly mammal" — those bring up wrong animal videos.
 - category: one of {sorted(_VALID_CATEGORIES)}.
 - Title: max 90 chars, includes the animal name. NEVER use "compilation", "best of", "top 10".
@@ -92,7 +95,7 @@ Output STRICT JSON only:
   "description_en": "... #shorts #animalfacts #wildlife #didyouknow #pangolin",
   "hook": "Pangolins • Trivia",
   "intro": "Did you know pangolins do this?",
-  "facts": ["fact1 (≤14 words)", "fact2", "fact3"],
+  "facts": ["fact1 (32-42 words)", "fact2 (32-42 words)", "fact3 (32-42 words)", "fact4 (32-42 words)"],
   "outro": "Follow for more animal facts.",
   "comment": "Pangolins are basically walking pinecones with attitude — change my mind",
   "tags": ["shorts","animals","animal facts","wildlife","trivia","did you know","pangolin","scales"]
@@ -152,33 +155,36 @@ Output STRICT JSON only:
 
     facts = d.get("facts") or []
     if not isinstance(facts, list) or len(facts) < 3:
-        facts = [f"{display} are way more interesting than people think."] * 3
-    facts = [str(f).strip() for f in facts[:3]]
-    # 짧으면 GPT 한 번 더 호출해서 길이 확장 시도
-    if any(len(f.split()) < 16 for f in facts):
-        log.warning(f"facts too short ({[len(f.split()) for f in facts]}), expanding...")
+        facts = [f"{display} are way more interesting than people think."] * 4
+    # 4개 우선, 부족하면 3개라도 수용
+    facts = [str(f).strip() for f in facts[:5] if str(f).strip()]
+    if len(facts) < 3:
+        facts = facts + [f"{display} have surprising habits most people never notice."] * (3 - len(facts))
+    # 한 fact라도 32단어 미만이면 GPT로 확장 (60초 길이 보장 핵심)
+    if any(len(f.split()) < 28 for f in facts):
+        log.warning(f"facts too short ({[len(f.split()) for f in facts]}), expanding to 32-42 words each...")
         try:
             from openai import OpenAI
             client = OpenAI(api_key=OPENAI_API_KEY)
-            expand_prompt = f"""Rewrite each fact to EXACTLY 20-26 words. Add specific numbers, comparisons, surprising consequences. Keep them TRUE.
+            n = len(facts)
+            joined = "\n".join(f"{i+1}. {f}" for i, f in enumerate(facts))
+            expand_prompt = f"""Rewrite each fact to EXACTLY 32-42 words. Add a specific number, a comparison or context, and a surprising consequence. Keep them TRUE. Vary the sentence openers (never repeat patterns).
 
-Original facts:
-1. {facts[0]}
-2. {facts[1]}
-3. {facts[2]}
+Original {n} facts about {display}:
+{joined}
 
-Output STRICT JSON: {{"facts": ["fact1 (20-26 words)", "fact2", "fact3"]}}"""
+Output STRICT JSON: {{"facts": [{', '.join(['"fact (32-42 words)"'] * n)}]}}"""
             r2 = client.chat.completions.create(
                 model=META_MODEL,
                 messages=[{"role": "user", "content": expand_prompt}],
                 response_format={"type": "json_object"},
                 temperature=0.7,
-                max_tokens=600,
+                max_tokens=900,
             )
             d2 = json.loads(r2.choices[0].message.content)
             new_facts = d2.get("facts") or []
-            if isinstance(new_facts, list) and len(new_facts) >= 3:
-                facts = [str(f).strip() for f in new_facts[:3]]
+            if isinstance(new_facts, list) and len(new_facts) >= len(facts):
+                facts = [str(f).strip() for f in new_facts[:len(facts)]]
                 log.info(f"facts expanded to {[len(f.split()) for f in facts]}")
         except Exception as e:
             log.warning(f"expand 실패 — 원본 유지: {e}")
@@ -207,8 +213,81 @@ Output STRICT JSON: {{"facts": ["fact1 (20-26 words)", "fact2", "fact3"]}}"""
     }
 
 
+def expand_legacy_to_rich(meta: dict) -> dict:
+    """legacy fallback에서 만든 generic meta를 GPT로 풀어 진짜 facts 생성.
+
+    legacy_meta는 'are way more interesting than people think' 같은 generic 템플릿.
+    워크플로 매번 같은 말 반복 방지 위해 GPT로 진짜 facts 4개를 만든다.
+
+    실패 시 호출 측에서 원본 meta 그대로 사용 (안전).
+    반환: facts/intro/outro/title_en/description_en/comment 일부 갱신된 dict.
+    """
+    if not OPENAI_API_KEY:
+        raise RuntimeError("OPENAI_API_KEY 없음 — expand 불가")
+
+    display = meta.get("display", "Animals")
+    single = meta.get("single", "animal")
+
+    prompt = f"""Write a 55-second YouTube Shorts script about {display} ({single}).
+
+REQUIREMENTS:
+- 4 facts, each EXACTLY 32-42 words. Specific numbers + comparison + surprising consequence per fact.
+- Each fact opens DIFFERENTLY (no repeated openers like "X are way more interesting").
+- Intro: 5-9 words, MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
+- Outro: 4-7 words CTA, one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
+- Hook (overlay text): 2-4 words like "{display} • Trivia".
+- Title: max 90 chars, includes {display} or {single}. Never "compilation"/"best of"/"top 10".
+- Description: 2 sentences + 5 hashtags (no emoji).
+- comment (reply-magnet, 8-20 words): hot take / forced choice / what-if / personal challenge / confession bait / fill-in-the-blank. Vary across animals. 0-1 emoji max. NEVER "Which fact surprised you most?" or "Tag a friend".
+
+Output STRICT JSON: {{
+  "title_en": "...",
+  "description_en": "... #shorts #animalfacts #wildlife #didyouknow #{single}",
+  "hook": "{display} • Trivia",
+  "intro": "Did you know {single}s do this?",
+  "facts": ["fact1 (32-42 words)", "fact2", "fact3", "fact4"],
+  "outro": "Follow for more animal facts.",
+  "comment": "..."
+}}"""
+
+    from openai import OpenAI
+    client = OpenAI(api_key=OPENAI_API_KEY)
+    resp = client.chat.completions.create(
+        model=META_MODEL,
+        messages=[{"role": "user", "content": prompt}],
+        response_format={"type": "json_object"},
+        temperature=0.9,
+        max_tokens=1100,
+    )
+    d = json.loads(resp.choices[0].message.content)
+
+    facts = d.get("facts") or []
+    if not isinstance(facts, list) or len(facts) < 3:
+        raise RuntimeError(f"GPT facts 부족: {facts}")
+    facts = [str(f).strip() for f in facts[:5] if str(f).strip()]
+
+    title_en = (d.get("title_en") or f"{display}: 4 Wild Facts").strip()[:95]
+    if _has_bad(title_en, _BAD_TITLE_EN):
+        title_en = f"{display}: 4 Wild Facts"
+
+    comment = (d.get("comment") or "").strip()
+    if not comment or len(comment) < 10:
+        comment = f"What's the wildest thing you knew about {single}s?"
+    comment = comment[:280]
+
+    return {
+        "title_en": title_en,
+        "description_en": (d.get("description_en") or f"4 wild facts about {single}s.")[:4900],
+        "intro": (d.get("intro") or f"Did you know {single}s do this?").strip(),
+        "facts": facts,
+        "outro": (d.get("outro") or "Follow for more animal facts.").strip(),
+        "hook": (d.get("hook") or f"{display} • Trivia").strip()[:40],
+        "comment": comment,
+    }
+
+
 def _legacy_meta(animal_key: str) -> dict:
-    """fallback: ANIMALS 사전 + 기본 fact."""
+    """fallback: ANIMALS 사전 + 기본 fact (호출 측에서 expand_legacy_to_rich 권장)."""
     cfg = ANIMALS.get(animal_key) or list(ANIMALS.values())[0]
     display = cfg["display"]
     single = cfg["single"]
@@ -218,16 +297,18 @@ def _legacy_meta(animal_key: str) -> dict:
         "single": single,
         "category": cfg.get("category", "mammal"),
         "pexels_keywords": cfg["pexels_keywords"],
-        "title_en": f"3 Wild Facts About {display}",
-        "description_en": f"3 surprising facts about {single}s. \n\n#shorts #animals #wildlife #didyouknow #animalfacts",
+        "title_en": f"4 Wild Facts About {display}",
+        "description_en": f"4 surprising facts about {single}s. \n\n#shorts #animals #wildlife #didyouknow #animalfacts",
         "hook": f"{display} • Trivia",
         "intro": f"Did you know {single}s do this?",
         "facts": [
-            f"{display} are way more interesting than most people think.",
-            f"This one habit of {single}s might surprise you.",
-            f"Most folks have no idea what {single}s really do.",
+            f"{display} surprise scientists with their unique behaviors and senses.",
+            f"Most {single}s have an unusual skill that took millions of years to evolve.",
+            f"There is a fascinating thing about {single}s that few people ever get to witness in person.",
+            f"Researchers have only recently begun documenting how clever {single}s really are.",
         ],
         "outro": "Follow for more animal facts.",
+        "comment": f"What's the wildest thing you knew about {single}s?",
         "tags": ["shorts", "animals", "animal facts", "wildlife", "trivia",
                  "did you know", animal_key.replace("_", " "), single, display],
     }

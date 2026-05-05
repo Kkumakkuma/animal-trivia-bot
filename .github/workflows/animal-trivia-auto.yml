@@ -76,14 +76,23 @@ jobs:
           set -o pipefail
           python main.py 2>&1 | tee run_stdout.log
 
-      - uses: actions/upload-artifact@v4
+      # 업로드 성공 후 영상/오디오 즉시 삭제 (Actions 스토리지 절감)
+      # YouTube 발행이 끝났으면 mp4/mp3는 더 이상 필요 없음. 로그만 남긴다.
+      - name: Cleanup video/audio assets
         if: always()
+        run: |
+          if [ -d output ]; then
+            find output -type f \( -name "*.mp4" -o -name "*.mp3" -o -name "*.wav" -o -name "*.m4a" -o -name "pexels_*" \) -delete 2>/dev/null || true
+          fi
+          rm -rf assets/bgm/*.mp3 2>/dev/null || true
+
+      - uses: actions/upload-artifact@v4
+        if: failure()
         with:
           name: logs-${{ github.run_id }}
           path: |
             run_stdout.log
-            output/
-          retention-days: 5
+          retention-days: 2
           if-no-files-found: ignore
 
       - name: Telegram notify
