@@ -497,20 +497,36 @@ def compose(
     if hook_clip is not None:
         layers.append(hook_clip)
 
+    # CTA 카드 시각 (마지막 4초) — 자막이 여기 침범하면 안 됨
+    cta_dur = min(4.0, total_dur * 0.18)  # 영상 18% 또는 4초 중 작은 값
+    cta_start = max(0.0, total_dur - cta_dur)
+    cap_cutoff = max(0.0, cta_start - 0.2)  # 자막은 CTA 시작 0.2s 전에 사라짐
+
     # phrase 단위 자막 (TikTok karaoke 스타일)
-    # 마지막 라인(outro)은 CTA 카드와 겹치니 자막에서 제외
+    # 마지막 라인(outro)은 CTA 카드와 겹치니 자막에서 제외.
+    # 그리고 모든 자막 종료시간은 cap_cutoff 이하로 클램프 — 마지막 fact가 길어
+    # CTA에 침범하는 케이스 방지 (2026-05-05 사용자 신고: 마지막 자막 + CTA 중복).
     for i, w in enumerate(timeline):
         if i == len(timeline) - 1:
             continue
+        # 자막 시작이 이미 cap_cutoff를 넘었으면 자막 자체 건너뜀
+        if w["start"] >= cap_cutoff:
+            continue
+        line_start = w["start"]
+        line_end = min(w["end"], cap_cutoff)
         words = w.get("words") or []
         if words:
-            phrases = _split_into_phrases(words, w["start"], w["end"])
+            # phrases도 cap_cutoff 이하로 잘라냄
+            phrases = _split_into_phrases(words, line_start, line_end)
             for ph in phrases:
-                clip = _make_phrase_clip(ph["text"], ph["start"], ph["end"])
+                ph_end = min(ph["end"], cap_cutoff)
+                if ph_end <= ph["start"]:
+                    continue
+                clip = _make_phrase_clip(ph["text"], ph["start"], ph_end)
                 if clip is not None:
                     layers.append(clip)
         else:
-            cap = _make_caption_window(w["text"], w["start"], w["end"], base_size=CAPTION_BASE_SIZE)
+            cap = _make_caption_window(w["text"], line_start, line_end, base_size=CAPTION_BASE_SIZE)
             if cap:
                 layers.extend([c for c in cap if c is not None])
 
@@ -518,9 +534,6 @@ def compose(
     if brand is not None:
         layers.append(brand)
 
-    # 마지막 4초 CTA 카드 (FOLLOW + LIKE)
-    cta_dur = min(4.0, total_dur * 0.18)  # 영상 18% 또는 4초 중 작은 값
-    cta_start = max(0.0, total_dur - cta_dur)
     layers.extend(_make_cta_card_clip(cta_start, cta_dur))
 
     final = CompositeVideoClip(layers, size=(VIDEO_WIDTH, VIDEO_HEIGHT)).set_duration(total_dur)
