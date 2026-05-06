@@ -63,9 +63,9 @@ AVOID picking these animals (recently used): {exclude_str}
 
 REQUIREMENTS:
 - The fact MUST be SURPRISING / counter-intuitive / shocking with a specific number when possible.
-- **Each fact MUST be 32-42 words. NOT LESS THAN 32. NOT MORE THAN 42.** Count the words. Three short facts = REJECT and rewrite.
+- **Each fact MUST be 36-46 words. NOT LESS THAN 36. NOT MORE THAN 46.** Count the words. Three short facts = REJECT and rewrite.
 - Each fact = ONE rich sentence packed with a specific number + comparison/context + surprising consequence. Spoken at TTS rate +12% this gives ~12s per fact.
-- Provide EXACTLY 4 facts (not 3). Total spoken length target: intro ~3s + 4 facts × ~12s + outro ~3s ≈ 54s.
+- Provide EXACTLY 4 facts (not 3). Total spoken length target: intro ~3s + 4 facts × ~12.5s + outro ~3s ≈ 56s.
 - Hook line (intro narration) MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro CTA MUST be one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
 - Each fact MUST start differently (vary openers — never repeat "X are way more interesting" or any generic opener).
@@ -104,7 +104,7 @@ Output STRICT JSON only:
   "description_en": "... #shorts #animalfacts #wildlife #didyouknow #pangolin",
   "hook": "Pangolins • Trivia",
   "intro": "Did you know pangolins do this?",
-  "facts": ["fact1 (32-42 words)", "fact2 (32-42 words)", "fact3 (32-42 words)", "fact4 (32-42 words)"],
+  "facts": ["fact1 (36-46 words)", "fact2 (36-46 words)", "fact3 (36-46 words)", "fact4 (36-46 words)"],
   "outro": "Follow for more animal facts.",
   "comment": "Pangolins are basically walking pinecones with attitude — change my mind",
   "tags": ["shorts","animals","animal facts","wildlife","trivia","did you know","pangolin","scales"]
@@ -177,19 +177,19 @@ Output STRICT JSON only:
     if len(facts) < 3:
         facts = facts + [f"{display} have surprising habits most people never notice."] * (3 - len(facts))
     # 한 fact라도 32단어 미만이면 GPT로 확장 (60초 길이 보장 핵심)
-    if any(len(f.split()) < 28 for f in facts):
-        log.warning(f"facts too short ({[len(f.split()) for f in facts]}), expanding to 32-42 words each...")
+    if any(len(f.split()) < 32 for f in facts):
+        log.warning(f"facts too short ({[len(f.split()) for f in facts]}), expanding to 36-46 words each...")
         try:
             from openai import OpenAI
             client = OpenAI(api_key=OPENAI_API_KEY)
             n = len(facts)
             joined = "\n".join(f"{i+1}. {f}" for i, f in enumerate(facts))
-            expand_prompt = f"""Rewrite each fact to EXACTLY 32-42 words. Add a specific number, a comparison or context, and a surprising consequence. Keep them TRUE. Vary the sentence openers (never repeat patterns).
+            expand_prompt = f"""Rewrite each fact to EXACTLY 36-46 words. Add a specific number, a comparison or context, and a surprising consequence. Keep them TRUE. Vary the sentence openers (never repeat patterns).
 
 Original {n} facts about {display}:
 {joined}
 
-Output STRICT JSON: {{"facts": [{', '.join(['"fact (32-42 words)"'] * n)}]}}"""
+Output STRICT JSON: {{"facts": [{', '.join(['"fact (36-46 words)"'] * n)}]}}"""
             r2 = client.chat.completions.create(
                 model=META_MODEL,
                 messages=[{"role": "user", "content": expand_prompt}],
@@ -247,7 +247,7 @@ def expand_legacy_to_rich(meta: dict) -> dict:
     prompt = f"""Write a 55-second YouTube Shorts script about {display} ({single}).
 
 REQUIREMENTS:
-- 4 facts, each EXACTLY 32-42 words. Specific numbers + comparison + surprising consequence per fact.
+- 4 facts, each EXACTLY 36-46 words. Specific numbers + comparison + surprising consequence per fact.
 - Each fact opens DIFFERENTLY (no repeated openers like "X are way more interesting").
 - Intro: 5-9 words, MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro: 4-7 words CTA, one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
@@ -268,7 +268,7 @@ Output STRICT JSON: {{
   "description_en": "... #shorts #animalfacts #wildlife #didyouknow #{single}",
   "hook": "{display} • Trivia",
   "intro": "Did you know {single}s do this?",
-  "facts": ["fact1 (32-42 words)", "fact2", "fact3", "fact4"],
+  "facts": ["fact1 (36-46 words)", "fact2", "fact3", "fact4"],
   "outro": "Follow for more animal facts.",
   "comment": "..."
 }}"""
