@@ -77,14 +77,27 @@ def verify_animal(video_path: str, animal_single: str,
         from openai import OpenAI
         client = OpenAI(api_key=OPENAI_API_KEY)
 
-        # 단일 yes/no 응답 — 토큰 최소화 + 일관된 판정
+        # 2026-05-07 v2: prompt 완화. 이전엔 "엄격 매칭 + 비-동물 광범위 reject"로 정상
+        # pangolin/sloth/red panda Pexels 영상까지 0/6 reject → 10번 다 실패 → 발행 0편.
+        # 정책: 동물(any animal)이 보이면 통과, 명백한 garbage(결혼/케이크/사람/제품)만 reject.
+        # 정확한 종 매칭은 포기 — vision이 niche 동물 식별 잘 못함, 비슷한 동물 영상도 visually OK.
         question = (
-            f"Does this image clearly show a {animal_single}"
+            f"This image will be used as background for a 60-second YouTube Shorts video about a {animal_single}"
             + (f" ({animal_display})" if animal_display and animal_display.lower() != animal_single.lower() else "")
-            + "? Answer ONLY one word: 'yes' or 'no'. "
-            f"If you see a different animal (for example a hedgehog when asked about a capybara), answer 'no'. "
-            f"If the image shows wedding rings, jewelry, cakes, food, fashion, weddings, manicured nails, or any non-animal scene, answer 'no'. "
-            f"If the animal is too blurry, too distant, or not visible, answer 'no'."
+            + ". Is this image visually appropriate as an animal/wildlife background?"
+            f" Answer ONLY one word: 'yes' or 'no'."
+            f" REJECT (answer 'no') ONLY if image clearly shows ANY of these:"
+            f" — Wedding rings, engagement rings, jewelry, diamonds, necklaces."
+            f" — Cakes, cupcakes, food, desserts, baking."
+            f" — People as the main subject (selfies, portraits, models, couples, families, kissing)."
+            f" — Manicures, fashion shoots, makeup, lipstick, beauty products."
+            f" — Pure indoor product shots (cars, electronics, phones, appliances)."
+            f" — Image is too blurry, dark, or unidentifiable."
+            f" ACCEPT (answer 'yes') for ANY animal/wildlife imagery: the {animal_single} itself,"
+            f" any related animal of same general type, nature/wildlife scenes, zoo footage,"
+            f" aquarium footage, jungle/forest/savanna/ocean shots with visible animals,"
+            f" or even artistic close-ups of the {animal_single}'s features (paws, scales, fur, eyes)."
+            f" It does NOT need to be a perfect match — animal/wildlife visuals are good enough."
         )
 
         # rate limit 429에서 fail-OPEN으로 garbage 통과되던 사고 방지 — 3회 backoff 재시도.

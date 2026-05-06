@@ -12,9 +12,16 @@ log = logging.getLogger("animalbot.animals")
 
 
 def pick_animal(rng: random.Random = None, exclude: list = None) -> str:
-    """legacy fallback (사전에서 픽). pick_random_animal() 우선."""
+    """legacy fallback (사전에서 픽). pick_random_animal() 우선.
+
+    2026-05-07 fix: exclude가 ANIMALS dict 전체를 덮으면 pool이 빈 리스트가 되어
+    random.choice([]) IndexError 발생. used_animals.json이 누적되어 일어남 →
+    빈 pool일 때 exclude 무시하고 전체에서 픽 (cycle reset).
+    """
     rng = rng or random.Random()
     pool = [k for k in ANIMALS.keys() if not exclude or k not in exclude]
+    if not pool:
+        pool = list(ANIMALS.keys())
     return rng.choice(pool)
 
 
