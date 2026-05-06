@@ -449,8 +449,13 @@ def compose(
         cursor = end + pad_between
 
     raw_total = cursor - pad_between + end_pad
-    total_dur = min(raw_total, VIDEO_DURATION_SEC - 0.3)  # Shorts 안전선
-    log.info(f"timeline: total={total_dur:.2f}s lines={len(timeline)}")
+    # v3: 항상 60s 가까이 강제 (CTA 자리 보장 + Shorts retention 안정).
+    # 음성 짧으면 BGM/배경으로 채움. 음성 길면 outro 잘림 (prompt에서 facts 단어수 제한).
+    target_dur = float(VIDEO_DURATION_SEC) - 0.3
+    total_dur = target_dur
+    if raw_total > target_dur:
+        log.warning(f"음성 {raw_total:.2f}s > 영상 {target_dur:.2f}s — outro 일부 잘림 가능")
+    log.info(f"timeline: raw={raw_total:.2f}s → total={total_dur:.2f}s (강제 60s) lines={len(timeline)}")
 
     # 라인이 잘리는 경우, 마지막 라인 끝을 total_dur로 클램프
     for w in timeline:
