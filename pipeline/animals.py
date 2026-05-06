@@ -23,10 +23,113 @@ _BAD_TITLE_EN = ["compilation", "best of", "top 10", "top 20", " mix", " list"]
 _VALID_CATEGORIES = {"mammal", "bird", "marine", "fish", "reptile", "amphibian",
                      "insect", "cephalopod", "arachnid", "crustacean"}
 
+# 다른 동물 단어 — comment에서 본 토픽 외 다른 동물이 등장하면 off-topic 의심.
+# 우주봇의 Saturn→Jupiter 사고와 같은 패턴 차단 (양 채널 동기 적용).
+_OTHER_TOPIC_WORDS = {
+    "octopus", "octopuses", "capybara", "otter", "otters", "fox", "foxes",
+    "owl", "owls", "dolphin", "dolphins", "elephant", "elephants",
+    "penguin", "penguins", "sloth", "sloths", "bear", "bears",
+    "lion", "lions", "tiger", "tigers", "panda", "pandas",
+    "cheetah", "leopard", "kangaroo", "koala", "eagle",
+    "parrot", "parrots", "hummingbird", "butterfly", "bee", "bees",
+    "spider", "spiders", "crab", "lobster", "jellyfish",
+    "starfish", "frog", "frogs", "snake", "snakes", "hedgehog",
+    "squirrel", "deer", "raccoon", "wolf", "wolves",
+    "monkey", "gorilla", "chimpanzee", "zebra", "giraffe",
+    "hippo", "rhino", "horse", "donkey", "goat", "sheep",
+    "alpaca", "llama", "cow", "pig", "duck", "swan", "flamingo",
+    "shark", "sharks", "whale", "whales", "seal", "walrus",
+    "axolotl", "fennec", "pangolin", "ocelot", "anteater", "tapir",
+    "lemur", "narwhal", "platypus", "echidna", "wombat", "quokka",
+}
+
 
 def _has_bad(text: str, words) -> bool:
     low = text.lower()
     return any(w.lower() in low for w in words)
+
+
+def _topic_tokens(text: str) -> set:
+    """소문자 단어 토큰 집합 (영문만)."""
+    import re as _re
+    return {w for w in _re.findall(r"[a-z]+", text.lower()) if len(w) >= 3}
+
+
+def verify_consistency(meta: dict) -> dict:
+    """GPT 1회로 facts/comment 내부 일관성 검증/수정 (우주봇과 동기 fix).
+
+    Catches:
+    - facts 내 숫자 모순
+    - comment가 다른 토픽
+    실패 시 원본 meta 유지.
+    """
+    if not OPENAI_API_KEY:
+        return meta
+
+    display = meta.get("display", "").strip()
+    single = meta.get("single", "").strip()
+    facts = list(meta.get("facts", []) or [])
+    comment = meta.get("comment", "").strip()
+    title = meta.get("title_en", "").strip()
+
+    if not facts or not display:
+        return meta
+
+    own_tokens = _topic_tokens(f"{display} {single}")
+    comment_tokens = _topic_tokens(comment)
+    other_in_comment = (comment_tokens & _OTHER_TOPIC_WORDS) - own_tokens
+    has_own_in_comment = bool(comment_tokens & own_tokens) or display.lower() in comment.lower() or single.lower() in comment.lower()
+    suspect_offtopic_comment = bool(other_in_comment) or not has_own_in_comment
+
+    review_prompt = f"""You are a script consistency editor for YouTube Shorts about {display} ({single}).
+
+Review this script for two CRITICAL issues:
+1. NUMERIC CONTRADICTIONS between facts (e.g. fact 1 says "82 millions of years" + fact 2 says "79" for the same metric)
+2. COMMENT OFF-TOPIC (comment mentions an animal that is NOT {display} / {single})
+
+Title: {title}
+Facts:
+{chr(10).join(f"{i+1}. {f}" for i, f in enumerate(facts))}
+Comment: {comment}
+
+INSTRUCTIONS:
+- If 2+ facts cite different numbers for the SAME metric, pick ONE accurate value (latest 2024 consensus)
+  and rewrite ALL contradicting facts to use that value. Keep facts at 28-36 words.
+- If comment mentions any animal other than {display}/{single}, rewrite the comment to be about
+  {display} ONLY, in 8-20 words, using one of: hot take / forced choice within {single} / what-if /
+  personal challenge / confession bait / fill-in-the-blank.
+- If everything is fine, return original facts and comment unchanged.
+
+Output STRICT JSON: {{"facts": ["...", "...", "...", "..."], "comment": "...", "fixed": ["short list of issues fixed, empty if none"]}}"""
+
+    try:
+        from openai import OpenAI
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        resp = client.chat.completions.create(
+            model=META_MODEL,
+            messages=[{"role": "user", "content": review_prompt}],
+            response_format={"type": "json_object"},
+            temperature=0.3,
+            max_tokens=900,
+        )
+        d = json.loads(resp.choices[0].message.content)
+        new_facts = d.get("facts") or []
+        new_comment = (d.get("comment") or "").strip()
+        fixed = d.get("fixed") or []
+        if isinstance(new_facts, list) and len(new_facts) == len(facts):
+            new_facts = [str(f).strip() for f in new_facts if str(f).strip()]
+            if len(new_facts) == len(facts):
+                meta["facts"] = new_facts
+        if new_comment and 5 < len(new_comment) <= 280:
+            meta["comment"] = new_comment
+        if fixed:
+            log.info(f"consistency check fixed {len(fixed)}건: {fixed}")
+        elif suspect_offtopic_comment:
+            log.warning(f"comment 사전 의심됐지만 GPT는 수정 없다고 판단 (other_in_comment={other_in_comment}, has_own={has_own_in_comment})")
+    except Exception as e:
+        log.warning(f"consistency check 실패 — 원본 유지: {e}")
+
+    return meta
 
 
 def pick_random_animal(exclude_keys: list = None) -> dict:
@@ -66,6 +169,11 @@ REQUIREMENTS:
 - **Each fact MUST be 28-36 words. NOT LESS THAN 28. NOT MORE THAN 36.** Count the words. Three short facts = REJECT and rewrite.
 - Each fact = ONE rich sentence packed with a specific number + comparison/context + surprising consequence. Spoken at TTS rate +12% this gives ~12s per fact.
 - Provide EXACTLY 4 facts (not 3). Total spoken length target: intro ~3s + 4 facts × ~10s + outro ~3s ≈ 46s (실TTS +5~10s 마진).
+- **INTERNAL CONSISTENCY (CRITICAL — viewers WILL catch contradictions and call you out)**:
+  - All numeric claims across the 4 facts MUST agree. If fact 1 says "an octopus has 9 brains", fact 2/3/4 must NOT cite a different number for the same metric. Pick ONE number per metric and use it consistently.
+  - If you cite "X% of [thing]" or "Y times [thing]", any other fact about the SAME metric MUST use the SAME value.
+  - Use latest 2024 scientific consensus values. Do not mix old and new numbers.
+  - title and description MUST be about the same animal as the facts.
 - Hook line (intro narration) MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro CTA MUST be one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
 - Each fact MUST start differently (vary openers — never repeat "X are way more interesting" or any generic opener).
@@ -84,14 +192,18 @@ REQUIREMENTS:
 - Description: 2 sentences + 5 hashtags (no emoji).
 - Hook (on-screen overlay text): 2-4 words like "Pangolins • Trivia".
 - **comment** (auto-pinned reply-magnet comment under the video): ONE line, 8-20 words.
-  GOAL: provoke viewers to actually reply, not just scroll past. Statement-of-fact comments get IGNORED. Pick ONE of these reply-magnet patterns and write a fresh line in that style, referencing THIS specific animal:
-  (a) Hot take / fight me — "Hot take: octopuses are smarter than 90% of dogs. Fight me 🐙"
-  (b) Forced choice / poll — "Capybara or otter — who would actually be the better roommate?"
-  (c) Reincarnation / what-if — "If reincarnation is real I'm coming back as a hummingbird. Who's with me?"
-  (d) Personal challenge — "Bet you can't watch a sloth for 30 seconds without smiling. Try it."
-  (e) Confession bait — "Confession: I would absolutely break a zoo rule to pet one. Anyone else?"
-  (f) Fill-in-the-blank — "If pangolins were a coworker, they'd be the one who ___"
-  Vary the pattern across animals. Use 0-1 emoji max. **NEVER** these dead patterns: "Which fact surprised you most?", "Tag a friend who...", "Did you know any of these?", "Like if you learned something" — those get zero replies.
+  GOAL: provoke viewers to actually reply, not just scroll past. Statement-of-fact comments get IGNORED.
+  **CRITICAL — TOPIC LOCK**: The comment MUST be about THE EXACT ANIMAL YOU JUST PICKED. If you picked
+  pangolin → comment is about pangolin ONLY. Do NOT mention any OTHER animal (no "Capybara or otter"
+  type cross-topic forced choices when the video is about pangolin). Below are STYLE patterns —
+  replace the example animal with your picked animal.
+  (a) Hot take / fight me — STYLE: "Hot take: [animal] is [provocative claim]. Fight me 🔥"
+  (b) Forced choice WITHIN the same animal — STYLE: "Would you rather [scenario A with the animal] or [scenario B with the animal]?"
+  (c) Reincarnation / what-if — STYLE: "If reincarnation is real I'm coming back as [animal]. Who's with me?"
+  (d) Personal challenge — STYLE: "Bet you can't watch a [animal] for 30 seconds without [reaction]. Try it."
+  (e) Confession bait — STYLE: "Confession: I would absolutely [action] for a [animal]. Anyone else?"
+  (f) Fill-in-the-blank — STYLE: "If [animal] were a coworker, they'd be the one who ___"
+  Use 0-1 emoji max. **NEVER** these dead patterns: "Which fact surprised you most?", "Tag a friend who...", "Did you know any of these?", "Like if you learned something" — those get zero replies.
 
 Output STRICT JSON only:
 {{
@@ -211,7 +323,7 @@ Output STRICT JSON: {{"facts": [{', '.join(['"fact (28-36 words)"'] * n)}]}}"""
         comment = f"What's the wildest thing you knew about {single}s?"
     comment = comment[:280]  # YouTube 댓글 길이 안전선
 
-    return {
+    meta = {
         "animal_key": animal_key,
         "display": display,
         "single": single,
@@ -227,6 +339,7 @@ Output STRICT JSON: {{"facts": [{', '.join(['"fact (28-36 words)"'] * n)}]}}"""
         "tags": d.get("tags") or ["shorts", "animals", "animal facts", "wildlife", "trivia",
                                   "did you know", animal_key.replace("_", " "), single, display],
     }
+    return verify_consistency(meta)
 
 
 def expand_legacy_to_rich(meta: dict) -> dict:
@@ -249,6 +362,7 @@ def expand_legacy_to_rich(meta: dict) -> dict:
 REQUIREMENTS:
 - 4 facts, each EXACTLY 28-36 words. Specific numbers + comparison + surprising consequence per fact.
 - Each fact opens DIFFERENTLY (no repeated openers like "X are way more interesting").
+- **INTERNAL CONSISTENCY (CRITICAL)**: All numeric claims across the 4 facts MUST agree. If fact 1 says "{display} have N [thing]", fact 2/3/4 must NOT cite a different number. Use latest 2024 scientific consensus values.
 - Intro: 5-9 words, MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro: 4-7 words CTA, one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
 - Hook (overlay text): 2-4 words like "{display} • Trivia".
@@ -261,7 +375,8 @@ REQUIREMENTS:
   (f) Question hook: "How Do {display} Survive ___?"
   NEVER use "Amazing Facts About", "Wild Facts About", "Facts You Didn't Know" — generic patterns kill CTR.
 - Description: 2 sentences + 5 hashtags (no emoji).
-- comment (reply-magnet, 8-20 words): hot take / forced choice / what-if / personal challenge / confession bait / fill-in-the-blank. Vary across animals. 0-1 emoji max. NEVER "Which fact surprised you most?" or "Tag a friend".
+- **comment** (reply-magnet, 8-20 words): hot take / forced choice WITHIN {single} only / what-if / personal challenge / confession bait / fill-in-the-blank.
+  **TOPIC LOCK**: comment MUST be about {display}/{single} ONLY. NEVER mention any OTHER animal. 0-1 emoji max. NEVER "Which fact surprised you most?" or "Tag a friend".
 
 Output STRICT JSON: {{
   "title_en": "...",
@@ -321,7 +436,7 @@ Output STRICT JSON: {{
         comment = f"What's the wildest thing you knew about {single}s?"
     comment = comment[:280]
 
-    return {
+    rich = {
         "title_en": title_en,
         "description_en": (d.get("description_en") or f"4 wild facts about {single}s.")[:4900],
         "intro": (d.get("intro") or f"Did you know {single}s do this?").strip(),
@@ -330,6 +445,11 @@ Output STRICT JSON: {{
         "hook": (d.get("hook") or f"{display} • Trivia").strip()[:40],
         "comment": comment,
     }
+    review_input = {**rich, "display": display, "single": single}
+    review_input = verify_consistency(review_input)
+    rich["facts"] = review_input.get("facts", rich["facts"])
+    rich["comment"] = review_input.get("comment", rich["comment"])
+    return rich
 
 
 def _legacy_meta(animal_key: str) -> dict:
