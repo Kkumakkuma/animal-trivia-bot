@@ -497,17 +497,18 @@ def compose(
     if hook_clip is not None:
         layers.append(hook_clip)
 
-    # CTA 카드 시각 — v2: outro TTS 끝난 후 0.3s 텀 두고 시작 (음성 중 CTA 뜨는 문제 fix)
+    # CTA 카드 시각 — v3: 마지막 4초 자리 보장 + 음성과 안 겹침
+    # 음성 56s + CTA 4s = 60s 구조. 음성 짧으면 BGM/배경으로 채움 후 56-60s에 CTA.
     last_tts_end = timeline[-1]["end"] if timeline else total_dur
-    cta_dur_target = min(4.0, total_dur * 0.18)
-    cta_start = max(0.0, last_tts_end + 0.3)
-    cta_dur = max(0.0, min(cta_dur_target, total_dur - cta_start))
+    preferred_cta_start = total_dur - 4.0
+    cta_start = max(preferred_cta_start, last_tts_end + 0.3)
+    cta_dur = max(0.0, total_dur - cta_start)
     if cta_dur < 1.0:
-        cta_dur = 0.0  # 시간 부족 → CTA 표시 안 함 (음성 절단 회피)
+        cta_dur = 0.0
         cap_cutoff = total_dur
     else:
         cap_cutoff = max(0.0, cta_start - 0.2)
-    log.info(f"cta: start={cta_start:.2f}s dur={cta_dur:.2f}s (outro_end={last_tts_end:.2f}s)")
+    log.info(f"cta v3: start={cta_start:.2f}s dur={cta_dur:.2f}s (outro_end={last_tts_end:.2f}s, total={total_dur:.2f}s)")
 
     # phrase 단위 자막 (TikTok karaoke 스타일)
     # 마지막 라인(outro)은 CTA 카드와 겹치니 자막에서 제외.
