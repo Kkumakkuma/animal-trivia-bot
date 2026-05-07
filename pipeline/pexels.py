@@ -38,6 +38,60 @@ def _slug_tokens(url: str) -> set:
         return set()
 
 
+# 광범위 동물 단어 사전 — slug에 토픽이 아닌 다른 동물명이 있으면 reject용.
+# 2026-05-07 사용자 신고 (Pangolin 토픽에 기린/멧돼지/새 풋티지) fix.
+# Pexels는 niche 동물 검색 시 관련 없는 wildlife 영상을 무차별 매칭 → slug로 사전 차단.
+_KNOWN_ANIMAL_TOKENS = {
+    # mammals - large
+    "giraffe", "giraffes", "elephant", "elephants", "rhino", "rhinos", "rhinoceros",
+    "hippo", "hippos", "hippopotamus", "buffalo", "bison", "ox", "bull", "cow", "cattle",
+    "horse", "horses", "donkey", "donkeys", "zebra", "zebras", "camel", "camels",
+    "moose", "elk", "deer", "antelope", "gazelle", "wildebeest", "kangaroo", "kangaroos",
+    # mammals - mid (rodents/etc)
+    "capybara", "capybaras", "beaver", "beavers", "otter", "otters", "muskrat", "nutria",
+    "rabbit", "rabbits", "hare", "hares", "squirrel", "squirrels", "raccoon", "raccoons",
+    "mouse", "mice", "rat", "rats", "hamster", "hamsters", "gerbil", "guinea",
+    "groundhog", "marmot", "porcupine", "hedgehog", "hedgehogs", "shrew", "mole", "moles",
+    # mammals - cats/dogs/wild
+    "cat", "cats", "kitten", "kittens", "lion", "lions", "tiger", "tigers", "leopard", "leopards",
+    "cheetah", "cheetahs", "jaguar", "jaguars", "puma", "cougar", "lynx", "bobcat",
+    "dog", "dogs", "puppy", "puppies", "wolf", "wolves", "fox", "foxes", "coyote", "coyotes",
+    "jackal", "jackals", "hyena", "hyenas",
+    # mammals - other
+    "bear", "bears", "panda", "pandas", "koala", "koalas", "sloth", "sloths",
+    "pangolin", "pangolins", "armadillo", "armadillos", "anteater", "anteaters",
+    "monkey", "monkeys", "ape", "apes", "chimpanzee", "chimp", "chimps", "gorilla", "gorillas",
+    "orangutan", "orangutans", "lemur", "lemurs", "baboon", "macaque",
+    "pig", "pigs", "boar", "boars", "wartog", "warthog", "warthogs",
+    "sheep", "lamb", "lambs", "goat", "goats", "yak", "alpaca", "llama", "llamas",
+    "platypus", "echidna", "opossum", "possum", "wombat", "tasmanian",
+    "bat", "bats", "skunk", "skunks", "weasel", "weasels", "ferret", "ferrets",
+    "mongoose", "meerkat", "meerkats", "badger", "badgers", "wolverine",
+    # marine
+    "whale", "whales", "dolphin", "dolphins", "porpoise", "orca", "shark", "sharks",
+    "seal", "seals", "sealion", "walrus", "octopus", "squid", "jellyfish", "stingray",
+    "ray", "rays", "fish", "fishes", "salmon", "tuna", "trout", "cod", "eel", "lobster",
+    "crab", "crabs", "shrimp", "starfish", "seahorse", "manatee", "narwhal",
+    # reptiles/amphibians
+    "snake", "snakes", "python", "cobra", "viper", "boa", "anaconda",
+    "lizard", "lizards", "iguana", "iguanas", "gecko", "geckos", "chameleon", "chameleons",
+    "alligator", "alligators", "crocodile", "crocodiles", "turtle", "turtles", "tortoise", "tortoises",
+    "frog", "frogs", "toad", "toads", "salamander", "newt", "axolotl",
+    # birds (광범위 — 새는 너무 많이 매칭되니 기본 동물 단어 reject)
+    "bird", "birds", "eagle", "eagles", "hawk", "hawks", "falcon", "falcons",
+    "owl", "owls", "vulture", "vultures", "crow", "crows", "raven", "ravens",
+    "parrot", "parrots", "macaw", "cockatoo", "duck", "ducks", "goose", "geese",
+    "swan", "swans", "chicken", "chickens", "rooster", "hen", "turkey", "turkeys",
+    "peacock", "ostrich", "emu", "flamingo", "flamingos", "stork", "heron",
+    "penguin", "penguins", "puffin", "albatross", "seagull", "pigeon", "pigeons",
+    "sparrow", "robin", "cardinal", "hummingbird",
+    # insects/spiders
+    "ant", "ants", "bee", "bees", "wasp", "wasps", "butterfly", "butterflies",
+    "moth", "moths", "spider", "spiders", "tarantula", "scorpion", "scorpions",
+    "ladybug", "beetle", "beetles", "dragonfly", "mosquito",
+}
+
+
 # 동물 종 혼동 pair (2026-05-07 카피바라/비버 사고 fix).
 # {topic: {topic의 풋티지로 잘못 들어오는 다른 종 token들}}.
 # 토픽 검색에 잘못된 종이 섞여 들어올 때 slug에서 사전 reject.
@@ -109,28 +163,40 @@ def _passes_slug_filter(video: dict, single_lower: str) -> bool:
     True: vision 검증으로 넘김
     False: 사전 reject (garbage 후보 일찍 거름)
 
-    2026-05-07 v3: species 혼동 pair 추가. 카피바라 검색에 비버 영상 섞이면 사전 reject.
-    vision API가 niche 동물 식별 못해서 over-reject로 발행 0편 사고 → slug에서 처리.
+    2026-05-07 v4: 광범위 동물 vocab. 토픽이 아닌 다른 동물명이 slug에 있으면 reject.
+    Pangolin 토픽에 giraffe/boar/bird 영상 섞이는 사고 fix. Pexels는 niche 동물
+    검색 시 무차별 wildlife 매칭하므로 slug에서 1차 차단 필수.
     """
     tokens = _slug_tokens(video.get("url", ""))
     if not tokens:
         return True
 
-    # species 혼동 pair: 토픽이랑 다른 종 단어가 slug에 있으면 reject
-    # (단, 토픽 단어도 같이 있으면 통과 — 사진가가 둘 다 태깅한 경우)
-    if single_lower and _has_confused_species(tokens, single_lower):
+    single_words = set()
+    if single_lower:
         single_words = {w for w in single_lower.split() if len(w) >= 3}
+
+    # === 1차: 광범위 동물명 검사 ===
+    # slug에 다른 동물 vocab이 있고 토픽 단어가 없으면 → 다른 동물 영상 → reject
+    # 단, 토픽 단어가 같이 있으면 (사진가가 둘 다 태깅) → 통과
+    other_animals_in_slug = (tokens & _KNOWN_ANIMAL_TOKENS) - single_words
+    if other_animals_in_slug:
+        # 토픽 단어가 같이 있는지 확인
+        if not (tokens & single_words):
+            # 토픽이 _KNOWN_ANIMAL_TOKENS에 있는데 (= 정상 동물 토픽) slug에 토픽 단어 없음 + 다른 동물 단어만
+            return False
+
+    # === 2차: 종 혼동 pair (정확한 매칭, _KNOWN_ANIMAL에 없는 케이스 보강) ===
+    if single_lower and _has_confused_species(tokens, single_lower):
         if not (tokens & single_words):
             return False
 
+    # === 3차: garbage 단어 (결혼/케이크/사람) ===
     blocked = tokens & _BLOCK_SLUG_WORDS
     if not blocked:
         return True
     # 차단어 있어도 동물명이 같이 들어있으면 진짜 동물 사진일 가능성 → 통과
-    if single_lower:
-        single_words = {w for w in single_lower.split() if len(w) >= 3}
-        if tokens & single_words:
-            return True
+    if single_words and (tokens & single_words):
+        return True
     return False
 
 

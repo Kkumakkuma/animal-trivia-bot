@@ -344,20 +344,23 @@ def _make_big_hook_intro(topic_text: str, duration: float = 2.4):
 
     topic_clean = _strip_emoji(topic_text or "")
     if topic_clean:
+        # 1줄에 들어가게 폰트 자동축소 (220→80). 2026-05-07 사용자 신고: "Pangolins"가
+        # "Pangoli\nns"로 못나게 잘림 → 1줄 전제 + 더 적극적 축소.
         size = 220
-        while size >= 110:
-            font_path = _find_font(bold=True)
+        font_path = _find_font(bold=True)
+        while size >= 80:
             font = ImageFont.truetype(font_path, size) if font_path else ImageFont.load_default()
             tmp = Image.new("RGBA", (VIDEO_WIDTH - 80, 100), (0, 0, 0, 0))
             td = ImageDraw.Draw(tmp)
-            lines = _wrap_text(td, topic_clean, font, VIDEO_WIDTH - 100)
-            if len(lines) <= 2:
+            # max_width를 더 넉넉하게 (텍스트 width <= max_width면 1줄 들어감)
+            text_w = td.textlength(topic_clean, font=font)
+            if text_w <= VIDEO_WIDTH - 120:  # 여백 60px 양쪽
                 break
-            size -= 14
+            size -= 12
         topic_arr = _make_text_image(
             topic_clean,
             font_size=size,
-            max_width=VIDEO_WIDTH - 80,
+            max_width=VIDEO_WIDTH - 60,
             fg=(255, 255, 255, 255),
             stroke_color=(0, 0, 0, 255),
             stroke_width=8,
@@ -561,11 +564,10 @@ def compose(
     if hook_clip is not None:
         layers.append(hook_clip)
 
-    # CTA 카드 시각 — v3: 마지막 4초 자리 보장 + 음성과 안 겹침
-    # 음성 56s + CTA 4s = 60s 구조. 음성 짧으면 BGM/배경으로 채움 후 56-60s에 CTA.
+    # CTA 카드 시각 — v4: 음성 outro 끝나자마자 CTA 표시 (사용자 신고: 음성 54-55s에 끝나는데
+    # CTA 글자는 56s 이후로 1초 갭). cta_start = last_tts_end + 0.1 (즉시), 단 최소 4초 자리 보장.
     last_tts_end = timeline[-1]["end"] if timeline else total_dur
-    preferred_cta_start = total_dur - 4.0
-    cta_start = max(preferred_cta_start, last_tts_end + 0.3)
+    cta_start = max(last_tts_end + 0.1, total_dur - 6.0)
     cta_dur = max(0.0, total_dur - cta_start)
     if cta_dur < 1.0:
         cta_dur = 0.0

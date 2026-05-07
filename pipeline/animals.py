@@ -184,7 +184,7 @@ REQUIREMENTS:
 - Hook line (intro narration) MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
 - Outro CTA MUST be one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
 - Each fact MUST start differently (vary openers — never repeat "X are way more interesting" or any generic opener).
-- pexels_keywords: 5 keywords. **EVERY keyword MUST contain the animal name** (e.g., for pangolin: "pangolin close up", "pangolin walking", "pangolin in wild", "pangolin tongue", "pangolin scales"). NEVER use generic terms like "wild mammal" or "scaly mammal" — those bring up wrong animal videos.
+- pexels_keywords: 5 keywords. **EVERY keyword MUST contain the animal name** (e.g., for octopus: "octopus close up", "octopus swimming", "octopus reef", "octopus tentacles", "octopus camouflage"). NEVER use generic terms like "wild mammal" or "scaly mammal" — those bring up wrong animal videos. The animal name must be the LITERAL species (pangolin/otter/octopus), not a category.
 - category: one of {sorted(_VALID_CATEGORIES)}.
 - **Title (CRITICAL — single most important CTR factor)**: max 70 chars, MUST include the animal name + a CURIOSITY GAP hook. NEVER use "compilation", "best of", "top 10", "Amazing Facts About X" (too generic, kills CTR).
   Use ONE of these viral patterns (vary across animals):
@@ -212,36 +212,71 @@ REQUIREMENTS:
   (f) Fill-in-the-blank — STYLE: "If [animal] were a coworker, they'd be the one who ___"
   Use 0-1 emoji max. **NEVER** these dead patterns: "Which fact surprised you most?", "Tag a friend who...", "Did you know any of these?", "Like if you learned something" — those get zero replies.
 
-Output STRICT JSON only:
+Output STRICT JSON only (the example below uses {{animal_name}} — REPLACE with the animal you actually picked, do NOT copy the example animal verbatim):
 {{
-  "animal_key": "snake_case_id",
-  "display": "Pangolins",
-  "single": "pangolin",
+  "animal_key": "snake_case_id_of_picked_animal",
+  "display": "{{Animal Plural}}",
+  "single": "{{animal singular}}",
   "category": "mammal",
-  "pexels_keywords": ["pangolin close up", "pangolin walking", "pangolin in wild", "pangolin tongue", "pangolin scales"],
-  "title_en": "...",
-  "description_en": "... #shorts #animalfacts #wildlife #didyouknow #pangolin",
-  "hook": "Pangolins • Trivia",
-  "intro": "Did you know pangolins do this?",
+  "pexels_keywords": ["{{animal}} close up", "{{animal}} walking", "{{animal}} in wild", "{{animal}} feature_a", "{{animal}} feature_b"],
+  "title_en": "viral title with the picked animal name + curiosity gap",
+  "description_en": "2 sentences + 5 hashtags ending with #{{animal}}",
+  "hook": "{{Animal Plural}} • Trivia",
+  "intro": "Did you know {{animals}} do something surprising?",
   "facts": ["fact1 (28-36 words)", "fact2 (28-36 words)", "fact3 (28-36 words)", "fact4 (28-36 words)"],
   "outro": "Follow for more animal facts.",
-  "comment": "Pangolins are basically walking pinecones with attitude — change my mind",
-  "tags": ["shorts","animals","animal facts","wildlife","trivia","did you know","pangolin","scales"]
+  "comment": "reply-magnet line about {{animal}} only",
+  "tags": ["shorts","animals","animal facts","wildlife","trivia","did you know","{{animal}}","specific_feature"]
 }}"""
 
-    try:
-        from openai import OpenAI
-        client = OpenAI(api_key=OPENAI_API_KEY)
-        resp = client.chat.completions.create(
-            model=META_MODEL,
-            messages=[{"role": "user", "content": prompt}],
-            response_format={"type": "json_object"},
-            temperature=1.0,  # 다양성 확보
-            max_tokens=1200,
+    # 2026-05-07 fix: GPT가 prompt example의 pangolin에 강하게 bias되어 9연속 pangolin 발행 사고.
+    # AVOID 텍스트만으로는 GPT가 무시하는 케이스 → 코드 reject + retry로 강제.
+    exclude_set = {k.lower().strip() for k in (exclude_keys or [])}
+
+    from openai import OpenAI
+    client = OpenAI(api_key=OPENAI_API_KEY)
+    d = None
+    last_pick = None
+    for attempt in range(4):
+        try_prompt = prompt
+        if attempt > 0 and last_pick:
+            try_prompt = (
+                f"REJECTED previous pick: '{last_pick}' is in exclude list. Pick a COMPLETELY DIFFERENT animal.\n\n"
+                + try_prompt
+            )
+        try:
+            resp = client.chat.completions.create(
+                model=META_MODEL,
+                messages=[{"role": "user", "content": try_prompt}],
+                response_format={"type": "json_object"},
+                temperature=1.0,  # 다양성 확보
+                max_tokens=1200,
+            )
+            cand = json.loads(resp.choices[0].message.content)
+        except Exception as e:
+            log.warning(f"GPT 동물 픽 실패 → legacy fallback: {e}")
+            key = pick_animal(exclude=exclude_keys or [])
+            return _legacy_meta(key)
+
+        cand_key = (cand.get("animal_key") or "").strip().lower().replace(" ", "_")
+        cand_single = (cand.get("single") or "").strip().lower()
+        cand_display = (cand.get("display") or "").strip().lower()
+        # exclude_set과 매칭: animal_key, single, display 셋 다 검사
+        is_excluded = (
+            cand_key in exclude_set
+            or cand_single in exclude_set
+            or cand_display in exclude_set
+            or any(e and (e in cand_key or e in cand_single) for e in exclude_set if e)
         )
-        d = json.loads(resp.choices[0].message.content)
-    except Exception as e:
-        log.warning(f"GPT 동물 픽 실패 → legacy fallback: {e}")
+        if is_excluded:
+            last_pick = cand_key or cand_single
+            log.warning(f"[picker try {attempt+1}] GPT가 exclude된 '{last_pick}' 픽 → 재요청")
+            continue
+        d = cand
+        break
+
+    if d is None:
+        log.warning(f"GPT가 4회 모두 exclude된 토픽만 픽 → legacy fallback")
         key = pick_animal(exclude=exclude_keys or [])
         return _legacy_meta(key)
 
