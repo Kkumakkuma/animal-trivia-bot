@@ -77,37 +77,26 @@ def verify_animal(video_path: str, animal_single: str,
         from openai import OpenAI
         client = OpenAI(api_key=OPENAI_API_KEY)
 
-        # 2026-05-07 v3: species 미스매치 reject 추가. 사용자 신고 — 카피바라 영상에
-        # 비버 풋티지 → 시청자가 "this is a beaver, not a capybara"로 신뢰 깎음.
-        # 정책 단계화:
-        #  1) 명백한 garbage(결혼/케이크/사람/제품) → REJECT
-        #  2) 다른 종으로 명확히 식별되는 동물(예: capybara 영상에 beaver) → REJECT
-        #  3) {animal_single} 자체 또는 식별 불가/일반 wildlife → ACCEPT
-        # vision이 일반인 수준에서 "분명히 다른 종"으로 식별 가능한 경우에만 reject — niche
-        # 동물 식별 한계 인지. 일반 풍경/가까운 친척 종은 통과 (발행 0편 사고 회귀 방지).
+        # 2026-05-07 v4: v3 species reject가 niche 동물(sloth 등) 정상 영상까지 reject해서
+        # 발행 0편 사고. v2 loose 모드로 복귀하되 species 미스매치는 pexels.py slug filter에서
+        # 사전 차단(공통 혼동 pair). vision은 garbage 광범위 reject만 담당.
         question = (
             f"This image will be used as background for a 60-second YouTube Shorts video about a {animal_single}"
             + (f" ({animal_display})" if animal_display and animal_display.lower() != animal_single.lower() else "")
-            + ". Is this image visually appropriate?"
+            + ". Is this image visually appropriate as an animal/wildlife background?"
             f" Answer ONLY one word: 'yes' or 'no'."
-            f" REJECT (answer 'no') if ANY of these are true:"
-            f" — Image clearly shows wedding rings, jewelry, diamonds, necklaces."
+            f" REJECT (answer 'no') ONLY if image clearly shows ANY of these:"
+            f" — Wedding rings, engagement rings, jewelry, diamonds, necklaces."
             f" — Cakes, cupcakes, food, desserts, baking."
             f" — People as the main subject (selfies, portraits, models, couples, families, kissing)."
             f" — Manicures, fashion shoots, makeup, lipstick, beauty products."
             f" — Pure indoor product shots (cars, electronics, phones, appliances)."
             f" — Image is too blurry, dark, or unidentifiable."
-            f" — **The image clearly and unambiguously shows a DIFFERENT specific animal species than '{animal_single}'.**"
-            f" Examples of clear species mismatches to REJECT: a beaver shown when topic is capybara,"
-            f" a dolphin shown when topic is whale, a cheetah shown when topic is leopard, a frog shown"
-            f" when topic is toad, an alligator when topic is crocodile, a seal when topic is sea lion."
-            f" ONLY reject for species mismatch when you are highly confident the subject is a clearly"
-            f" different specific animal — do NOT reject for: generic wildlife scenery without a clear"
-            f" subject, partial views, the actual {animal_single}, close-up textures (fur/scales/eyes),"
-            f" babies/juveniles of {animal_single}, or visually similar but ambiguous animals."
-            f" ACCEPT (answer 'yes') for: the {animal_single} itself, nature/wildlife scenes WITHOUT a"
-            f" clearly identifiable different species, zoo/aquarium/jungle/forest/savanna/ocean shots"
-            f" without obvious species mismatch, or artistic close-ups."
+            f" ACCEPT (answer 'yes') for ANY animal/wildlife imagery: the {animal_single} itself,"
+            f" any related animal of same general type, nature/wildlife scenes, zoo footage,"
+            f" aquarium footage, jungle/forest/savanna/ocean shots with visible animals,"
+            f" or even artistic close-ups of the {animal_single}'s features (paws, scales, fur, eyes)."
+            f" It does NOT need to be a perfect match — animal/wildlife visuals are good enough."
         )
 
         # rate limit 429에서 fail-OPEN으로 garbage 통과되던 사고 방지 — 3회 backoff 재시도.

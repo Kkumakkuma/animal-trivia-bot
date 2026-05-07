@@ -38,15 +38,91 @@ def _slug_tokens(url: str) -> set:
         return set()
 
 
+# 동물 종 혼동 pair (2026-05-07 카피바라/비버 사고 fix).
+# {topic: {topic의 풋티지로 잘못 들어오는 다른 종 token들}}.
+# 토픽 검색에 잘못된 종이 섞여 들어올 때 slug에서 사전 reject.
+# vision API는 niche 동물 식별 못 해서 over-reject 사고 (sloth 발행 0편) 발생 → slug에서 처리.
+_SPECIES_CONFUSION = {
+    "capybara": {"beaver", "beavers", "nutria", "muskrat", "groundhog", "marmot"},
+    "beaver": {"capybara", "capybaras", "nutria", "muskrat"},
+    "leopard": {"cheetah", "cheetahs", "jaguar", "jaguars"},
+    "cheetah": {"leopard", "leopards", "jaguar", "jaguars"},
+    "jaguar": {"leopard", "leopards", "cheetah", "cheetahs"},
+    "alligator": {"crocodile", "crocodiles"},
+    "crocodile": {"alligator", "alligators"},
+    "frog": {"toad", "toads", "salamander"},
+    "toad": {"frog", "frogs", "salamander"},
+    "dolphin": {"porpoise", "porpoises", "whale", "whales", "orca"},
+    "whale": {"dolphin", "dolphins", "porpoise"},
+    "orca": {"dolphin", "dolphins", "whale", "whales"},
+    "seal": {"sealion", "sealions", "walrus", "otter"},
+    "sealion": {"seal", "seals", "walrus"},
+    "rabbit": {"hare", "hares"},
+    "hare": {"rabbit", "rabbits"},
+    "tortoise": {"turtle", "turtles"},
+    "turtle": {"tortoise", "tortoises"},
+    "donkey": {"mule", "mules", "horse", "horses"},
+    "mule": {"donkey", "donkeys"},
+    "lion": {"tiger", "tigers", "puma", "cougar"},
+    "tiger": {"lion", "lions", "puma", "cougar"},
+    "gorilla": {"chimpanzee", "chimp", "chimps", "orangutan", "monkey"},
+    "chimpanzee": {"gorilla", "gorillas", "orangutan", "monkey"},
+    "wolf": {"coyote", "coyotes", "fox", "foxes", "jackal", "dog"},
+    "coyote": {"wolf", "wolves", "jackal"},
+    "fox": {"coyote", "coyotes", "wolf"},
+    "elephant": {"mammoth", "rhinoceros", "rhino", "hippo", "hippopotamus"},
+    "rhinoceros": {"elephant", "hippo", "hippopotamus"},
+    "rhino": {"elephant", "hippo", "hippopotamus"},
+    "hippopotamus": {"elephant", "rhino", "rhinoceros"},
+    "hippo": {"elephant", "rhino", "rhinoceros"},
+    "octopus": {"squid", "cuttlefish"},
+    "squid": {"octopus", "cuttlefish"},
+    "raven": {"crow", "crows"},
+    "crow": {"raven", "ravens"},
+    "eagle": {"hawk", "hawks", "falcon", "falcons", "vulture"},
+    "hawk": {"eagle", "eagles", "falcon", "falcons"},
+    "falcon": {"eagle", "eagles", "hawk", "hawks"},
+}
+
+
+def _has_confused_species(slug_tokens: set, animal_single: str) -> bool:
+    """slug 토큰에 토픽과 혼동되는 다른 종 단어가 들어 있는지."""
+    if not animal_single:
+        return False
+    key = animal_single.lower().strip()
+    # plural 정규화
+    for suf in ("es", "s"):
+        if key.endswith(suf) and len(key) > len(suf) + 2:
+            key_singular = key[:-len(suf)]
+            if key_singular in _SPECIES_CONFUSION:
+                key = key_singular
+                break
+    confused = _SPECIES_CONFUSION.get(key)
+    if not confused:
+        return False
+    return bool(slug_tokens & confused)
+
+
 def _passes_slug_filter(video: dict, single_lower: str) -> bool:
     """Pexels url slug 토큰 기반 사전 필터.
 
     True: vision 검증으로 넘김
     False: 사전 reject (garbage 후보 일찍 거름)
+
+    2026-05-07 v3: species 혼동 pair 추가. 카피바라 검색에 비버 영상 섞이면 사전 reject.
+    vision API가 niche 동물 식별 못해서 over-reject로 발행 0편 사고 → slug에서 처리.
     """
     tokens = _slug_tokens(video.get("url", ""))
     if not tokens:
         return True
+
+    # species 혼동 pair: 토픽이랑 다른 종 단어가 slug에 있으면 reject
+    # (단, 토픽 단어도 같이 있으면 통과 — 사진가가 둘 다 태깅한 경우)
+    if single_lower and _has_confused_species(tokens, single_lower):
+        single_words = {w for w in single_lower.split() if len(w) >= 3}
+        if not (tokens & single_words):
+            return False
+
     blocked = tokens & _BLOCK_SLUG_WORDS
     if not blocked:
         return True
