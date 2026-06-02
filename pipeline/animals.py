@@ -90,9 +90,10 @@ def verify_consistency(meta: dict) -> dict:
 
     review_prompt = f"""You are a script consistency editor for YouTube Shorts about {display} ({single}).
 
-Review this script for two CRITICAL issues:
+Review this script for three CRITICAL issues:
 1. NUMERIC CONTRADICTIONS between facts (e.g. fact 1 says "82 millions of years" + fact 2 says "79" for the same metric)
-2. COMMENT OFF-TOPIC (comment mentions an animal that is NOT {display} / {single})
+2. FACTUALLY FALSE claims — any statement that contradicts the 2024 scientific consensus (wrong figure, debunked myth, invented detail)
+3. COMMENT OFF-TOPIC (comment mentions an animal that is NOT {display} / {single})
 
 Title: {title}
 Facts:
@@ -102,6 +103,8 @@ Comment: {comment}
 INSTRUCTIONS:
 - If 2+ facts cite different numbers for the SAME metric, pick ONE accurate value (latest 2024 consensus)
   and rewrite ALL contradicting facts to use that value. Keep facts at 28-36 words.
+- If any fact is factually FALSE per 2024 scientific consensus, correct it to an accurate, equally
+  surprising fact (keep 28-36 words). Do NOT invent numbers you are not confident about.
 - If comment mentions any animal other than {display}/{single}, rewrite the comment to be about
   {display} ONLY, in 8-20 words, using one of: hot take / forced choice within {single} / what-if /
   personal challenge / confession bait / fill-in-the-blank.
