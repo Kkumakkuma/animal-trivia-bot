@@ -317,20 +317,40 @@ def _make_hook_clip(text: str, duration: float):
     return clip
 
 
-def _make_big_hook_intro(topic_text: str, duration: float = 2.4):
+def _make_big_hook_intro(topic_text: str, duration: float = 2.4, title: str = None):
     """첫 2~3초 화면 가득 BIG HOOK — 스크롤 멈춤 유도.
 
     유명 우주/동물 숏츠 채널 벤치마크: 첫 0.5s 안에 화면 큰 글씨가 등장해야
     feed에서 손가락 스크롤이 멈춤. 기존 상단 작은 hook으로는 부족.
 
     구성:
-    - "WAIT —" punch word 0~0.7s (화면 중앙, 노랑, 200pt)
+    - punch word 0~0.7s (화면 중앙, 노랑, 자동축소): 제목에서 핵심 숫자 추출
+      ("9 BRAINS!", "146 MOONS!" = 정보 갭). 숫자 없으면 punch 로테이션.
     - 토픽명 BIG (220→자동축소, 줌인 pop) 0.3~duration
     """
+    import re as _re
+    import random as _rnd
     layers = []
+    # punch: 제목의 핵심 숫자+명사를 추출 → "9 BRAINS!" 식 정보 갭 (매 영상 같은 "WAIT —" 고정 탈피)
+    punch_text = None
+    if title:
+        _m = _re.search(r"(\d[\d,]*)\s+([A-Za-z][A-Za-z\-]*)", _strip_emoji(title))
+        if _m:
+            punch_text = f"{_m.group(1)} {_m.group(2).upper()}!"
+    if not punch_text:
+        punch_text = _rnd.choice(["WAIT —", "NO WAY", "HOLD ON", "WATCH THIS"])
+    # 긴 punch("146 MOONS!")도 1줄에 들어가게 폰트 자동축소
+    _psize = 200
+    _fp = _find_font(bold=True)
+    while _psize >= 96:
+        _pf = ImageFont.truetype(_fp, _psize) if _fp else ImageFont.load_default()
+        _tmp = Image.new("RGBA", (10, 10), (0, 0, 0, 0))
+        if ImageDraw.Draw(_tmp).textlength(punch_text, font=_pf) <= VIDEO_WIDTH - 120:
+            break
+        _psize -= 12
     punch_arr = _make_text_image(
-        "WAIT —",
-        font_size=200,
+        punch_text,
+        font_size=_psize,
         max_width=VIDEO_WIDTH - 80,
         fg=(255, 220, 0, 255),
         stroke_color=(0, 0, 0, 255),
@@ -482,6 +502,7 @@ def compose(
     pad_between: float = 0.35,
     end_pad: float = 0.6,
     bgm_path: str = None,
+    title: str = None,
 ) -> str:
     """tts_lines: [{"text", "path", "duration"}] (intro + fact x3 + outro 순서)
     bg_paths: Pexels mp4 경로 리스트 (3개 권장)
@@ -556,9 +577,9 @@ def compose(
     # 시각 jolt (첫 0.5초 화이트 플래시 — 스크롤 멈춤 유도)
     layers.append(_make_jolt_flash(0.5))
 
-    # 첫 2.4초 BIG HOOK — 화면 중앙 가득 "WAIT —" + 토픽명 (유명 채널 벤치마크)
+    # 첫 2.4초 BIG HOOK — 화면 중앙 가득 punch(제목 핵심 숫자 "9 BRAINS!") + 토픽명
     big_hook_text = hook.split("•")[0].strip() if "•" in hook else hook
-    layers.extend(_make_big_hook_intro(big_hook_text, duration=2.4))
+    layers.extend(_make_big_hook_intro(big_hook_text, duration=2.4, title=title))
 
     hook_clip = _make_hook_clip(hook, total_dur)
     if hook_clip is not None:
