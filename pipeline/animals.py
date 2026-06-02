@@ -156,7 +156,7 @@ def pick_random_animal(exclude_keys: list = None) -> dict:
         key = pick_animal(exclude=exclude_keys or [])
         return _legacy_meta(key)
 
-    exclude_str = ", ".join(exclude_keys[-30:]) if exclude_keys else "none"
+    exclude_str = ", ".join(exclude_keys[-45:]) if exclude_keys else "none"
 
     prompt = f"""You are a viral wildlife scriptwriter for YouTube Shorts channel "Animal Trivia 60s".
 Pick ONE surprising animal RIGHT NOW and write a 55-second script (1-minute Shorts).
