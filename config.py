@@ -59,6 +59,16 @@ CAPTION_HIGHLIGHT_NUMBERS = True  # 숫자는 옐로우 강조
 # BGM (선택) — assets/bgm/*.mp3 풀에서 랜덤. 없으면 BGM 없이 진행
 BGM_VOLUME_DB = -22  # TTS 가리지 않게 작게
 
+# 콘텐츠 이력 (시간 기반 중복 방지 + 클립 dedup + angle/format 로테이션) — 2026-07-05
+CONTENT_HISTORY = os.path.join(BASE_DIR, "content_history.json")
+CONTENT_WINDOW_DAYS = 60        # 동물: 60일 내 같은 topic 재등장 차단
+HISTORY_MIN_CANDIDATES = 8      # 제외 후 후보 8개 미만이면 창 0.75배씩 완화
+HISTORY_MIN_WINDOW_DAYS = 7     # 완화 하한 (한 번에 전체 리셋 금지)
+CLIP_DEDUP_DAYS = 30            # 30일 내 사용한 클립(Pexels/NASA id) 재사용 금지
+RECENT_FORMAT_KEEP = 2          # 전역 직전 N편 format 연속 금지
+USE_NASA_MEDIA = False          # 동물봇은 NASA 소스 미사용 (우주봇만 True)
+CONTENT_DOMAIN = "animal"       # grounding 도메인 맥락(동음이의 위키 오매칭 방지)
+
 # 동물 사전 — Pexels에서 잘 뽑히는 동물 위주
 ANIMALS = {
     "otter": {
@@ -195,5 +205,113 @@ ANIMALS = {
             "hammerhead shark", "shark slow motion",
         ],
         "category": "fish",
+    },
+    "raccoon": {
+        "display": "Raccoons",
+        "single": "raccoon",
+        "pexels_keywords": [
+            "raccoon close up", "raccoon night", "raccoon eating",
+            "raccoon forest", "raccoon hands",
+        ],
+        "category": "mammal",
+    },
+    "meerkat": {
+        "display": "Meerkats",
+        "single": "meerkat",
+        "pexels_keywords": [
+            "meerkat standing", "meerkat group", "meerkat close up",
+            "meerkat desert", "meerkat lookout",
+        ],
+        "category": "mammal",
+    },
+    "chameleon": {
+        "display": "Chameleons",
+        "single": "chameleon",
+        "pexels_keywords": [
+            "chameleon color", "chameleon close up", "chameleon tongue",
+            "chameleon branch", "chameleon eyes",
+        ],
+        "category": "reptile",
+    },
+    "orca": {
+        "display": "Orcas",
+        "single": "orca",
+        "pexels_keywords": [
+            "orca swimming", "killer whale ocean", "orca jumping",
+            "orca pod", "orca underwater",
+        ],
+        "category": "marine",
+    },
+    "lynx": {
+        "display": "Lynxes",
+        "single": "lynx",
+        "pexels_keywords": [
+            "lynx snow", "lynx close up", "lynx forest",
+            "wild lynx", "lynx eyes",
+        ],
+        "category": "mammal",
+    },
+    "beaver": {
+        "display": "Beavers",
+        "single": "beaver",
+        "pexels_keywords": [
+            "beaver swimming", "beaver dam", "beaver close up",
+            "beaver river", "beaver wood",
+        ],
+        "category": "mammal",
+    },
+    "bat": {
+        "display": "Bats",
+        "single": "bat",
+        "pexels_keywords": [
+            "bat flying", "bat cave", "bat close up",
+            "fruit bat", "bats night",
+        ],
+        "category": "mammal",
+    },
+    "moose": {
+        "display": "Moose",
+        "single": "moose",
+        "pexels_keywords": [
+            "moose forest", "moose antlers", "moose close up",
+            "moose snow", "moose wild",
+        ],
+        "category": "mammal",
+    },
+    "toucan": {
+        "display": "Toucans",
+        "single": "toucan",
+        "pexels_keywords": [
+            "toucan close up", "toucan beak", "toucan tree",
+            "toucan rainforest", "toucan colorful",
+        ],
+        "category": "bird",
+    },
+    "starfish": {
+        "display": "Starfish",
+        "single": "starfish",
+        "pexels_keywords": [
+            "starfish ocean", "starfish underwater", "starfish reef",
+            "starfish close up", "sea star tide pool",
+        ],
+        "category": "marine",
+    },
+    "seahorse": {
+        "display": "Seahorses",
+        "single": "seahorse",
+        "pexels_keywords": [
+            "seahorse swimming", "seahorse close up", "seahorse reef",
+            "seahorse underwater", "seahorse ocean",
+        ],
+        "category": "fish",
+    },
+    "crab": {
+        "display": "Crabs",
+        "single": "crab",
+        "pexels_keywords": [
+            "crab beach", "crab close up", "hermit crab",
+            "crab claws", "crab sand",
+        ],
+        "category": "crustacean",
     },
 }

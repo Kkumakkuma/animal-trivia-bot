@@ -5,10 +5,18 @@ ANIMALS 사전은 fallback용 (legacy). 기본은 GPT 동적 픽 (희귀종 포�
 import json
 import logging
 import random
+import re
 
 from config import ANIMALS, META_MODEL, OPENAI_API_KEY
 
 log = logging.getLogger("animalbot.animals")
+
+# === Angle 로테이션 (동물 도메인) — 같은 topic 재등장 시/전역 다양성 확보 ===
+ANGLES = [
+    "hunting_diet", "babies_parenting", "anatomy_superpower", "records_extremes",
+    "myths_debunked", "survival_tricks", "social_behavior", "weird_senses",
+    "evolution_origin", "human_interaction",
+]
 
 
 def pick_animal(rng: random.Random = None, exclude: list = None) -> str:
@@ -54,6 +62,327 @@ _OTHER_TOPIC_WORDS = {
 def _has_bad(text: str, words) -> bool:
     low = text.lower()
     return any(w.lower() in low for w in words)
+
+
+# === 2026-07-05 업그레이드 공통 로직 (동물봇/우주봇 동일 코드) ===
+FORMATS = ["classic_trivia", "myth_vs_fact", "top_records", "how_it_works"]
+
+# facts·intro(내레이션)에서 금지하는 클리셰/과장. title 훅 과장("You Won't Believe..")은 허용.
+BANNED_PHRASES = [
+    "more interesting than people think", "way more interesting", "more than people think",
+    "scientists were shocked", "scientists were stunned", "scientists are stunned",
+    "will blow your mind", "blow your mind", "mind-blowing", "mind blowing",
+    "you won't believe your eyes", "defy what scientists thought",
+    "hides phenomena that defy", "hides cosmic secrets", "number will shock you",
+    "doctors hate", "you won't believe how",
+]
+
+
+def _has_banned(text: str) -> bool:
+    low = (text or "").lower()
+    return any(p in low for p in BANNED_PHRASES)
+
+
+def _count_numbers(texts) -> int:
+    return sum(len(re.findall(r"\d[\d,\.]*", t or "")) for t in texts)
+
+
+def _validate_fact_keywords(raw, single: str, generic: list, n: int = 4) -> list:
+    """per-fact 배경 키워드 n개 정규화 — 각 키워드에 topic명(single) 포함 보장, 부족분 generic 폴백."""
+    single_l = (single or "").lower().strip()
+    gk = [g for g in (generic or []) if isinstance(g, str) and g.strip()] or [single or "nature"]
+    raw = raw if isinstance(raw, list) else []
+    out = []
+    for i in range(n):
+        kw = raw[i].strip() if i < len(raw) and isinstance(raw[i], str) and raw[i].strip() else ""
+        if not kw:
+            kw = gk[i % len(gk)]
+        if single_l and single_l not in kw.lower():
+            kw = f"{single} {kw}".strip()
+        out.append(kw[:80])
+    return out
+
+
+def _safe_fact(display: str, idx: int) -> str:
+    """팩트체크 최종 실패 시 교체할 안전(보수적·참) fact 템플릿."""
+    templates = [
+        f"{display} have been studied by researchers for many years, and patient observation keeps revealing careful details that rarely make it into short popular summaries.",
+        f"Much of what we reliably know about {display} comes from decades of measurement, and specialists still refine those figures as better instruments and methods arrive.",
+        f"{display} remain an active area of research, so reference sources are updated regularly as fresh, carefully verified observations gradually replace older estimates.",
+        f"Scientists describe {display} using values that get revised over time, which is exactly why cautious, up-to-date sources matter more than confident one-line claims.",
+    ]
+    return templates[idx % len(templates)]
+
+
+def adversarial_factcheck(display, single, hook, facts, source_text, max_rounds=2):
+    """적대적 팩트체크 패스 (생성 → 팩트체크 단계). temp 0 회의적 페르소나로 hook+facts 판정.
+
+    각 항목을 supported / plausible / false_or_exaggerated로 판정하고 SOURCE와 대조.
+    false_or_exaggerated 항목만 SOURCE 근거로 교정 재생성(최대 max_rounds회) 후,
+    최종 판정 1회로 '그래도 false로 남는' fact만 안전 fact로 교체 → 과잉 교체 방지 + 허위 자막 차단.
+    (확신할 때만 false, 애매하면 plausible — SOURCE에 없어도 주류 과학이면 통과)
+    반환: (hook, facts). OPENAI 키 없으면 원본 그대로.
+    """
+    if not OPENAI_API_KEY:
+        return hook, facts
+    facts = [str(f).strip() for f in (facts or []) if str(f).strip()]
+    if not facts:
+        return hook, facts
+    from openai import OpenAI
+    client = OpenAI(api_key=OPENAI_API_KEY)
+    src = (source_text or "").strip()
+    src_block = src if src else (
+        "(No source text available — rely ONLY on well-established, uncontroversial "
+        "scientific consensus and be extra conservative.)"
+    )
+
+    def _judge(cur_hook, cur_facts):
+        """GPT 1회: 각 항목 판정 + false 항목 교정본 반환. (verdicts, hook, facts)."""
+        item_lines = [f"hook: {cur_hook}"] + [f"fact{i+1}: {f}" for i, f in enumerate(cur_facts)]
+        verdict_keys = '"hook": "...", ' + ", ".join(f'"fact{i+1}": "..."' for i in range(len(cur_facts)))
+        facts_slot = ", ".join(['"<fact 28-36 words>"'] * len(cur_facts))
+        prompt = f"""You are a SKEPTICAL science fact-checker for a 60-second YouTube Shorts about {display} ({single}).
+Viewers actively fact-check and leave angry comments when a claim is wrong, so catch every FALSE or EXAGGERATED statement before it airs.
+
+SOURCE TEXT (primary reference, from Wikipedia):
+{src_block}
+
+Judge EACH item below as exactly one of:
+- "supported": directly verifiable in SOURCE or uncontroversial established consensus.
+- "plausible": reasonable mainstream science that is NOT contradicted by SOURCE. USE THIS (not false) whenever a claim is believable but simply not mentioned in SOURCE.
+- "false_or_exaggerated": mark ONLY when you are CONFIDENT the claim is wrong — it contradicts SOURCE/consensus, cites a clearly wrong or outdated number, repeats a debunked myth, states a disputed ranking or superlative as settled fact, or uses empty hype ("scientists were shocked", "will blow your mind", "more interesting than people think"). When in doubt, choose "plausible", NEVER "false_or_exaggerated".
+
+For EVERY item judged "false_or_exaggerated", REWRITE it to be accurate and supported while staying engaging:
+- Volatile counts that change with new discoveries (moon counts, confirmed exoplanets, population estimates, species counts, record holders): use conservative phrasing like "more than N" or "at least N" with the SOURCE value; never assert a precise disputed count as absolute.
+- Do NOT invent numbers you are unsure of; a true qualitative statement beats a false precise one.
+- Each fact MUST stay 28-36 words. The hook MUST be 12 words or fewer, punchy, and NEVER start with "Did you know".
+- Keep every "supported"/"plausible" item EXACTLY as written.
+
+ITEMS:
+{chr(10).join(item_lines)}
+
+Output STRICT JSON:
+{{"verdicts": {{{verdict_keys}}}, "hook": "<corrected or unchanged>", "facts": [{facts_slot}]}}"""
+        resp = client.chat.completions.create(
+            model=META_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            response_format={"type": "json_object"},
+            temperature=0.0,
+            max_tokens=1200,
+        )
+        d = json.loads(resp.choices[0].message.content)
+        verdicts = d.get("verdicts") or {}
+        nh = (d.get("hook") or "").strip() or cur_hook
+        nf = d.get("facts") or []
+        if isinstance(nf, list) and len(nf) == len(cur_facts):
+            nf = [str(x).strip() or cur_facts[i] for i, x in enumerate(nf)]
+        else:
+            nf = list(cur_facts)
+        return verdicts, nh, nf
+
+    cur_hook = (hook or "").strip()
+    cur_facts = list(facts)
+    final_flagged = []
+    # 교정 라운드 max_rounds회 → 마지막(rnd==max_rounds)은 판정 전용(교정 미반영, 잔존 false 확정)
+    for rnd in range(max_rounds + 1):
+        try:
+            verdicts, nh, nf = _judge(cur_hook, cur_facts)
+        except Exception as e:
+            log.warning(f"adversarial factcheck 호출 실패 (round {rnd+1}) — 현재 버전 유지: {e}")
+            return cur_hook, cur_facts
+        flagged = [i for i in range(len(cur_facts))
+                   if str(verdicts.get(f"fact{i+1}", "")).lower().startswith("false")]
+        hook_flagged = str(verdicts.get("hook", "")).lower().startswith("false")
+        log.info(f"factcheck round {rnd+1}: hook_false={hook_flagged} facts_false={flagged or 'none'}")
+        if not flagged and not hook_flagged:
+            final_flagged = []
+            break
+        if rnd >= max_rounds:
+            # 판정 전용 라운드: 교정 반영 안 하고 잔존 false만 확정 (hook 교정만 반영)
+            final_flagged = flagged
+            if hook_flagged:
+                cur_hook = nh
+            break
+        # 교정 라운드: 교정본 반영 후 다음 라운드 재판정
+        cur_hook, cur_facts = nh, nf
+    # 잔존 false + 금지문구 fact는 안전 fact로 교체 (허위 자막 차단)
+    for i in range(len(cur_facts)):
+        if i in final_flagged or _has_banned(cur_facts[i]):
+            cur_facts[i] = _safe_fact(display, i)
+            log.warning(f"factcheck: fact{i+1} 최종 판정 false/금지문구 → 안전 fact 교체")
+    return cur_hook, cur_facts
+
+
+# 도메인 맥락 (동음이의 위키 grounding 방지 — config.CONTENT_DOMAIN로 분기)
+_DOMAIN_CONTEXT = {
+    "space": "space astronomy planet moon star galaxy cosmos nebula NASA spacecraft universe orbit solar",
+    "animal": "animal wildlife species mammal bird fish reptile amphibian insect nature",
+}
+
+
+def _content_domain() -> str:
+    try:
+        from config import CONTENT_DOMAIN
+        return (CONTENT_DOMAIN or "").lower().strip()
+    except Exception:
+        return ""
+
+
+def _keywords_for_facts(display, single, facts):
+    """최종 facts에 맞춘 per-fact 배경 검색 키워드 재생성 (각 topic명 포함). 실패 시 None."""
+    if not OPENAI_API_KEY or not facts:
+        return None
+    from openai import OpenAI
+    client = OpenAI(api_key=OPENAI_API_KEY)
+    n = len(facts)
+    joined = "\n".join(f"{i+1}. {f}" for i, f in enumerate(facts))
+    prompt = f"""For each fact below about {display} ({single}), give ONE short stock-video search keyword (2-4 words) describing the best background visual for THAT fact. EVERY keyword MUST contain "{single}". Keep the SAME order.
+
+{joined}
+
+Output STRICT JSON: {{"fact_keywords": [{', '.join(['"..."'] * n)}]}}"""
+    try:
+        resp = client.chat.completions.create(
+            model=META_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            response_format={"type": "json_object"},
+            temperature=0.4,
+            max_tokens=300,
+        )
+        kws = json.loads(resp.choices[0].message.content).get("fact_keywords")
+        if isinstance(kws, list) and len(kws) >= n:
+            return _validate_fact_keywords(kws, single, [], n=n)
+    except Exception as e:
+        log.warning(f"fact_keywords 재생성 실패 — 기존 유지: {e}")
+    return None
+
+
+def _finalize_fact_keywords(meta: dict, generic: list = None) -> dict:
+    """(F) 모든 fact 변경(differentiate/factcheck/consistency) 이후 마지막에 fact_keywords 확정.
+
+    meta['_kw_facts'](키워드 도출 당시 facts 스냅샷)와 현재 facts가 다르면 재도출.
+    재도출 실패 시 최소 topic명 포함만 보장. 스냅샷 키는 pop.
+    """
+    facts = meta.get("facts") or []
+    snap = meta.pop("_kw_facts", None)
+    single = meta.get("single", "")
+    display = meta.get("display", "")
+    if snap is not None and list(snap) == list(facts):
+        return meta  # 변화 없음 → 기존 키워드 유지
+    new_kw = _keywords_for_facts(display, single, facts)
+    if new_kw:
+        meta["fact_keywords"] = new_kw
+        log.info("fact_keywords 확정 (최종 facts 기준 재도출)")
+    else:
+        meta["fact_keywords"] = _validate_fact_keywords(
+            meta.get("fact_keywords"), single, generic or [], n=(len(facts) or 4))
+    return meta
+
+
+def _apply_grounded_factcheck(meta: dict) -> dict:
+    """SOURCE(위키, 도메인 맥락+category) 확보 → 적대적 팩트체크 → meta.intro/facts 갱신.
+    fact_keywords 확정은 여기서 하지 않고 파이프라인 최종 _finalize_fact_keywords에서 처리(F).
+    실패 시 원본 유지."""
+    if not OPENAI_API_KEY:
+        return meta
+    display = meta.get("display", "")
+    single = meta.get("single", "")
+    context = _DOMAIN_CONTEXT.get(_content_domain(), "")
+    src = ""
+    try:
+        from pipeline import grounding
+        src = grounding.fetch_source(display, single, context=context,
+                                     category=meta.get("category", ""))
+    except Exception as e:
+        log.warning(f"grounding fetch 예외 — 보수 모드 팩트체크: {e}")
+    if not src:
+        log.info("grounding: on-topic SOURCE 없음 → 보수 모드(established consensus) 팩트체크 진행")
+    hook, facts = adversarial_factcheck(display, single, meta.get("intro", ""),
+                                        meta.get("facts", []), src)
+    if hook:
+        meta["intro"] = hook
+    if facts:
+        meta["facts"] = facts
+    return meta
+
+
+def _differentiate_content(meta, prev_entries, avoid_formats=None):
+    """재등장 topic: 과거 facts/angle 주입해 완전히 새로운 내용으로 재생성 + 겹침 1회 재검사."""
+    if not OPENAI_API_KEY or not prev_entries:
+        return meta
+    from pipeline import history as _hist
+    display = meta.get("display", "")
+    single = meta.get("single", "")
+    past_facts, past_angles = [], []
+    for e in prev_entries:
+        past_facts.extend([f for f in (e.get("facts") or []) if f])
+        if e.get("angle"):
+            past_angles.append(e["angle"])
+    past_facts = past_facts[-16:]
+    if not past_facts:
+        return meta
+    from openai import OpenAI
+    client = OpenAI(api_key=OPENAI_API_KEY)
+
+    def _regen():
+        avoid_fmt = ", ".join(avoid_formats or []) or "none"
+        n = len(meta.get("facts") or []) or 4
+        prompt = f"""This topic ({display}) was covered before on the channel. Write a COMPLETELY NEW 60-second script that does NOT repeat any previously used fact or angle.
+
+PREVIOUSLY COVERED — DO NOT REPEAT ANY OF THESE (use entirely different facts and a different angle):
+{chr(10).join('- ' + f for f in past_facts)}
+Already-used angles for this topic: {', '.join(past_angles) or 'none'}
+Recently used formats to avoid: {avoid_fmt}
+
+REQUIREMENTS:
+- {n} NEW facts, each 28-36 words, each about a DIFFERENT aspect than the previously covered ones above. Across the facts include at least two concrete numbers and at least one vivid comparison.
+- Hook (intro narration): 12 words or fewer, a concrete number or shocking comparison, NEVER start with "Did you know".
+- Do NOT use empty hype ("will blow your mind", "scientists were shocked", "more interesting than people think").
+- Conservative phrasing for volatile counts: "more than N" / "at least N".
+- fact_keywords: {n} background search keywords, one per fact IN ORDER, each containing "{single}".
+- angle: short label for the fresh angle (different from already-used ones). format: one of {FORMATS}.
+- title (<=70 chars, includes "{single}", curiosity gap, no emoji), description (2 sentences + 3-5 hashtags), comment (reply-magnet, 8-20 words, about {single} ONLY).
+
+Output STRICT JSON: {{"intro":"...","facts":[{', '.join(['"..."'] * n)}],"fact_keywords":[{', '.join(['"..."'] * n)}],"angle":"...","format":"...","title_en":"...","description_en":"...","comment":"..."}}"""
+        resp = client.chat.completions.create(
+            model=META_MODEL,
+            messages=[{"role": "user", "content": prompt}],
+            response_format={"type": "json_object"},
+            temperature=0.95,
+            max_tokens=1200,
+        )
+        return json.loads(resp.choices[0].message.content)
+
+    try:
+        d = _regen()
+        new_facts = [str(f).strip() for f in (d.get("facts") or []) if str(f).strip()]
+        if len(new_facts) >= 3 and _hist.facts_too_similar(new_facts, past_facts):
+            log.info("재등장 차별화: 1차 결과 과거와 겹침 → 1회 재생성")
+            d2 = _regen()
+            nf2 = [str(f).strip() for f in (d2.get("facts") or []) if str(f).strip()]
+            if len(nf2) >= 3:
+                d, new_facts = d2, nf2
+        if len(new_facts) >= 3:
+            meta["facts"] = new_facts
+            if d.get("intro"):
+                meta["intro"] = str(d["intro"]).strip()
+            if d.get("title_en"):
+                meta["title_en"] = str(d["title_en"]).strip()[:95]
+            if d.get("comment"):
+                meta["comment"] = str(d["comment"]).strip()[:280]
+            if d.get("description_en"):
+                meta["description_en"] = str(d["description_en"]).strip()[:4900]
+            if d.get("angle"):
+                meta["angle"] = str(d["angle"]).strip()
+            if d.get("format"):
+                meta["format"] = str(d["format"]).strip()
+            meta["fact_keywords"] = _validate_fact_keywords(
+                d.get("fact_keywords"), single, meta.get("pexels_keywords") or [], n=len(new_facts))
+            meta["_kw_facts"] = list(new_facts)  # (F) 키워드 도출 시점 facts 스냅샷
+            log.info(f"재등장 차별화 완료: {len(new_facts)} facts 새로 생성 (angle={meta.get('angle')})")
+    except Exception as e:
+        log.warning(f"재등장 차별화 실패 — 원본 유지: {e}")
+    return meta
 
 
 def _topic_tokens(text: str) -> set:
@@ -142,14 +471,18 @@ Output STRICT JSON: {{"facts": ["...", "...", "...", "..."], "comment": "...", "
     return meta
 
 
-def pick_random_animal(exclude_keys: list = None) -> dict:
+def pick_random_animal(exclude_keys: list = None, history: dict = None,
+                       avoid_formats: list = None) -> dict:
     """GPT가 동적으로 동물 1마리 + 메타데이터 일괄 생성.
 
     풀: well-known 50% + 희귀종 50%.
     실패 시 사전에서 fallback.
 
-    반환: {animal_key, display, single, category, pexels_keywords, title_en,
-           description_en, hook, intro, facts, outro, tags}
+    history: content_history dict (재등장 topic 차별화 + per-topic angle 회피용).
+    avoid_formats: 전역 직전 N편 format (연속 방지).
+
+    반환: {animal_key, display, single, category, pexels_keywords, fact_keywords,
+           title_en, description_en, hook, intro, facts, outro, tags, angle, format}
     """
     if not OPENAI_API_KEY:
         log.warning("OPENAI_API_KEY 없음 — fallback 사전 사용")
@@ -157,6 +490,7 @@ def pick_random_animal(exclude_keys: list = None) -> dict:
         return _legacy_meta(key)
 
     exclude_str = ", ".join(exclude_keys[-45:]) if exclude_keys else "none"
+    avoid_fmt_str = ", ".join(avoid_formats or []) or "none"
 
     prompt = f"""You are a viral wildlife scriptwriter for YouTube Shorts channel "Animal Trivia 60s".
 Pick ONE surprising animal RIGHT NOW and write a 55-second script (1-minute Shorts).
@@ -184,10 +518,16 @@ REQUIREMENTS:
   - If you cite "X% of [thing]" or "Y times [thing]", any other fact about the SAME metric MUST use the SAME value.
   - Use latest 2024 scientific consensus values. Do not mix old and new numbers.
   - title and description MUST be about the same animal as the facts.
-- Hook line (intro narration) MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
+- **Hook (intro narration) — CRITICAL**: 12 words or FEWER. Lead with a specific number or a shocking comparison. NEVER start with "Did you know". Examples: "An octopus has three hearts and blue blood." / "A sloth digests one leaf for a whole month."
+- **FACT QUALITY**: across the 4 facts, include AT LEAST two concrete numbers/measurements AND at least one vivid comparison ("heavier than three school buses", "faster than a sprinting cheetah").
+- **BANNED PHRASES (never use in intro or facts)**: "more interesting than people think", "scientists were shocked", "will blow your mind", "way more interesting", "you won't believe your eyes". Write concrete, specific sentences instead.
+- **CONSERVATIVE on volatile numbers**: for counts that change with new discoveries (populations, species counts, record holders), write "more than N" or "at least N" rather than a precise disputed figure, and use current consensus values. Do NOT state disputed rankings (e.g. "the smartest animal") as settled fact.
 - Outro CTA MUST be one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
-- Each fact MUST start differently (vary openers — never repeat "X are way more interesting" or any generic opener).
-- pexels_keywords: 5 keywords. **EVERY keyword MUST contain the animal name** (e.g., for octopus: "octopus close up", "octopus swimming", "octopus reef", "octopus tentacles", "octopus camouflage"). NEVER use generic terms like "wild mammal" or "scaly mammal" — those bring up wrong animal videos. The animal name must be the LITERAL species (pangolin/otter/octopus), not a category.
+- Each fact MUST start differently (vary openers).
+- **angle**: choose ONE angle for this video from {ANGLES}. Build all 4 facts around that single angle.
+- **format**: choose ONE from {FORMATS}. AVOID these recently-used formats: {avoid_fmt_str}.
+- pexels_keywords: 5 keywords. **EVERY keyword MUST contain the animal name** (e.g., for octopus: "octopus close up", "octopus swimming", "octopus reef", "octopus tentacles", "octopus camouflage"). NEVER use generic terms like "wild mammal" or "scaly mammal". The animal name must be the LITERAL species.
+- **fact_keywords**: EXACTLY 4 background-video search keywords, ONE per fact IN ORDER, each containing the animal name and describing that fact's visual (e.g. fact about camouflage -> "octopus camouflage"; fact about swimming speed -> "octopus swimming fast").
 - category: one of {sorted(_VALID_CATEGORIES)}.
 - **Title (CRITICAL — single most important CTR factor)**: max 70 chars, MUST include the animal name + a CURIOSITY GAP hook. NEVER use "compilation", "best of", "top 10", "Amazing Facts About X" (too generic, kills CTR).
   Use ONE of these viral patterns (vary across animals):
@@ -198,8 +538,9 @@ REQUIREMENTS:
   (e) The truth: "The Truth About Why Foxes Hide From Humans"
   (f) Stop scrolling: "Stop Scrolling — A Cuttlefish Just Hypnotized You"
   (g) Question hook: "How Do Hummingbirds Survive On 0% Sleep?"
-  Keep it punchy. Lowercase or Title Case both fine. NO emoji in title.
-- Description: 2 sentences + 5 hashtags (no emoji).
+  Keep it punchy. Lowercase or Title Case both fine. NO emoji in title. Hype is allowed in the title, but it must NOT state anything factually false.
+  Vary the pattern from the last few videos (do not reuse the same template repeatedly).
+- Description: 2 sentences + 3-5 hashtags (no emoji).
 - Hook (on-screen overlay text): 2-4 words like "Pangolins • Trivia".
 - **comment** (auto-pinned reply-magnet comment under the video): ONE line, 8-20 words.
   GOAL: provoke viewers to actually reply, not just scroll past. Statement-of-fact comments get IGNORED.
@@ -222,10 +563,13 @@ Output STRICT JSON only (the example below uses {{animal_name}} — REPLACE with
   "single": "{{animal singular}}",
   "category": "mammal",
   "pexels_keywords": ["{{animal}} close up", "{{animal}} walking", "{{animal}} in wild", "{{animal}} feature_a", "{{animal}} feature_b"],
+  "fact_keywords": ["{{animal}} visual_for_fact1", "{{animal}} visual_for_fact2", "{{animal}} visual_for_fact3", "{{animal}} visual_for_fact4"],
+  "angle": "one_of_the_angle_labels",
+  "format": "one_of_the_format_labels",
   "title_en": "viral title with the picked animal name + curiosity gap",
-  "description_en": "2 sentences + 5 hashtags ending with #{{animal}}",
+  "description_en": "2 sentences + 3-5 hashtags ending with #{{animal}}",
   "hook": "{{Animal Plural}} • Trivia",
-  "intro": "Did you know {{animals}} do something surprising?",
+  "intro": "An {{animal}} can do something surprising in N seconds.",
   "facts": ["fact1 (28-36 words)", "fact2 (28-36 words)", "fact3 (28-36 words)", "fact4 (28-36 words)"],
   "outro": "Follow for more animal facts.",
   "comment": "reply-magnet line about {{animal}} only",
@@ -337,11 +681,11 @@ Output STRICT JSON only (the example below uses {{animal_name}} — REPLACE with
 
     facts = d.get("facts") or []
     if not isinstance(facts, list) or len(facts) < 3:
-        facts = [f"{display} are way more interesting than people think."] * 4
+        facts = [_safe_fact(display, i) for i in range(4)]
     # 4개 우선, 부족하면 3개라도 수용
     facts = [str(f).strip() for f in facts[:5] if str(f).strip()]
     if len(facts) < 3:
-        facts = facts + [f"{display} have surprising habits most people never notice."] * (3 - len(facts))
+        facts = facts + [_safe_fact(display, i) for i in range(3 - len(facts))]
     # 한 fact라도 32단어 미만이면 GPT로 확장 (60초 길이 보장 핵심)
     if any(len(f.split()) < 26 for f in facts):
         log.warning(f"facts too short ({[len(f.split()) for f in facts]}), expanding to 28-36 words each...")
@@ -377,23 +721,56 @@ Output STRICT JSON: {{"facts": [{', '.join(['"fact (28-36 words)"'] * n)}]}}"""
         comment = f"What's the wildest thing you knew about {single}s?"
     comment = comment[:280]  # YouTube 댓글 길이 안전선
 
+    # angle / format 파싱 + 정규화 (로테이션용)
+    angle = str(d.get("angle") or "").strip().lower().replace(" ", "_")
+    fmt = str(d.get("format") or "").strip().lower().replace(" ", "_")
+    avoid = {f.lower() for f in (avoid_formats or [])}
+    # 유효하지 않거나 '최근 사용 format'이면 회피 목록 밖에서 강제 재선택
+    # (GPT가 valid하지만 직전 format을 반복하면 연속 중복이 되므로 코드로 차단)
+    if fmt not in FORMATS or fmt in avoid:
+        choices = [f for f in FORMATS if f not in avoid] or FORMATS
+        fmt = random.choice(choices)
+    fact_kw = _validate_fact_keywords(d.get("fact_keywords"), single, pexels_kw, n=len(facts))
+
     meta = {
         "animal_key": animal_key,
         "display": display,
         "single": single,
         "category": category,
         "pexels_keywords": pexels_kw,
+        "fact_keywords": fact_kw,
+        "_kw_facts": list(facts),  # (F) 키워드 도출 시점 facts 스냅샷
+        "angle": angle,
+        "format": fmt,
         "title_en": title_en,
         "description_en": (d.get("description_en") or f"3 wild facts about {single}s.")[:4900],
         "hook": (d.get("hook") or f"{display} • Trivia")[:40],
-        "intro": (d.get("intro") or f"Did you know {single}s do this?").strip(),
+        "intro": (d.get("intro") or f"An {single} can do something most people never notice.").strip(),
         "facts": facts,
         "outro": (d.get("outro") or "Follow for more animal facts.").strip(),
         "comment": comment,
         "tags": d.get("tags") or ["shorts", "animals", "animal facts", "wildlife", "trivia",
                                   "did you know", animal_key.replace("_", " "), single, display],
     }
-    return verify_consistency(meta)
+
+    # 재등장 topic 차별화 (과거 이력 있으면 완전히 새로운 내용으로 재생성)
+    prev = []
+    if history:
+        try:
+            from pipeline import history as _hist
+            prev = _hist.topic_entries(history, animal_key)
+        except Exception:
+            prev = []
+    if prev:
+        log.info(f"'{animal_key}' 과거 이력 {len(prev)}건 → 재등장 차별화 시도")
+        meta = _differentiate_content(meta, prev, avoid_formats)
+
+    # 사실 근거(위키) + 적대적 팩트체크 (허위 자막 차단) → 내부 일관성 검증
+    meta = _apply_grounded_factcheck(meta)
+    meta = verify_consistency(meta)
+    # (F) 모든 fact 변경 끝난 뒤 fact_keywords 최종 확정 (배경 fetch가 최종 facts와 정합)
+    meta = _finalize_fact_keywords(meta, pexels_kw)
+    return meta
 
 
 def expand_legacy_to_rich(meta: dict) -> dict:
@@ -414,13 +791,16 @@ def expand_legacy_to_rich(meta: dict) -> dict:
     prompt = f"""Write a 55-second YouTube Shorts script about {display} ({single}).
 
 REQUIREMENTS:
-- 4 facts, each EXACTLY 28-36 words. Specific numbers + comparison + surprising consequence per fact.
-- Each fact opens DIFFERENTLY (no repeated openers like "X are way more interesting").
-- **INTERNAL CONSISTENCY (CRITICAL)**: All numeric claims across the 4 facts MUST agree. If fact 1 says "{display} have N [thing]", fact 2/3/4 must NOT cite a different number. Use latest 2024 scientific consensus values.
-- Intro: 5-9 words, MUST start with "Did you know" / "Wait until you see" / "This is why" / "Watch this".
+- 4 facts, each EXACTLY 28-36 words. Across the 4 facts include AT LEAST two concrete numbers AND at least one vivid comparison.
+- Each fact opens DIFFERENTLY. NEVER use empty hype: "more interesting than people think", "scientists were shocked", "will blow your mind", "way more interesting".
+- **CONSERVATIVE on volatile numbers**: for counts that change with new discoveries (populations, species counts, records), write "more than N" or "at least N" with current consensus values; do NOT state disputed rankings as settled fact.
+- **INTERNAL CONSISTENCY (CRITICAL)**: All numeric claims across the 4 facts MUST agree. If fact 1 says "{display} have N [thing]", fact 2/3/4 must NOT cite a different number. Use latest scientific consensus values.
+- Intro (hook narration): 12 words or FEWER, lead with a specific number or shocking comparison, NEVER start with "Did you know".
 - Outro: 4-7 words CTA, one of: "Follow for more animal facts." / "Follow for daily wild facts." / "Comment your favorite animal."
 - Hook (overlay text): 2-4 words like "{display} • Trivia".
-- **Title (CRITICAL CTR — pick ONE viral pattern, max 70 chars, must include "{single}" or "{display}", NO emoji)**:
+- **angle**: one of {ANGLES}. **format**: one of {FORMATS}.
+- **fact_keywords**: 4 background-video search keywords, ONE per fact IN ORDER, each containing "{single}".
+- **Title (CRITICAL CTR — pick ONE viral pattern, max 70 chars, must include "{single}" or "{display}", NO emoji; hype ok but no false claim)**:
   (a) Shocking number: "{display} Have ___ ?! Here's Why"
   (b) Wait what: "Wait, {display} Eat ___ A Year"
   (c) You won't believe: "You Won't Believe What {display} Do at Night"
@@ -428,16 +808,19 @@ REQUIREMENTS:
   (e) Stop scrolling: "Stop Scrolling — A {single} Just ___"
   (f) Question hook: "How Do {display} Survive ___?"
   NEVER use "Amazing Facts About", "Wild Facts About", "Facts You Didn't Know" — generic patterns kill CTR.
-- Description: 2 sentences + 5 hashtags (no emoji).
+- Description: 2 sentences + 3-5 hashtags (no emoji).
 - **comment** (reply-magnet, 8-20 words): hot take / forced choice WITHIN {single} only / what-if / personal challenge / confession bait / fill-in-the-blank.
   **TOPIC LOCK**: comment MUST be about {display}/{single} ONLY. NEVER mention any OTHER animal. 0-1 emoji max. NEVER "Which fact surprised you most?" or "Tag a friend".
 
 Output STRICT JSON: {{
   "title_en": "...",
-  "description_en": "... #shorts #animalfacts #wildlife #didyouknow #{single}",
+  "description_en": "... #shorts #animalfacts #wildlife #{single}",
   "hook": "{display} • Trivia",
-  "intro": "Did you know {single}s do this?",
+  "intro": "An {single} does something surprising with N ___.",
   "facts": ["fact1 (28-36 words)", "fact2", "fact3", "fact4"],
+  "fact_keywords": ["{single} visual1", "{single} visual2", "{single} visual3", "{single} visual4"],
+  "angle": "one_of_the_angle_labels",
+  "format": "one_of_the_format_labels",
   "outro": "Follow for more animal facts.",
   "comment": "..."
 }}"""
@@ -490,18 +873,34 @@ Output STRICT JSON: {{
         comment = f"What's the wildest thing you knew about {single}s?"
     comment = comment[:280]
 
+    angle = str(d.get("angle") or "").strip().lower().replace(" ", "_")
+    fmt = str(d.get("format") or "").strip().lower().replace(" ", "_")
+    if fmt not in FORMATS:
+        fmt = random.choice(FORMATS)
+    fact_kw = _validate_fact_keywords(d.get("fact_keywords"), single,
+                                      meta.get("pexels_keywords") or [], n=len(facts))
+
     rich = {
         "title_en": title_en,
         "description_en": (d.get("description_en") or f"4 wild facts about {single}s.")[:4900],
-        "intro": (d.get("intro") or f"Did you know {single}s do this?").strip(),
+        "intro": (d.get("intro") or f"An {single} does something most people never notice.").strip(),
         "facts": facts,
+        "fact_keywords": fact_kw,
+        "angle": angle,
+        "format": fmt,
         "outro": (d.get("outro") or "Follow for more animal facts.").strip(),
         "hook": (d.get("hook") or f"{display} • Trivia").strip()[:40],
         "comment": comment,
     }
-    review_input = {**rich, "display": display, "single": single}
+    # 사실 근거(위키) + 적대적 팩트체크 → 내부 일관성 검증 → (F) fact_keywords 최종 확정
+    review_input = {**rich, "display": display, "single": single, "category": meta.get("category", ""),
+                    "_kw_facts": list(facts)}
+    review_input = _apply_grounded_factcheck(review_input)
     review_input = verify_consistency(review_input)
+    review_input = _finalize_fact_keywords(review_input, meta.get("pexels_keywords") or [])
+    rich["intro"] = review_input.get("intro", rich["intro"])
     rich["facts"] = review_input.get("facts", rich["facts"])
+    rich["fact_keywords"] = review_input.get("fact_keywords", rich["fact_keywords"])
     rich["comment"] = review_input.get("comment", rich["comment"])
     return rich
 
@@ -517,10 +916,13 @@ def _legacy_meta(animal_key: str) -> dict:
         "single": single,
         "category": cfg.get("category", "mammal"),
         "pexels_keywords": cfg["pexels_keywords"],
+        "fact_keywords": _validate_fact_keywords([], single, cfg["pexels_keywords"], n=4),
+        "angle": "",
+        "format": random.choice(FORMATS),
         "title_en": f"4 Wild Facts About {display}",
-        "description_en": f"4 surprising facts about {single}s. \n\n#shorts #animals #wildlife #didyouknow #animalfacts",
+        "description_en": f"4 surprising facts about {single}s. \n\n#shorts #animals #wildlife #animalfacts",
         "hook": f"{display} • Trivia",
-        "intro": f"Did you know {single}s do this?",
+        "intro": f"An {single} can do things most people never notice.",
         "facts": [
             f"{display} surprise scientists with their unique behaviors and senses.",
             f"Most {single}s have an unusual skill that took millions of years to evolve.",
