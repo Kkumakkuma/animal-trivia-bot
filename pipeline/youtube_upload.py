@@ -12,6 +12,25 @@ from config import (
 )
 
 log = logging.getLogger("animalbot.youtube")
+
+
+def _verify_channel(svc):
+    """업로드 직전 토큰이 동물 채널에 결속됐는지 재검증 (fail-closed, 2026-07-17 여행봇 동기화).
+
+    auth.py는 발급 시점만 검증한다 — 잘못된 토큰이 CI secret으로 유입되는 경로를
+    업로드 시점에서 최종 차단한다. 판정 기준은 auth.py와 동일(제목에 animal/trivia 포함).
+    불일치면 RuntimeError로 업로드 자체를 중단."""
+    resp = svc.channels().list(part="snippet", mine=True).execute()
+    items = resp.get("items", [])
+    if not items:
+        raise RuntimeError("channel verify 실패: 채널 조회 결과 없음 — 업로드 중단 (fail-closed)")
+    title = items[0]["snippet"]["title"]
+    low = title.lower()
+    if not ("animal" in low or "trivia" in low):
+        raise RuntimeError(f"channel verify 실패: 토큰이 동물 채널이 아닌 '{title}'에 결속 — 업로드 중단")
+    log.info(f"channel verify OK: {title}")
+
+
 SCOPES = [
     "https://www.googleapis.com/auth/youtube.upload",
     "https://www.googleapis.com/auth/youtube.force-ssl",
@@ -88,6 +107,10 @@ def get_service():
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
+            # CI(GitHub Actions)에는 브라우저가 없다 — run_local_server는 무한 대기로
+            # timeout까지 러너 시간만 태운다. 즉시 명확한 에러로 실패시킨다 (2026-07-17).
+            if os.environ.get("GITHUB_ACTIONS"):
+                raise RuntimeError("CI에서 대화형 OAuth 불가 — 토큰 시크릿 확인")
             flow = InstalledAppFlow.from_client_secrets_file(YOUTUBE_CLIENT_SECRET, SCOPES)
             creds = flow.run_local_server(port=0)
         os.makedirs(os.path.dirname(YOUTUBE_TOKEN), exist_ok=True)
@@ -122,6 +145,7 @@ def upload(video_path: str, title: str, description: str, tags: list,
     from googleapiclient.http import MediaFileUpload
 
     svc = get_service()
+    _verify_channel(svc)
     snippet = {
         "title": title[:95],
         "description": description[:4900],

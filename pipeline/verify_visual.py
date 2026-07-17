@@ -6,8 +6,11 @@ generic 키워드("wild mammal") 제거만으로는 부족 — Pexels 사진가�
 
 2026-05-06 fix (우주봇 Saturn 케이크 사고 동기화): rate limit 429에서 fail-OPEN
 (return True)로 garbage 영상이 그대로 통과하던 문제 → fail-CLOSED로 전환 +
-429 backoff 재시도. 인프라 fault(API 키 없음 / frame 추출 실패)만 통과 처리하고
-vision 응답 자체 실패는 reject — garbage 발행보다 발행 안 하는 게 낫다는 정책.
+429 backoff 재시도. vision 응답 자체 실패는 reject — garbage 발행보다 발행 안
+하는 게 낫다는 정책.
+
+2026-07-17 fix (여행봇 동기화): 인프라 fault(API 키 없음 / frame 추출 실패)도
+fail-OPEN(통과)이던 구멍을 fail-CLOSED로 전환 — 무검증 발행 경로 완전 차단.
 
 비용: gpt-4o-mini vision은 1 이미지 약 $0.0005~0.001. 일 4편 × 3 영상 = 12회 ≈ 일 $0.01.
 """
@@ -55,20 +58,22 @@ def verify_animal(video_path: str, animal_single: str,
                    animal_display: str = "", animal_category: str = "") -> bool:
     """영상에 animal_single이 실제로 보이는지 GPT-4o-mini vision으로 검증.
 
-    True: 영상에 해당 동물이 보임 (또는 인프라 fault — API 키 없음/frame 추출 실패만 통과)
-    False: 다른 동물 / 동물 없음 / 부적합 / vision API 자체 실패 (rate limit 포함)
+    True: 영상에 해당 동물이 보임
+    False: 다른 동물 / 동물 없음 / 부적합 / vision API 자체 실패 (rate limit 포함) /
+           인프라 fault(API 키 없음·frame 추출 실패 — 2026-07-17 fail-closed 전환)
 
     2026-05-06 fix: API 호출 실패 시 fail-OPEN → fail-CLOSED 전환.
     rate limit 429에 대해서만 backoff 재시도 (3회).
     """
     if not OPENAI_API_KEY:
-        log.warning("OPENAI_API_KEY 없음 — vision 검증 스킵 (안전 통과)")
-        return True
+        log.error("OPENAI_API_KEY 없음 — vision 검증 불가 → REJECT (fail-closed). "
+                  "main.py 시작 시 fail-fast로도 차단되지만 방어층으로 여기서도 거절.")
+        return False
 
     img_path = extract_frame(video_path, timestamp=1.5)
     if not img_path:
-        log.warning(f"frame 추출 실패: {os.path.basename(video_path)} — 안전 통과")
-        return True
+        log.warning(f"frame 추출 실패: {os.path.basename(video_path)} — REJECT (fail-closed, 다른 클립으로 대체)")
+        return False
 
     try:
         with open(img_path, "rb") as f:
