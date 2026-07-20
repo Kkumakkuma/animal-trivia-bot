@@ -13,6 +13,10 @@ from config import (
 
 log = logging.getLogger("animalbot.youtube")
 
+# 업로드 직전 채널 결속 재검증 기준 — 우주봇 강화판과 동일 구조(2026-07-20).
+# 기존 positive 검사('animal' or 'trivia')는 "Space Trivia 60s"도 통과시켰다(negative 부재).
+_FOREIGN_CHANNEL_WORDS = ["space", "lofi", "wander"]
+
 
 def _verify_channel(svc):
     """업로드 직전 토큰이 동물 채널에 결속됐는지 재검증 (fail-closed, 2026-07-17 여행봇 동기화).
@@ -26,7 +30,10 @@ def _verify_channel(svc):
         raise RuntimeError("channel verify 실패: 채널 조회 결과 없음 — 업로드 중단 (fail-closed)")
     title = items[0]["snippet"]["title"]
     low = title.lower()
-    if not ("animal" in low or "trivia" in low):
+    # 타 채널 차단(negative)을 먼저 걸고, positive 는 animal 단독으로 좁힌다
+    if any(w in low for w in _FOREIGN_CHANNEL_WORDS):
+        raise RuntimeError(f"channel verify 실패: 토큰이 다른 봇 채널('{title}')에 결속 — 업로드 중단")
+    if not ("animal" in low or "animaltrivia" in low.replace(" ", "")):
         raise RuntimeError(f"channel verify 실패: 토큰이 동물 채널이 아닌 '{title}'에 결속 — 업로드 중단")
     log.info(f"channel verify OK: {title}")
 
@@ -139,6 +146,29 @@ def has_caption_scope() -> bool:
         return True  # 판단 불가 → 보류(시도 허용)
 
 
+def _sanitize_tags(tags):
+    """YouTube 태그 한도 가드 — invalidTags(400) 시 발행 전체가 죽는 것 방지(2026-07-20).
+    규칙: str 만, 태그당 100자 컷, 최대 30개, 합산 480자(공백 포함 태그는 API 가 따옴표
+    2자를 가산하므로 +2로 계산 — 한도 500자에 여유)."""
+    out, budget = [], 480
+    for t in (tags or []):
+        if not isinstance(t, str):
+            continue
+        t = t.strip()[:100]
+        if not t:
+            continue
+        cost = len(t) + (2 if " " in t else 0)
+        if out:
+            cost += 1  # 태그 구분 쉼표도 500자 한도에 포함(codex — YouTube 명세)
+        if cost > budget:
+            continue
+        out.append(t)
+        budget -= cost
+        if len(out) >= 30:
+            break
+    return out
+
+
 def upload(video_path: str, title: str, description: str, tags: list,
            thumbnail_path: str = None, localizations: dict = None,
            default_language: str = "en", custom_comment: str = None) -> str:
@@ -149,7 +179,7 @@ def upload(video_path: str, title: str, description: str, tags: list,
     snippet = {
         "title": title[:95],
         "description": description[:4900],
-        "tags": (tags or [])[:30],
+        "tags": _sanitize_tags(tags),
         "categoryId": YOUTUBE_CATEGORY_ID,
     }
     if localizations:
