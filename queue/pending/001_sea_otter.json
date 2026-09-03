@@ -1,0 +1,54 @@
+{
+  "author": "claude",
+  "animal_key": "sea_otter",
+  "display": "Sea Otters",
+  "single": "sea otter",
+  "category": "mammal",
+  "angle": "anatomy_superpower",
+  "format": "classic_trivia",
+  "hook_line": "Sea otters hold hands while they sleep, and the reason is not what you think.",
+  "hook": "THEY HOLD HANDS TO SLEEP",
+  "intro": "Sea otters hold hands while they sleep, and the reason is not what you think.",
+  "facts": [
+    "Sea otters sleep floating on their backs, and they hold paws or wrap themselves in kelp so the current cannot carry them apart during the night.",
+    "They have the densest fur of any animal, up to a million hairs per square inch, because they have no blubber to keep them warm in cold water.",
+    "Some otters keep a favorite rock in a loose pouch of skin under their arm, and use it like a hammer to crack open clams and sea urchins.",
+    "An adult eats about a quarter of its body weight every day, which is why otter populations can protect entire kelp forests by eating the urchins that destroy them."
+  ],
+  "outro": "Now you know why they never let go.",
+  "title_en": "Why Sea Otters Hold Hands While They Sleep",
+  "title_ko": "해달이 잠잘 때 손을 잡는 진짜 이유",
+  "description_en": "Sea otters hold paws while sleeping, carry a favorite rock under their arm, and eat a quarter of their weight every day. Here are the facts behind the cutest animal in the ocean. #seaotter #otter #animals #wildlife #oceanlife",
+  "description_ko": "해달은 잠잘 때 서로 손을 잡고, 겨드랑이에 좋아하는 돌을 넣고 다니며, 매일 몸무게의 4분의 1을 먹습니다. 바다에서 가장 귀여운 동물의 진짜 사실들을 정리했습니다. #해달 #동물 #야생동물 #바다생물",
+  "comment": "Would you trust a sea otter to hold your hand?",
+  "tags": [
+    "shorts",
+    "animals",
+    "sea otter",
+    "otter",
+    "wildlife",
+    "ocean animals",
+    "animal facts",
+    "cute animals",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "sea otter floating",
+    "sea otters holding hands",
+    "sea otter eating",
+    "sea otter kelp",
+    "sea otter swimming",
+    "sea otter close up",
+    "sea otter otter in water",
+    "sea otter grooming fur",
+    "sea otter kelp forest underwater",
+    "sea otter on back"
+  ],
+  "fact_keywords": [
+    "sea otters floating together kelp",
+    "sea otter grooming thick fur",
+    "sea otter cracking shell with rock",
+    "sea otter kelp forest underwater urchins"
+  ]
+}
