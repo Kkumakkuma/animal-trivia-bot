@@ -21,7 +21,140 @@
   "description_en": "Koalas have fingerprints almost identical to ours, sleep 20 hours because their food is toxic, and start life the size of a jelly bean. Here are the facts behind Australia's sleepiest icon. #koala #australia #animals #wildlife #animalfacts",
   "description_ko": "코알라는 사람과 거의 같은 지문을 갖고 있고, 독성 있는 먹이 때문에 하루 20시간을 자며, 젤리빈 크기로 태어납니다. 호주에서 가장 잠 많은 동물의 진짜 사실들을 정리했습니다. #코알라 #호주 #동물 #야생동물",
   "comment": "Koala or sloth, who is the real sleep champion?",
-  "tags": ["shorts", "animals", "koala", "australia", "wildlife", "animal facts", "marsupial", "cute animals", "did you know", "trivia"],
-  "pexels_keywords": ["koala sleeping tree", "koala close up", "koala eating eucalyptus", "koala climbing", "koala australia", "koala hugging tree", "koala joey", "koala in tree", "koala resting branch", "koala face"],
-  "fact_keywords": ["koala paw claws close up", "koala sleeping on branch", "koala with joey pouch", "koala eating eucalyptus leaves"]
+  "tags": [
+    "shorts",
+    "animals",
+    "koala",
+    "australia",
+    "wildlife",
+    "animal facts",
+    "marsupial",
+    "cute animals",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "koala sleeping tree",
+    "koala close up",
+    "koala eating eucalyptus",
+    "koala climbing",
+    "koala australia",
+    "koala hugging tree",
+    "koala joey",
+    "koala in tree",
+    "koala resting branch",
+    "koala face"
+  ],
+  "fact_keywords": [
+    "koala paw claws close up",
+    "koala sleeping on branch",
+    "koala with joey pouch",
+    "koala eating eucalyptus leaves"
+  ],
+  "clips": [
+    [
+      6040389,
+      35884549
+    ],
+    [
+      37701061,
+      34255075
+    ],
+    [
+      38891712,
+      32429867
+    ],
+    [
+      36134032,
+      37502133
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "사람 지문을 가진 코알라, 하루 20시간 자는 진짜 이유",
+      "description": "코알라는 사람과 거의 같은 지문을 갖고 있고, 독성 있는 먹이 때문에 하루 20시간을 자며, 젤리빈 크기로 태어납니다. 호주에서 가장 잠 많은 동물의 진짜 사실들을 정리했습니다. #코알라 #호주 #동물 #야생동물"
+    },
+    "ja": {
+      "title": "人間の指紋を持つコアラ、1日20時間眠る本当の理由",
+      "description": "コアラは人間とほぼ同じ指紋を持ち、毒のある食べ物のせいで1日20時間眠り、ジェリービーンズほどの大きさで生まれます。オーストラリアで一番眠たがりな動物の本当の事実をまとめました。#コアラ #オーストラリア #動物 #野生動物"
+    },
+    "es": {
+      "title": "Los koalas tienen huellas humanas y duermen 20 horas al día",
+      "description": "Los koalas tienen huellas casi idénticas a las nuestras, duermen 20 horas porque su comida es tóxica y nacen del tamaño de una gominola. Estos son los datos del icono más dormilón de Australia. #koala #australia #animales #vidasalvaje"
+    },
+    "pt": {
+      "title": "Coalas têm impressões digitais humanas e dormem 20 horas por dia",
+      "description": "Coalas têm impressões digitais quase idênticas às nossas, dormem 20 horas porque a comida deles é tóxica e nascem do tamanho de uma jujuba. Veja os fatos do ícone mais dorminhoco da Austrália. #coala #australia #animais #vidaselvagem"
+    },
+    "de": {
+      "title": "Koalas haben menschliche Fingerabdrücke und schlafen 20 Stunden am Tag",
+      "description": "Koalas haben fast identische Fingerabdrücke wie wir, schlafen 20 Stunden, weil ihr Futter giftig ist, und starten ins Leben so groß wie eine Jelly Bean. Das sind die Fakten über Australiens verschlafenste Ikone. #koala #australien #tiere #wildtiere"
+    },
+    "fr": {
+      "title": "Les koalas ont des empreintes humaines et dorment 20 heures par jour",
+      "description": "Les koalas ont des empreintes presque identiques aux nôtres, dorment 20 heures parce que leur nourriture est toxique, et naissent de la taille d'un bonbon. Voici les faits sur l'icône la plus endormie d'Australie. #koala #australie #animaux #faune"
+    },
+    "hi": {
+      "title": "कोआला के इंसानों जैसे फिंगरप्रिंट होते हैं और ये दिन में 20 घंटे सोते हैं",
+      "description": "कोआला के फिंगरप्रिंट लगभग हमारे जैसे होते हैं, जहरीले खाने की वजह से ये 20 घंटे सोते हैं, और जेली बीन जितने आकार में पैदा होते हैं। ऑस्ट्रेलिया के सबसे नींद वाले जानवर के तथ्य। #koala #australia #animals #wildlife"
+    }
+  },
+  "captions": {
+    "ko": [
+      "코알라의 지문은 범죄 수사실도 속일 수 있는데, 그건 이상한 축에도 못 듭니다.",
+      "코알라의 지문은 소용돌이와 고리 무늬가 사람과 너무 닮아서, 현미경으로 봐도 전문가들이 코알라 지문과 사람 지문을 구별하기 어려워합니다.",
+      "하루 최대 20시간을 자는데, 게을러서가 아니라 유칼립투스 잎이 독성이 있고 에너지가 너무 적어서 소화하는 데 거의 모든 힘을 쓰기 때문입니다.",
+      "코알라는 곰이 전혀 아니라 유대류이고, 갓 태어난 새끼는 젤리빈만 한 크기로, 눈도 못 뜬 채 어미의 주머니로 기어들어가 계속 자랍니다.",
+      "새끼는 잎을 먹기 전에 팹이라는 어미의 특별한 부드러운 배설물을 먼저 먹는데, 유칼립투스로 살아남는 데 필요한 장내 세균을 그렇게 얻습니다.",
+      "곰도 아니고, 게으른 건 더더욱 아닙니다."
+    ],
+    "ja": [
+      "コアラの指紋は鑑識も騙せますが、それすら不思議なところには入りません。",
+      "コアラの指紋は渦や輪の模様が人間とそっくりで、顕微鏡で見ても専門家がコアラの指紋と人間の指紋を見分けるのに苦労します。",
+      "1日最大20時間眠りますが、怠け者だからではなく、ユーカリの葉が有毒でエネルギーが少なすぎて、消化にほぼ全ての力を使うからです。",
+      "コアラはクマではなく有袋類で、生まれたばかりの赤ちゃんはジェリービーンズほどの大きさ、目も見えないまま母親の袋に這い上がって育ちます。",
+      "赤ちゃんは葉を食べる前に、パップと呼ばれる母親の特別な柔らかい排泄物を食べ、ユーカリで生きるために必要な腸内細菌をそこから手に入れます。",
+      "クマではないし、怠け者でもまったくありません。"
+    ],
+    "es": [
+      "Las huellas de un koala podrían engañar a un laboratorio forense, y eso ni siquiera es lo más raro.",
+      "Los koalas tienen huellas con bucles y espirales tan parecidas a las nuestras que, incluso al microscopio, los expertos batallan para distinguir una huella de koala de una humana.",
+      "Duermen hasta 20 horas al día, no por pereza, sino porque las hojas de eucalipto son tóxicas y tan pobres en energía que digerirlas les consume casi todo lo que tienen.",
+      "Un koala no es un oso sino un marsupial, y la cría recién nacida es del tamaño de una gominola, y trepa ciega hasta la bolsa de su madre para seguir creciendo.",
+      "Antes de comer hojas, la cría come una deposición blanda especial de su madre, llamada pap, que carga su intestino con las bacterias necesarias para sobrevivir a base de eucalipto.",
+      "No es un oso, y desde luego no es perezoso."
+    ],
+    "pt": [
+      "As impressões digitais de um coala enganariam um laboratório forense, e essa nem é a parte mais estranha.",
+      "Coalas têm impressões digitais com laços e espirais tão parecidas com as nossas que, mesmo no microscópio, especialistas têm dificuldade em distinguir uma digital de coala de uma humana.",
+      "Eles dormem até 20 horas por dia, não por preguiça, mas porque as folhas de eucalipto são tóxicas e tão pobres em energia que digeri-las consome quase tudo o que eles têm.",
+      "O coala não é urso, é marsupial, e o filhote recém-nascido tem o tamanho de uma jujuba, rastejando cego até a bolsa da mãe para continuar crescendo.",
+      "Antes de comer folhas, o filhote come uma fezes mole especial da mãe, chamada pap, que enche o intestino dele com as bactérias necessárias para sobreviver de eucalipto.",
+      "Não é urso, e com certeza não é preguiçoso."
+    ],
+    "de": [
+      "Die Fingerabdrücke eines Koalas könnten ein Kriminallabor täuschen, und das ist nicht einmal das Seltsamste.",
+      "Koalas haben Fingerabdrücke mit Schleifen und Wirbeln, die unseren so ähnlich sind, dass Experten selbst unter dem Mikroskop Mühe haben, einen Koala-Abdruck von einem menschlichen zu unterscheiden.",
+      "Sie schlafen bis zu 20 Stunden am Tag, nicht aus Faulheit, sondern weil Eukalyptusblätter giftig und so energiearm sind, dass die Verdauung fast alles verbraucht, was sie haben.",
+      "Ein Koala ist kein Bär, sondern ein Beuteltier, und ein neugeborenes Junges ist etwa so groß wie eine Jelly Bean und krabbelt blind in den Beutel der Mutter, um weiterzuwachsen.",
+      "Bevor ein Junges Blätter fressen kann, frisst es einen besonderen weichen Kot seiner Mutter, Pap genannt, der seinen Darm mit den Bakterien versorgt, die es zum Überleben mit Eukalyptus braucht.",
+      "Kein Bär, und ganz sicher nicht faul."
+    ],
+    "fr": [
+      "Les empreintes d'un koala pourraient tromper un labo de police scientifique, et ce n'est même pas le plus étrange.",
+      "Les koalas ont des empreintes aux boucles et aux tourbillons si proches des nôtres que, même au microscope, les experts peinent à distinguer une empreinte de koala d'une empreinte humaine.",
+      "Ils dorment jusqu'à 20 heures par jour, non par paresse, mais parce que les feuilles d'eucalyptus sont toxiques et si pauvres en énergie que les digérer leur prend presque tout ce qu'ils ont.",
+      "Un koala n'est pas un ours mais un marsupial, et le nouveau-né a la taille d'un bonbon, rampant à l'aveugle jusqu'à la poche de sa mère pour continuer à grandir.",
+      "Avant de pouvoir manger des feuilles, le petit mange une déjection molle spéciale de sa mère, appelée pap, qui remplit son intestin des bactéries nécessaires pour survivre à l'eucalyptus.",
+      "Pas un ours, et sûrement pas paresseux."
+    ],
+    "hi": [
+      "कोआला के फिंगरप्रिंट फोरेंसिक लैब को भी धोखा दे सकते हैं, और यह तो सबसे अजीब बात भी नहीं है।",
+      "कोआला के फिंगरप्रिंट में घुमाव और छल्ले हमारे जितने मिलते-जुलते हैं कि माइक्रोस्कोप में भी विशेषज्ञ कोआला और इंसान के निशान में फर्क करने में उलझ जाते हैं।",
+      "ये दिन में 20 घंटे तक सोते हैं, आलस से नहीं, बल्कि इसलिए कि यूकेलिप्टस की पत्तियां जहरीली और इतनी कम ऊर्जा वाली हैं कि उन्हें पचाने में लगभग सारी ताकत लग जाती है।",
+      "कोआला भालू नहीं बल्कि मार्सुपियल है, और नवजात बच्चा जेली बीन जितना होता है, जो अंधा ही रेंगकर मां की थैली में जाता है और वहीं बढ़ता है।",
+      "पत्तियां खाने से पहले बच्चा मां का एक खास नरम मल खाता है, जिसे पैप कहते हैं, जो उसकी आंत में यूकेलिप्टस पर जीने के लिए जरूरी बैक्टीरिया भर देता है।",
+      "भालू नहीं, और आलसी तो बिल्कुल नहीं।"
+    ]
+  }
 }
