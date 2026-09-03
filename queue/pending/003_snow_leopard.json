@@ -50,5 +50,111 @@
     "snow leopard face close up mouth",
     "snow leopard long tail sleeping",
     "snow leopard jumping rocks"
-  ]
+  ],
+  "clips": [
+    [
+      38539025,
+      32486336
+    ],
+    [
+      35475865,
+      37082921
+    ],
+    [
+      36832132,
+      35475945
+    ],
+    [
+      35427150,
+      32486388
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "포효를 못 하는 대형 고양이, 꼬리를 목도리로 쓰는 눈표범",
+      "description": "눈표범은 해발 5,000m 절벽에서 사냥하고, 포효를 못 하며, 긴 꼬리를 눈 속에서 목도리처럼 씁니다. 산의 유령이라 불리는 이유를 정리했습니다. #눈표범 #대형고양이 #동물 #야생동물"
+    },
+    "ja": {
+      "title": "吠えられない大型ネコ、尻尾をマフラーにするユキヒョウ",
+      "description": "ユキヒョウは標高5,000mの断崖で狩りをし、吠えることができず、長い尻尾を雪の中でマフラーのように使います。山の幽霊と呼ばれる理由をまとめました。#ユキヒョウ #大型ネコ #動物 #野生動物"
+    },
+    "es": {
+      "title": "El gran felino que no puede rugir y usa su cola como bufanda",
+      "description": "Los leopardos de las nieves cazan en acantilados a 5.000 metros, no pueden rugir y usan su larga cola como bufanda en la nieve. Por eso los llaman los fantasmas de las montañas. #leopardodelasnieves #felinos #animales #vidasalvaje #montanas"
+    },
+    "pt": {
+      "title": "O grande felino que não consegue rugir e usa a cauda como cachecol",
+      "description": "Os leopardos-das-neves caçam em penhascos a 5.000 metros, não conseguem rugir e usam a cauda longa como cachecol na neve. Veja por que são chamados de fantasmas das montanhas. #leopardodasneves #felinos #animais #vidaselvagem #montanhas"
+    },
+    "de": {
+      "title": "Die Großkatze, die nicht brüllen kann und ihren Schwanz als Schal trägt",
+      "description": "Schneeleoparden jagen an Klippen in 5.000 Metern Höhe, können nicht brüllen und nutzen ihren langen Schwanz im Schnee als Schal. Deshalb nennt man sie die Geister der Berge. #schneeleopard #grosskatzen #tiere #wildtiere #berge"
+    },
+    "fr": {
+      "title": "Le grand félin qui ne peut pas rugir et porte sa queue en écharpe",
+      "description": "Les léopards des neiges chassent sur des falaises à 5 000 mètres, ne peuvent pas rugir et utilisent leur longue queue comme écharpe dans la neige. Voici pourquoi on les appelle les fantômes des montagnes. #leoparddesneiges #felins #animaux #faune #montagnes"
+    },
+    "hi": {
+      "title": "वह बड़ी बिल्ली जो दहाड़ नहीं सकती और पूंछ को मफलर की तरह पहनती है",
+      "description": "हिम तेंदुए 5,000 मीटर ऊंची चट्टानों पर शिकार करते हैं, दहाड़ नहीं सकते और बर्फ में अपनी लंबी पूंछ को मफलर की तरह इस्तेमाल करते हैं। जानिए इन्हें पहाड़ों का भूत क्यों कहते हैं। #snowleopard #bigcats #animals #wildlife #mountains"
+    }
+  },
+  "captions": {
+    "ko": [
+      "이 대형 고양이는 포효를 못 하는데, 아무도 이 녀석을 못 보는 이유가 바로 그것일지도 모릅니다.",
+      "눈표범은 거의 모든 대형 고양이보다 높은 곳에 살며, 공기가 희박하고 얼어붙는 중앙아시아 산맥의 해발 5,000미터 절벽에서 사냥합니다.",
+      "사자나 호랑이와 달리 목의 구조가 달라 포효를 못 하고, 대신 칙칙 소리를 내거나, 하악질을 하거나, 골골거립니다.",
+      "꼬리는 몸길이와 거의 같은데, 눈 속에서 잘 때 코가 시리지 않도록 목도리처럼 얼굴에 둘둘 감습니다.",
+      "한 번에 최대 9미터를 뛰어넘는데, 몸길이의 여섯 배가 넘는 거리이고, 커다란 발은 천연 설피처럼 작동합니다.",
+      "산의 유령, 드디어 설명되었습니다."
+    ],
+    "ja": [
+      "この大型ネコは吠えることができません。誰にも見つからない理由は、それかもしれません。",
+      "ユキヒョウはほぼどの大型ネコより高い場所に暮らし、空気が薄く凍える中央アジアの山々で、標高5,000メートルの断崖で狩りをします。",
+      "ライオンやトラと違って喉の構造が異なるため吠えられず、代わりにチャフと呼ばれる音や、シューという威嚇、ゴロゴロという喉鳴らしをします。",
+      "尻尾は体とほぼ同じ長さで、雪の中で眠るときは鼻を温めるためにマフラーのように顔に巻きつけます。",
+      "ひと跳びで最大9メートル、体長の6倍以上を跳び、大きな足は天然のかんじきのように働きます。",
+      "山の幽霊、ついに解明。"
+    ],
+    "es": [
+      "Este gran felino no puede rugir, y puede que esa sea la razón por la que nadie lo ve nunca.",
+      "Los leopardos de las nieves viven más alto que casi cualquier otro gran felino, cazando en acantilados de hasta 5.000 metros en las montañas de Asia Central, donde el aire es fino y helado.",
+      "A diferencia de leones y tigres no pueden rugir, porque la estructura de su garganta es distinta, así que resoplan, bufan y ronronean.",
+      "Su cola es casi tan larga como su cuerpo, y se la enrollan en la cara como una bufanda para mantener la nariz caliente mientras duermen en la nieve.",
+      "Pueden saltar hasta nueve metros de un solo brinco, más de seis veces la longitud de su cuerpo, y sus enormes patas funcionan como raquetas de nieve naturales.",
+      "El fantasma de las montañas, por fin explicado."
+    ],
+    "pt": [
+      "Este grande felino não consegue rugir, e talvez seja por isso que ninguém nunca o vê.",
+      "Os leopardos-das-neves vivem mais alto que quase qualquer outro grande felino, caçando em penhascos de até 5.000 metros nas montanhas da Ásia Central, onde o ar é rarefeito e gelado.",
+      "Ao contrário de leões e tigres, não conseguem rugir, porque a estrutura da garganta é diferente, então eles bufam, sibilam e ronronam.",
+      "A cauda é quase tão comprida quanto o corpo, e eles a enrolam no rosto como um cachecol para manter o nariz aquecido enquanto dormem na neve.",
+      "Conseguem saltar até nove metros de uma vez, mais de seis vezes o comprimento do corpo, e as patas enormes funcionam como raquetes de neve naturais.",
+      "O fantasma das montanhas, finalmente explicado."
+    ],
+    "de": [
+      "Diese Großkatze kann nicht brüllen, und vielleicht ist genau das der Grund, warum sie niemand je sieht.",
+      "Schneeleoparden leben höher als fast jede andere Großkatze und jagen an Klippen bis 5.000 Meter in den Bergen Zentralasiens, wo die Luft dünn und eiskalt ist.",
+      "Anders als Löwen und Tiger können sie nicht brüllen, weil ihr Kehlkopf anders gebaut ist, also prusten, fauchen und schnurren sie stattdessen.",
+      "Ihr Schwanz ist fast so lang wie ihr Körper, und sie wickeln ihn wie einen Schal ums Gesicht, damit die Nase beim Schlafen im Schnee warm bleibt.",
+      "Sie springen bis zu neun Meter weit in einem Satz, mehr als das Sechsfache ihrer Körperlänge, und ihre riesigen Pfoten wirken wie natürliche Schneeschuhe.",
+      "Der Geist der Berge, endlich erklärt."
+    ],
+    "fr": [
+      "Ce grand félin ne peut pas rugir, et c'est peut-être pour ça que personne ne le voit jamais.",
+      "Les léopards des neiges vivent plus haut que presque tous les autres grands félins, chassant sur des falaises jusqu'à 5 000 mètres dans les montagnes d'Asie centrale, où l'air est rare et glacial.",
+      "Contrairement aux lions et aux tigres, ils ne peuvent pas rugir, car la structure de leur gorge est différente, alors ils soufflent, feulent et ronronnent.",
+      "Leur queue est presque aussi longue que leur corps, et ils l'enroulent autour de leur visage comme une écharpe pour garder le nez au chaud en dormant dans la neige.",
+      "Ils peuvent bondir jusqu'à neuf mètres d'un seul saut, plus de six fois la longueur de leur corps, et leurs énormes pattes font office de raquettes naturelles.",
+      "Le fantôme des montagnes, enfin expliqué."
+    ],
+    "hi": [
+      "यह बड़ी बिल्ली दहाड़ नहीं सकती, और शायद यही वजह है कि इसे कोई कभी नहीं देख पाता।",
+      "हिम तेंदुए लगभग किसी भी बड़ी बिल्ली से ऊंचाई पर रहते हैं, मध्य एशिया के पहाड़ों में 5,000 मीटर ऊंची चट्टानों पर शिकार करते हैं, जहां हवा पतली और जमा देने वाली है।",
+      "शेर और बाघ के उलट ये दहाड़ नहीं सकते, क्योंकि इनके गले की बनावट अलग है, इसलिए ये फुफकारते, सिसकारते और गुर्राते हैं।",
+      "इनकी पूंछ लगभग शरीर जितनी लंबी है, और बर्फ में सोते समय नाक गर्म रखने के लिए ये इसे मफलर की तरह चेहरे पर लपेट लेते हैं।",
+      "ये एक छलांग में नौ मीटर तक कूद सकते हैं, अपने शरीर की लंबाई से छह गुना ज्यादा, और इनके बड़े पंजे प्राकृतिक बर्फ के जूतों की तरह काम करते हैं।",
+      "पहाड़ों का भूत, आखिरकार समझ आ गया।"
+    ]
+  }
 }

@@ -1,0 +1,27 @@
+{
+  "author": "claude",
+  "animal_key": "koala",
+  "display": "Koalas",
+  "single": "koala",
+  "category": "mammal",
+  "angle": "weird_biology",
+  "format": "myth_vs_fact",
+  "hook_line": "A koala's fingerprints could fool a crime lab, and that is not even the weird part.",
+  "hook": "THEY HAVE HUMAN FINGERPRINTS",
+  "intro": "A koala's fingerprints could fool a crime lab, and that is not even the weird part.",
+  "facts": [
+    "Koalas have fingerprints with loops and whorls so similar to ours that even under a microscope experts struggle to tell a koala print from a human one.",
+    "They sleep up to 20 hours a day, not because they are lazy, but because eucalyptus leaves are toxic and so low in energy that digesting them takes almost everything they have.",
+    "A koala is not a bear at all but a marsupial, and a newborn joey is about the size of a jelly bean, crawling blind into its mother's pouch to keep growing.",
+    "Before a joey can eat leaves it eats a special soft dropping from its mother, called pap, which loads its gut with the bacteria needed to survive on eucalyptus."
+  ],
+  "outro": "Not a bear, and definitely not lazy.",
+  "title_en": "Koalas Have Human Fingerprints and Sleep 20 Hours a Day",
+  "title_ko": "사람 지문을 가진 코알라, 하루 20시간 자는 진짜 이유",
+  "description_en": "Koalas have fingerprints almost identical to ours, sleep 20 hours because their food is toxic, and start life the size of a jelly bean. Here are the facts behind Australia's sleepiest icon. #koala #australia #animals #wildlife #animalfacts",
+  "description_ko": "코알라는 사람과 거의 같은 지문을 갖고 있고, 독성 있는 먹이 때문에 하루 20시간을 자며, 젤리빈 크기로 태어납니다. 호주에서 가장 잠 많은 동물의 진짜 사실들을 정리했습니다. #코알라 #호주 #동물 #야생동물",
+  "comment": "Koala or sloth, who is the real sleep champion?",
+  "tags": ["shorts", "animals", "koala", "australia", "wildlife", "animal facts", "marsupial", "cute animals", "did you know", "trivia"],
+  "pexels_keywords": ["koala sleeping tree", "koala close up", "koala eating eucalyptus", "koala climbing", "koala australia", "koala hugging tree", "koala joey", "koala in tree", "koala resting branch", "koala face"],
+  "fact_keywords": ["koala paw claws close up", "koala sleeping on branch", "koala with joey pouch", "koala eating eucalyptus leaves"]
+}
