@@ -21,7 +21,140 @@
   "description_en": "A honeybee makes a twelfth of a teaspoon of honey in its life, dances to give directions, recognizes human faces, and makes food that never spoils. Here are the facts behind the tiniest workaholic. #honeybee #bees #insects #animals #animalfacts",
   "description_ko": "꿀벌은 평생 티스푼 12분의 1의 꿀을 만들고, 춤으로 길을 알려주며, 사람 얼굴을 알아보고, 썩지 않는 음식을 만듭니다. 가장 작은 일벌레의 진짜 사실들을 정리했습니다. #꿀벌 #벌 #곤충 #동물",
   "comment": "How many bees do you think it took to make your last jar of honey?",
-  "tags": ["shorts", "animals", "honeybee", "bees", "insects", "animal facts", "honey", "nature", "did you know", "trivia"],
-  "pexels_keywords": ["honeybee on flower", "honeybee close up", "honeybee hive", "honeybee honeycomb", "honeybee collecting pollen", "honeybee flying", "honeybee macro", "honeybee swarm", "honeybee beekeeper", "honeybee honey dripping"],
-  "fact_keywords": ["honeybee honeycomb close up", "honeybee on flower macro", "honeybee flying slow motion", "honeybee honey dripping golden"]
+  "tags": [
+    "shorts",
+    "animals",
+    "honeybee",
+    "bees",
+    "insects",
+    "animal facts",
+    "honey",
+    "nature",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "honeybee on flower",
+    "honeybee close up",
+    "honeybee hive",
+    "honeybee honeycomb",
+    "honeybee collecting pollen",
+    "honeybee flying",
+    "honeybee macro",
+    "honeybee swarm",
+    "honeybee beekeeper",
+    "honeybee honey dripping"
+  ],
+  "fact_keywords": [
+    "honeybee honeycomb close up",
+    "honeybee on flower macro",
+    "honeybee flying slow motion",
+    "honeybee honey dripping golden"
+  ],
+  "clips": [
+    [
+      36365690,
+      28256672
+    ],
+    [
+      11955817,
+      5487435
+    ],
+    [
+      17831055,
+      29522004
+    ],
+    [
+      6421446,
+      34308474
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "꿀벌 한 마리가 평생 만드는 꿀은 티스푼 12분의 1",
+      "description": "꿀벌은 평생 티스푼 12분의 1의 꿀을 만들고, 춤으로 길을 알려주며, 사람 얼굴을 알아보고, 썩지 않는 음식을 만듭니다. 가장 작은 일벌레의 진짜 사실들을 정리했습니다. #꿀벌 #벌 #곤충 #동물"
+    },
+    "ja": {
+      "title": "ミツバチ1匹が一生で作る蜂蜜はティースプーン12分の1",
+      "description": "ミツバチは一生でティースプーン12分の1の蜂蜜を作り、ダンスで道を教え、人の顔を見分け、腐らない食べ物を作ります。一番小さな働き者の本当の事実をまとめました。#ミツバチ #ハチ #昆虫 #動物"
+    },
+    "es": {
+      "title": "Una abeja hace una doceava parte de cucharadita de miel en toda su vida",
+      "description": "Una abeja produce una doceava parte de cucharadita de miel en su vida, baila para dar direcciones, reconoce rostros humanos y fabrica un alimento que nunca se echa a perder. Estos son los datos de la trabajadora más pequeña. #abeja #abejas #insectos #animales"
+    },
+    "pt": {
+      "title": "Uma abelha faz um doze avos de colher de chá de mel na vida inteira",
+      "description": "Uma abelha produz um doze avos de colher de chá de mel na vida, dança para dar direções, reconhece rostos humanos e faz um alimento que nunca estraga. Veja os fatos da menor trabalhadora do mundo. #abelha #abelhas #insetos #animais"
+    },
+    "de": {
+      "title": "Eine Biene macht in ihrem ganzen Leben ein Zwölftel Teelöffel Honig",
+      "description": "Eine Honigbiene produziert in ihrem Leben ein Zwölftel Teelöffel Honig, tanzt, um den Weg zu zeigen, erkennt menschliche Gesichter und macht ein Lebensmittel, das nie verdirbt. Das sind die Fakten über die kleinste Arbeiterin. #honigbiene #bienen #insekten #tiere"
+    },
+    "fr": {
+      "title": "Une abeille produit un douzième de cuillère à café de miel dans toute sa vie",
+      "description": "Une abeille produit un douzième de cuillère à café de miel dans sa vie, danse pour indiquer le chemin, reconnaît les visages humains et fabrique un aliment qui ne se gâte jamais. Voici les faits sur la plus petite travailleuse. #abeille #abeilles #insectes #animaux"
+    },
+    "hi": {
+      "title": "एक मधुमक्खी पूरी जिंदगी में सिर्फ चम्मच का बारहवां हिस्सा शहद बनाती है",
+      "description": "एक मधुमक्खी जीवन भर में चम्मच का बारहवां हिस्सा शहद बनाती है, नाचकर रास्ता बताती है, इंसानी चेहरे पहचानती है और ऐसा खाना बनाती है जो कभी खराब नहीं होता। सबसे छोटी मेहनती के तथ्य। #honeybee #bees #insects #animals"
+    }
+  },
+  "captions": {
+    "ko": [
+      "꿀벌 한 마리가 평생 만드는 꿀은 티스푼 12분의 1뿐입니다.",
+      "일벌은 여름에 몇 주밖에 못 살고 티스푼 12분의 1 정도의 꿀을 만드니, 꿀 한 병은 수만 마리 벌이 평생 일한 결과물입니다.",
+      "정찰벌이 꽃을 찾으면 돌아와 8자 춤을 추는데, 흔드는 각도와 길이가 벌집 전체에 날아갈 정확한 방향과 거리를 알려줍니다.",
+      "벌은 사람 얼굴을 하나하나 구별하도록 학습할 수 있고, 실험에서는 작은 수를 세고 심지어 0이라는 개념까지 이해하는 것으로 나타났습니다.",
+      "벌은 꿀이 절대 상하지 않을 만큼 마를 때까지 날개로 부채질하는데, 고대 이집트 무덤에서 발견된 꿀단지는 3,000년이 지나도 먹을 수 있었습니다.",
+      "작은 뇌, 믿기 힘든 벌집."
+    ],
+    "ja": [
+      "ミツバチ1匹が一生で作る蜂蜜は、ティースプーン12分の1だけです。",
+      "働きバチは夏には数週間しか生きられず、作る蜂蜜はティースプーン12分の1ほど。つまり瓶1本は何万匹ものハチの一生分の仕事です。",
+      "偵察バチが花を見つけると戻ってきて8の字ダンスを踊り、体を振る角度と長さで、巣全体に飛ぶべき正確な方向と距離を伝えます。",
+      "ハチは人間の顔を一人一人見分けるよう学習でき、実験では小さな数を数え、ゼロという概念まで理解することが示されています。",
+      "ハチは蜂蜜が決して腐らないほど乾くまで羽で扇ぎ続け、古代エジプトの墓で見つかった蜂蜜の壺は3,000年経っても食べられる状態でした。",
+      "小さな脳、信じられない巣。"
+    ],
+    "es": [
+      "Una sola abeja produce apenas una doceava parte de cucharadita de miel en toda su vida.",
+      "Una obrera vive solo unas semanas en verano y produce una doceava parte de cucharadita de miel, así que un solo frasco es la obra de toda la vida de decenas de miles de abejas.",
+      "Cuando una exploradora encuentra flores, vuelve y hace la danza del meneo, y el ángulo y la duración de su meneo le dicen a la colmena la dirección y la distancia exactas para volar.",
+      "Las abejas pueden aprender a reconocer rostros humanos individuales, y los experimentos han demostrado que cuentan números pequeños e incluso entienden la idea del cero.",
+      "Las abejas abanican el néctar con las alas hasta que está tan seco que nunca se echa a perder, y frascos de miel hallados en tumbas del antiguo Egipto seguían siendo comestibles tras 3.000 años.",
+      "Cerebro pequeño, colmena increíble."
+    ],
+    "pt": [
+      "Uma única abelha produz apenas um doze avos de colher de chá de mel em toda a vida.",
+      "Uma operária vive só algumas semanas no verão e produz cerca de um doze avos de colher de chá de mel, então um único pote é o trabalho de uma vida de dezenas de milhares de abelhas.",
+      "Quando uma exploradora encontra flores, ela volta e faz a dança do requebrado, e o ângulo e a duração do requebro dizem à colmeia a direção e a distância exatas para voar.",
+      "Abelhas conseguem aprender a reconhecer rostos humanos individuais, e experimentos mostraram que elas contam números pequenos e até entendem a ideia de zero.",
+      "As abelhas abanam o néctar com as asas até ficar seco o bastante para nunca estragar, e potes de mel achados em tumbas do antigo Egito ainda eram comestíveis depois de 3.000 anos.",
+      "Cérebro pequeno, colmeia inacreditável."
+    ],
+    "de": [
+      "Eine einzelne Honigbiene macht in ihrem ganzen Leben nur ein Zwölftel Teelöffel Honig.",
+      "Eine Arbeiterin lebt im Sommer nur wenige Wochen und produziert etwa ein Zwölftel Teelöffel Honig, ein einziges Glas ist also das Lebenswerk von Zehntausenden Bienen.",
+      "Findet eine Kundschafterin Blüten, kehrt sie zurück und führt einen Schwänzeltanz auf, und Winkel und Dauer ihres Wackelns verraten dem Stock die genaue Richtung und Entfernung.",
+      "Bienen können lernen, einzelne menschliche Gesichter zu erkennen, und Experimente zeigen, dass sie kleine Zahlen zählen und sogar das Konzept der Null begreifen.",
+      "Bienen fächeln den Nektar mit ihren Flügeln, bis er so trocken ist, dass er nie verdirbt, und Honigtöpfe aus altägyptischen Gräbern waren nach 3.000 Jahren noch essbar.",
+      "Kleines Gehirn, unglaublicher Stock."
+    ],
+    "fr": [
+      "Une seule abeille ne produit qu'un douzième de cuillère à café de miel dans toute sa vie.",
+      "Une ouvrière ne vit que quelques semaines en été et produit environ un douzième de cuillère à café de miel, un seul pot est donc l'œuvre d'une vie de dizaines de milliers d'abeilles.",
+      "Quand une éclaireuse trouve des fleurs, elle revient et exécute une danse frétillante, et l'angle et la durée de son frétillement indiquent à la ruche la direction et la distance exactes.",
+      "Les abeilles peuvent apprendre à reconnaître des visages humains individuels, et des expériences ont montré qu'elles comptent de petits nombres et saisissent même l'idée du zéro.",
+      "Les abeilles éventent le nectar avec leurs ailes jusqu'à ce qu'il soit assez sec pour ne jamais se gâter, et des pots de miel trouvés dans des tombes de l'Égypte ancienne étaient encore comestibles après 3 000 ans.",
+      "Petit cerveau, ruche incroyable."
+    ],
+    "hi": [
+      "एक अकेली मधुमक्खी अपनी पूरी जिंदगी में सिर्फ चम्मच का बारहवां हिस्सा शहद बनाती है।",
+      "एक श्रमिक मक्खी गर्मियों में सिर्फ कुछ हफ्ते जीती है और चम्मच का बारहवां हिस्सा शहद बनाती है, इसलिए एक जार हजारों मक्खियों की पूरी जिंदगी की मेहनत है।",
+      "जब कोई खोजी मक्खी फूल ढूंढती है तो लौटकर वैगल डांस करती है, और उसके हिलने का कोण और लंबाई पूरे छत्ते को उड़ने की सटीक दिशा और दूरी बता देती है।",
+      "मधुमक्खियां अलग-अलग इंसानी चेहरे पहचानना सीख सकती हैं, और प्रयोगों में दिखा है कि वे छोटी संख्याएं गिन सकती हैं और शून्य का विचार तक समझ लेती हैं।",
+      "मक्खियां पंखों से रस को तब तक हवा देती हैं जब तक वह इतना सूख न जाए कि कभी खराब न हो, और प्राचीन मिस्र की कब्रों में मिले शहद के जार 3,000 साल बाद भी खाने लायक थे।",
+      "छोटा दिमाग, अविश्वसनीय छत्ता।"
+    ]
+  }
 }
