@@ -50,5 +50,111 @@
     "sea otter grooming thick fur",
     "sea otter cracking shell with rock",
     "sea otter kelp forest underwater urchins"
-  ]
+  ],
+  "clips": [
+    [
+      34213433,
+      34213432
+    ],
+    [
+      8838126,
+      7008037
+    ],
+    [
+      34614233,
+      35970925
+    ],
+    [
+      36019255,
+      35051797
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "해달이 잠잘 때 손을 잡는 진짜 이유",
+      "description": "해달은 잠잘 때 서로 손을 잡고, 겨드랑이에 좋아하는 돌을 넣고 다니며, 매일 몸무게의 4분의 1을 먹습니다. 바다에서 가장 귀여운 동물의 진짜 사실들을 정리했습니다. #해달 #동물 #야생동물 #바다생물"
+    },
+    "ja": {
+      "title": "ラッコが眠るとき手をつなぐ本当の理由",
+      "description": "ラッコは眠るとき互いに手をつなぎ、脇の下にお気に入りの石を入れて持ち歩き、毎日体重の4分の1を食べます。海で一番かわいい動物の本当の事実をまとめました。#ラッコ #動物 #野生動物 #海の生き物"
+    },
+    "es": {
+      "title": "Por qué las nutrias marinas se dan la mano para dormir",
+      "description": "Las nutrias marinas se toman de las patas para dormir, guardan una piedra favorita bajo el brazo y comen un cuarto de su peso cada día. Estos son los datos reales del animal más tierno del océano. #nutriamarina #nutria #animales #vidasalvaje #oceano"
+    },
+    "pt": {
+      "title": "Por que as lontras-marinhas dão as mãos para dormir",
+      "description": "As lontras-marinhas dão as patas para dormir, carregam uma pedra favorita debaixo do braço e comem um quarto do próprio peso todos os dias. Veja os fatos reais do animal mais fofo do oceano. #lontramarinha #lontra #animais #vidaselvagem #oceano"
+    },
+    "de": {
+      "title": "Warum Seeotter beim Schlafen Händchen halten",
+      "description": "Seeotter halten beim Schlafen die Pfoten, tragen einen Lieblingsstein unter dem Arm und fressen jeden Tag ein Viertel ihres Gewichts. Das sind die echten Fakten über das süßeste Tier des Ozeans. #seeotter #otter #tiere #wildtiere #ozean"
+    },
+    "fr": {
+      "title": "Pourquoi les loutres de mer se tiennent la main pour dormir",
+      "description": "Les loutres de mer se tiennent les pattes pour dormir, gardent une pierre préférée sous le bras et mangent un quart de leur poids chaque jour. Voici les vrais faits sur l'animal le plus mignon de l'océan. #loutredemer #loutre #animaux #faune #ocean"
+    },
+    "hi": {
+      "title": "समुद्री ऊदबिलाव सोते समय हाथ क्यों पकड़ते हैं",
+      "description": "समुद्री ऊदबिलाव सोते समय एक-दूसरे का पंजा पकड़ते हैं, बगल में अपना पसंदीदा पत्थर रखते हैं और रोज अपने वजन का एक चौथाई खाते हैं। समुद्र के सबसे प्यारे जानवर के असली तथ्य जानिए। #seaotter #otter #animals #wildlife #ocean"
+    }
+  },
+  "captions": {
+    "ko": [
+      "해달은 잠잘 때 손을 잡는데, 그 이유는 여러분 생각과 다릅니다.",
+      "해달은 물 위에 등을 대고 떠서 자는데, 밤사이 해류에 서로 떠내려가지 않도록 앞발을 맞잡거나 켈프 줄기로 몸을 감습니다.",
+      "털은 모든 동물 중 가장 촘촘해서 1제곱인치에 최대 100만 가닥이 나는데, 찬물에서 몸을 덥혀 줄 지방층이 없기 때문입니다.",
+      "일부 해달은 겨드랑이의 헐렁한 피부 주머니에 아끼는 돌을 넣고 다니며, 그 돌을 망치처럼 써서 조개와 성게를 깨 먹습니다.",
+      "다 자란 해달은 매일 몸무게의 4분의 1 정도를 먹는데, 그래서 켈프 숲을 망가뜨리는 성게를 먹어치워 숲 전체를 지켜 냅니다.",
+      "이제 왜 절대 손을 놓지 않는지 아셨죠."
+    ],
+    "ja": [
+      "ラッコは眠るとき手をつなぎますが、その理由はあなたが思うものとは違います。",
+      "ラッコは仰向けに浮かんで眠り、夜の間に海流で離れ離れにならないよう、前足をつなぐか昆布に体を巻きつけます。",
+      "毛は動物の中で最も密で、1平方インチに最大100万本も生えています。冷たい海で体を温める脂肪の層がないからです。",
+      "お気に入りの石を脇の下のゆるんだ皮膚のポケットに入れて持ち歩き、ハンマーのように使って貝やウニを割る個体もいます。",
+      "成獣は毎日体重のおよそ4分の1を食べるため、昆布の森を荒らすウニを食べ尽くして森全体を守ることができます。",
+      "なぜ決して手を離さないのか、これで分かりましたね。"
+    ],
+    "es": [
+      "Las nutrias marinas se dan la mano mientras duermen, y la razón no es la que crees.",
+      "Duermen flotando de espaldas, y se toman de las patas o se envuelven en algas para que la corriente no las separe durante la noche.",
+      "Tienen el pelaje más denso de todos los animales, hasta un millón de pelos por pulgada cuadrada, porque no tienen grasa que las abrigue en el agua fría.",
+      "Algunas guardan una piedra favorita en una bolsa de piel suelta bajo el brazo, y la usan como martillo para abrir almejas y erizos de mar.",
+      "Un adulto come cerca de un cuarto de su peso cada día, y por eso las nutrias pueden proteger bosques enteros de algas al comerse los erizos que los destruyen.",
+      "Ahora ya sabes por qué nunca se sueltan."
+    ],
+    "pt": [
+      "As lontras-marinhas dão as mãos enquanto dormem, e o motivo não é o que você imagina.",
+      "Elas dormem flutuando de costas, e dão as patas ou se enrolam em algas para que a corrente não as separe durante a noite.",
+      "Têm o pelo mais denso de todos os animais, até um milhão de fios por polegada quadrada, porque não têm gordura para aquecê-las na água fria.",
+      "Algumas guardam uma pedra favorita numa bolsa de pele frouxa debaixo do braço, e a usam como martelo para abrir mariscos e ouriços-do-mar.",
+      "Um adulto come cerca de um quarto do próprio peso por dia, e é por isso que as lontras protegem florestas inteiras de algas comendo os ouriços que as destroem.",
+      "Agora você sabe por que elas nunca se soltam."
+    ],
+    "de": [
+      "Seeotter halten beim Schlafen Händchen, und der Grund ist nicht der, den du denkst.",
+      "Sie schlafen auf dem Rücken treibend und halten sich an den Pfoten oder wickeln sich in Seetang, damit die Strömung sie nachts nicht auseinandertreibt.",
+      "Sie haben das dichteste Fell aller Tiere, bis zu einer Million Haare pro Quadratzoll, denn sie haben keine Speckschicht, die sie im kalten Wasser wärmt.",
+      "Manche Otter tragen einen Lieblingsstein in einer lockeren Hauttasche unter dem Arm und benutzen ihn wie einen Hammer, um Muscheln und Seeigel zu knacken.",
+      "Ein erwachsener Otter frisst täglich etwa ein Viertel seines Gewichts, deshalb können Otter ganze Seetangwälder schützen, indem sie die Seeigel fressen, die sie zerstören.",
+      "Jetzt weißt du, warum sie nie loslassen."
+    ],
+    "fr": [
+      "Les loutres de mer se tiennent la main en dormant, et la raison n'est pas celle que vous croyez.",
+      "Elles dorment en flottant sur le dos, et se tiennent les pattes ou s'enroulent dans le varech pour que le courant ne les sépare pas pendant la nuit.",
+      "Elles ont la fourrure la plus dense de tous les animaux, jusqu'à un million de poils par pouce carré, car elles n'ont pas de graisse pour les réchauffer dans l'eau froide.",
+      "Certaines gardent une pierre préférée dans une poche de peau lâche sous le bras, et s'en servent comme d'un marteau pour ouvrir palourdes et oursins.",
+      "Un adulte mange environ un quart de son poids chaque jour, c'est pourquoi les loutres protègent des forêts entières de varech en dévorant les oursins qui les détruisent.",
+      "Vous savez maintenant pourquoi elles ne lâchent jamais prise."
+    ],
+    "hi": [
+      "समुद्री ऊदबिलाव सोते समय हाथ पकड़ते हैं, और वजह वह नहीं है जो आप सोचते हैं।",
+      "वे पीठ के बल तैरते हुए सोते हैं, और पंजे पकड़ते हैं या खुद को समुद्री घास में लपेट लेते हैं ताकि रात में धारा उन्हें अलग न कर दे।",
+      "उनका फर किसी भी जानवर से घना है, हर वर्ग इंच में दस लाख तक बाल, क्योंकि ठंडे पानी में गर्म रखने वाली चर्बी उनके पास नहीं होती।",
+      "कुछ ऊदबिलाव बगल की ढीली त्वचा की थैली में पसंदीदा पत्थर रखते हैं, और उसे हथौड़े की तरह इस्तेमाल कर सीप और समुद्री अर्चिन तोड़ते हैं।",
+      "एक वयस्क रोज अपने वजन का करीब एक चौथाई खाता है, इसीलिए ऊदबिलाव जंगल तबाह करने वाले अर्चिन खाकर पूरे समुद्री घास के जंगल बचा लेते हैं।",
+      "अब आप जानते हैं कि वे कभी हाथ क्यों नहीं छोड़ते।"
+    ]
+  }
 }
