@@ -1,0 +1,160 @@
+{
+  "author": "claude",
+  "animal_key": "camel",
+  "display": "Camels",
+  "single": "camel",
+  "category": "mammal",
+  "angle": "survival_tricks",
+  "format": "myth_vs_fact",
+  "hook_line": "Camels don't store water in their humps, so how do they survive the desert?",
+  "hook": "NO WATER IN THE HUMP",
+  "intro": "Camels don't store water in their humps, so how do they survive the desert?",
+  "facts": [
+    "A dromedary's hump holds up to 36 kilograms of fat, and when food runs out the camel burns it for energy until the hump shrinks and sags to one side.",
+    "A camel's red blood cells are oval, not round like ours, and they swell without bursting, so a thirsty camel can gulp down over 100 liters of water in 10 minutes.",
+    "In a sandstorm a camel squeezes its nostrils shut, two rows of long eyelashes guard its eyes, and a thin third eyelid sweeps out sand like a windshield wiper.",
+    "A camel's body temperature can swing from 34 to 41 degrees Celsius in a single day, and waiting until 41 to sweat cuts its water loss by up to two thirds."
+  ],
+  "outro": "The hump is a lunchbox, not a water bottle.",
+  "title_en": "Camels Don't Store Water in Their Humps. So How Do They Survive the Desert?",
+  "title_ko": "낙타 혹에 든 건 물이 아니라 지방, 그럼 사막에서 어떻게 버틸까",
+  "description_en": "Camels don't store water in their humps. A dromedary's hump holds up to 36 kilograms of fat, red blood cells that swell without bursting let a thirsty camel drink over 100 liters in 10 minutes, its nostrils squeeze shut in sandstorms, and it can hold off sweating until its body temperature reaches 41 degrees Celsius. Here is how camels survive the desert. #camel #desert #animals #wildlife #animalfacts",
+  "description_ko": "낙타 혹에 든 건 물이 아니라 지방입니다. 혹이 하나인 단봉낙타는 혹에 지방을 많게는 36kg까지 쌓아 둡니다. 적혈구는 사람처럼 둥글지 않고 타원형인데, 10분 만에 물을 100리터 넘게 들이켜도 터지지 않고 부풀기만 합니다. 모래바람이 불면 콧구멍을 꽉 닫고, 체온이 41도에 이를 때까지 땀을 흘리지 않고 물을 아낄 수 있습니다. 물이 귀한 사막에서 낙타가 버티는 방법을 정리했습니다. #낙타 #사막 #동물상식 #야생동물",
+  "comment": "Be honest, did you also think camels stored water in their humps?",
+  "tags": [
+    "shorts",
+    "animals",
+    "camel",
+    "camels",
+    "desert",
+    "wildlife",
+    "animal facts",
+    "dromedary",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "camel desert",
+    "camel close up",
+    "camel hump",
+    "camel caravan",
+    "camel walking sand dunes",
+    "camel face",
+    "camel herd desert",
+    "camel resting sand",
+    "camel sahara",
+    "camel drinking"
+  ],
+  "fact_keywords": [
+    "camel standing",
+    "camel drinking water",
+    "camel head close up",
+    "camel walking desert heat"
+  ],
+  "clips": [
+    [
+      5795194,
+      38708505
+    ],
+    [
+      5447483,
+      36811624
+    ],
+    [
+      36508833,
+      15694518
+    ],
+    [
+      28806704,
+      18752156
+    ]
+  ],
+  "localizations": {
+    "ko": {
+      "title": "낙타 혹에 든 건 물이 아니라 지방, 그럼 사막에서 어떻게 버틸까",
+      "description": "낙타 혹에 든 건 물이 아니라 지방입니다. 혹이 하나인 단봉낙타는 혹에 지방을 많게는 36kg까지 쌓아 둡니다. 적혈구는 사람처럼 둥글지 않고 타원형인데, 10분 만에 물을 100리터 넘게 들이켜도 터지지 않고 부풀기만 합니다. 모래바람이 불면 콧구멍을 꽉 닫고, 체온이 41도에 이를 때까지 땀을 흘리지 않고 물을 아낄 수 있습니다. 물이 귀한 사막에서 낙타가 버티는 방법을 정리했습니다. #낙타 #사막 #동물상식 #야생동물"
+    },
+    "ja": {
+      "title": "ラクダのこぶの中身は水じゃなく脂肪、では砂漠でどうやって生き抜くのか",
+      "description": "ラクダのこぶに入っているのは水ではなく脂肪です。ヒトコブラクダのこぶには最大36kgの脂肪がたまっています。赤血球は人間のように丸くはなく楕円形で、10分で100リットルを超える水を飲んでも破裂せず膨らむだけです。砂嵐になると鼻の穴をぎゅっと閉じ、体温が41度になるまで汗をかかずに水分を節約できます。水の乏しい砂漠でラクダが生き抜く仕組みをまとめました。 #ラクダ #砂漠 #動物 #野生動物 #雑学"
+    },
+    "es": {
+      "title": "Los camellos no guardan agua en la joroba. Entonces, ¿cómo sobreviven en el desierto?",
+      "description": "Los camellos no guardan agua en la joroba: la de un dromedario guarda hasta 36 kilos de grasa. Sus glóbulos rojos se hinchan sin reventar, así que un camello sediento puede beber más de 100 litros en 10 minutos. Además, cierran las fosas nasales en las tormentas de arena y pueden aguantar sin sudar hasta que su temperatura corporal llega a 41 grados Celsius. Así sobreviven los camellos en el desierto. #camello #desierto #animales #vidasalvaje #datoscuriosos"
+    },
+    "pt": {
+      "title": "Camelos não guardam água na corcova. Então como eles sobrevivem no deserto?",
+      "description": "Camelos não guardam água na corcova: a de um dromedário guarda até 36 quilos de gordura. Os glóbulos vermelhos deles incham sem estourar, o que permite a um camelo com sede beber mais de 100 litros em 10 minutos. Nas tempestades de areia, eles fecham as narinas e conseguem segurar o suor até a temperatura do corpo chegar a 41 graus Celsius. Veja como os camelos sobrevivem no deserto. #camelo #deserto #animais #vidaselvagem #curiosidades"
+    },
+    "de": {
+      "title": "Kamele speichern kein Wasser im Höcker. Wie überleben sie dann in der Wüste?",
+      "description": "Kamele speichern kein Wasser in ihren Höckern: Der Höcker eines Dromedars speichert bis zu 36 Kilogramm Fett. Ihre roten Blutkörperchen schwellen an, ohne zu platzen, so kann ein durstiges Kamel in 10 Minuten über 100 Liter trinken. Im Sandsturm kneifen sie die Nasenlöcher zu, und sie können mit dem Schwitzen warten, bis ihre Körpertemperatur 41 Grad Celsius erreicht. So überleben Kamele in der Wüste. #kamel #wüste #tiere #wildtiere #tierfakten"
+    },
+    "fr": {
+      "title": "Il n'y a pas d'eau dans la bosse du chameau : alors comment survit-il au désert ?",
+      "description": "Les chameaux ne stockent pas d'eau dans leur bosse. Celle d'un dromadaire contient jusqu'à 36 kilos de graisse. Leurs globules rouges gonflent sans éclater, ce qui permet à un chameau assoiffé de boire plus de 100 litres en 10 minutes. Dans les tempêtes de sable, ils ferment leurs narines, et ils peuvent attendre que leur température corporelle atteigne 41 degrés Celsius avant de transpirer. Voici comment les chameaux survivent au désert. #chameau #dromadaire #désert #animaux #lesaviezvous"
+    },
+    "hi": {
+      "title": "ऊंट के कूबड़ में पानी नहीं, चर्बी होती है, तो फिर ये रेगिस्तान में जिंदा कैसे रहते हैं?",
+      "description": "ऊंट अपने कूबड़ में पानी जमा नहीं करते। एक कूबड़ वाले ऊंट के कूबड़ में 36 किलो तक चर्बी होती है। ऊंट की लाल रक्त कोशिकाएं फटे बिना फूल जाती हैं, इसलिए प्यासा ऊंट 10 मिनट में 100 लीटर से ज्यादा पानी पी सकता है। रेत के तूफान में ऊंट अपने नथुने बंद कर लेता है, और शरीर का तापमान 41 डिग्री सेल्सियस होने तक पसीना रोक सकता है। जानिए ऊंट रेगिस्तान में कैसे जिंदा रहते हैं। #ऊंट #रेगिस्तान #जानवर #रोचकतथ्य #camel"
+    }
+  },
+  "captions": {
+    "ko": [
+      "낙타는 혹에 물을 저장하지 않는데, 그럼 사막에서 어떻게 버틸까요?",
+      "단봉낙타의 혹에는 지방이 최대 36kg까지 들어 있고, 먹을 게 떨어지면 이 지방을 태워 에너지로 쓰는데, 혹이 줄어들면서 결국 한쪽으로 축 처집니다.",
+      "낙타의 적혈구는 우리처럼 둥글지 않고 타원형인데, 부풀어도 터지지 않아서 목마른 낙타는 10분 만에 물을 100리터 넘게 들이켤 수 있습니다.",
+      "모래폭풍이 불면 낙타는 콧구멍을 꽉 닫고, 두 줄로 난 긴 속눈썹이 눈을 지키며, 얇은 제3의 눈꺼풀이 자동차 와이퍼처럼 모래를 쓸어 냅니다.",
+      "낙타의 체온은 하루 사이에 34도에서 41도까지 오르내릴 수 있고, 41도가 될 때까지 땀을 흘리지 않고 버티면 수분 손실이 최대 3분의 2만큼 줄어듭니다.",
+      "낙타의 혹은 도시락이지, 물병이 아닙니다."
+    ],
+    "ja": [
+      "ラクダはこぶに水をためていません。ではどうやって砂漠を生き抜くのでしょう？",
+      "ヒトコブラクダのこぶには最大36kgの脂肪がたまっていて、食べ物がなくなるとこれを燃やしてエネルギーにするので、こぶはしぼんで片側に垂れ下がります。",
+      "ラクダの赤血球は私たちのように丸くはなく楕円形で、膨らんでも破裂しないため、のどが渇いたラクダは10分で100リットルを超える水をがぶ飲みできます。",
+      "砂嵐になるとラクダは鼻の穴をぎゅっと閉じ、2列に生えた長いまつげが目を守り、薄い第三のまぶたが車のワイパーのように砂をぬぐい去ります。",
+      "ラクダの体温は1日のうちに34度から41度まで上下することがあり、41度になるまで汗をかかないことで、水分の損失を最大で3分の2も減らせます。",
+      "こぶはお弁当箱で、水筒ではありません。"
+    ],
+    "es": [
+      "Los camellos no guardan agua en la joroba, entonces ¿cómo sobreviven en el desierto?",
+      "La joroba de un dromedario guarda hasta 36 kilos de grasa, y cuando se acaba la comida, el camello la quema para obtener energía hasta que la joroba se encoge y se cae hacia un lado.",
+      "Los glóbulos rojos del camello son ovalados, no redondos como los nuestros, y se hinchan sin reventar, así que un camello sediento puede beberse más de 100 litros de agua en 10 minutos.",
+      "En una tormenta de arena, el camello cierra con fuerza las fosas nasales, dos hileras de pestañas largas le protegen los ojos y un fino tercer párpado barre la arena como un limpiaparabrisas.",
+      "La temperatura corporal de un camello puede oscilar entre 34 y 41 grados Celsius en un solo día, y esperar a llegar a 41 para sudar reduce su pérdida de agua hasta en dos tercios.",
+      "La joroba es una lonchera, no una cantimplora."
+    ],
+    "pt": [
+      "Camelos não guardam água na corcova, então como eles sobrevivem no deserto?",
+      "A corcova de um dromedário guarda até 36 quilos de gordura, e quando a comida acaba, o camelo queima essa gordura para ter energia até a corcova murchar e tombar para um lado.",
+      "Os glóbulos vermelhos do camelo são ovais, não redondos como os nossos, e incham sem estourar, então um camelo com sede consegue beber mais de 100 litros de água em 10 minutos.",
+      "Numa tempestade de areia, o camelo fecha bem as narinas, duas fileiras de cílios longos protegem os olhos e uma fina terceira pálpebra varre a areia como um limpador de para-brisa.",
+      "A temperatura do corpo de um camelo pode variar de 34 a 41 graus Celsius em um único dia, e esperar chegar a 41 para suar reduz a perda de água em até dois terços.",
+      "A corcova é uma lancheira, não um cantil."
+    ],
+    "de": [
+      "Kamele speichern kein Wasser in ihren Höckern, wie überleben sie dann in der Wüste?",
+      "Der Höcker eines Dromedars speichert bis zu 36 Kilogramm Fett, und wenn das Futter ausgeht, verbrennt das Tier das Fett zur Energiegewinnung, bis der Höcker schrumpft und schlaff zur Seite hängt.",
+      "Die roten Blutkörperchen eines Kamels sind oval, nicht rund wie unsere, und schwellen an, ohne zu platzen, deshalb kann ein durstiges Kamel in 10 Minuten über 100 Liter Wasser hinunterstürzen.",
+      "Im Sandsturm kneift ein Kamel die Nasenlöcher zu, zwei Reihen langer Wimpern schützen die Augen, und ein dünnes drittes Augenlid wischt den Sand weg wie ein Scheibenwischer.",
+      "Die Körpertemperatur eines Kamels kann an einem einzigen Tag zwischen 34 und 41 Grad Celsius schwanken, und erst bei 41 Grad zu schwitzen senkt seinen Wasserverlust um bis zu zwei Drittel.",
+      "Der Höcker ist eine Brotdose, keine Wasserflasche."
+    ],
+    "fr": [
+      "Les chameaux ne stockent pas d'eau dans leur bosse, alors comment survivent-ils dans le désert ?",
+      "La bosse d'un dromadaire contient jusqu'à 36 kilos de graisse, et quand la nourriture vient à manquer, l'animal la brûle pour en tirer de l'énergie jusqu'à ce que la bosse rétrécisse et retombe sur le côté.",
+      "Les globules rouges du chameau sont ovales, pas ronds comme les nôtres, et ils gonflent sans éclater, si bien qu'un chameau assoiffé peut engloutir plus de 100 litres d'eau en 10 minutes.",
+      "Dans une tempête de sable, le chameau ferme complètement ses narines, deux rangées de longs cils protègent ses yeux et une fine troisième paupière balaie le sable comme un essuie-glace.",
+      "La température corporelle d'un chameau peut varier de 34 à 41 degrés Celsius en une seule journée, et attendre 41 degrés pour transpirer lui fait perdre jusqu'à deux tiers d'eau en moins.",
+      "La bosse est un panier-repas, pas une gourde."
+    ],
+    "hi": [
+      "ऊंट अपने कूबड़ में पानी जमा नहीं करते, तो फिर वे रेगिस्तान में जिंदा कैसे रहते हैं?",
+      "एक कूबड़ वाले ऊंट के कूबड़ में 36 किलो तक चर्बी होती है, और खाना खत्म होने पर ऊंट इसी चर्बी को जलाकर ऊर्जा लेता है, जिससे कूबड़ सिकुड़कर एक तरफ लटक जाता है।",
+      "ऊंट की लाल रक्त कोशिकाएं हमारी तरह गोल नहीं बल्कि अंडाकार होती हैं, और ये फटे बिना फूल जाती हैं, इसलिए प्यासा ऊंट 10 मिनट में 100 लीटर से ज्यादा पानी गटक सकता है।",
+      "रेत के तूफान में ऊंट अपने नथुने कसकर बंद कर लेता है, लंबी बरौनियों की दो कतारें आंखों को बचाती हैं, और एक पतली तीसरी पलक गाड़ी के वाइपर की तरह रेत साफ कर देती है।",
+      "ऊंट के शरीर का तापमान एक ही दिन में 34 से 41 डिग्री सेल्सियस तक ऊपर-नीचे हो सकता है, और 41 डिग्री होने तक पसीना न बहाने से उसके पानी का नुकसान दो-तिहाई तक घट जाता है।",
+      "कूबड़ टिफिन बॉक्स है, पानी की बोतल नहीं।"
+    ]
+  }
+}
