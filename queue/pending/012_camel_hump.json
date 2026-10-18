@@ -1,0 +1,180 @@
+{
+  "author": "claude",
+  "animal_key": "camel_hump",
+  "display": "Camels",
+  "single": "camel",
+  "category": "mammal",
+  "angle": "origins",
+  "format": "why_question",
+  "hook_line": "The camel's hump seems built for the desert, but the hump's story may lead somewhere much colder.",
+  "hook": "WHY DO CAMELS HAVE HUMPS?",
+  "intro": "The camel's hump seems built for the desert, but the hump's story may lead somewhere much colder.",
+  "facts": [
+    "A starving camel's hump can shrink until it nearly disappears. That's because it stores fat, not water, an energy reserve for hard times.",
+    "Keeping most of a camel's fat in the humps also lets the rest of its body release heat more easily in hot weather.",
+    "But the camel family didn't begin in Arabia or Africa. It began in North America about 45 million years ago, and some camels later lived far north.",
+    "On Canada's Arctic Ellesmere Island, scientists found leg-bone fragments of a giant camel about 3.5 million years old. The lead researcher suggests humps may have evolved to help camels through long northern winters."
+  ],
+  "outro": "So the desert's famous lunchbox may have been packed for winter.",
+  "title_en": "Why Do Camels Have Humps? 🤔",
+  "title_ko": "낙타는 왜 혹이 있을까? 🤔",
+  "description_en": "A camel's hump stores fat, not water, and keeping most of that fat in the humps helps the rest of the body release heat. But the camel family began in North America about 45 million years ago, and 3.5-million-year-old leg-bone fragments from Canada's Ellesmere Island show a giant camel once lived in the High Arctic, in a forest with long winters. The lead researcher suggests humps may have evolved to help camels through northern winters. That's a hypothesis, since the fossils don't preserve a hump. #camel #animals #wildlife #arctic #evolution",
+  "description_ko": "낙타의 혹에는 물이 아니라 지방이 들어 있고, 지방 대부분을 혹에 모아 두면 나머지 몸이 열을 내보내기 쉽습니다. 그런데 낙타과는 약 4,500만 년 전 북아메리카에서 시작됐고, 캐나다 엘즈미어섬에서 나온 약 350만 년 전 다리뼈 조각은 거대한 낙타가 겨울이 긴 고위도 북극 지역의 숲에 살았다는 것을 보여 줍니다. 연구 책임자는 혹이 북쪽의 긴 겨울을 나는 데 도움이 되도록 진화했을 수 있다고 봅니다. 다만 화석에 혹이 남아 있지는 않아서 가설입니다. #낙타 #동물 #야생동물 #북극 #진화",
+  "comment": "Would you have guessed camels once lived in the Arctic? 🤔",
+  "tags": [
+    "shorts",
+    "animals",
+    "camel",
+    "camels",
+    "wildlife",
+    "animal facts",
+    "arctic",
+    "evolution",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "camel desert",
+    "camel hump close up",
+    "camel walking sand",
+    "camel snow",
+    "arctic tundra",
+    "snowy forest winter",
+    "desert heat sun",
+    "bactrian camel",
+    "camel caravan sunset",
+    "prairie landscape"
+  ],
+  "fact_keywords": [
+    "camel hump close up",
+    "camel desert sun",
+    "camel caravan sunset",
+    "camel snow"
+  ],
+  "localizations": {
+    "ko": {
+      "title": "낙타는 왜 혹이 있을까? 🤔",
+      "description": "낙타의 혹에는 물이 아니라 지방이 들어 있고, 지방 대부분을 혹에 모아 두면 나머지 몸이 열을 내보내기 쉽습니다. 그런데 낙타과는 약 4,500만 년 전 북아메리카에서 시작됐고, 캐나다 엘즈미어섬에서 나온 약 350만 년 전 다리뼈 조각은 거대한 낙타가 겨울이 긴 고위도 북극 지역의 숲에 살았다는 것을 보여 줍니다. 연구 책임자는 혹이 북쪽의 긴 겨울을 나는 데 도움이 되도록 진화했을 수 있다고 봅니다. 다만 화석에 혹이 남아 있지는 않아서 가설입니다. #낙타 #동물 #야생동물 #북극 #진화"
+    },
+    "ja": {
+      "title": "ラクダにはなぜこぶがあるの？🤔",
+      "description": "ラクダのこぶに入っているのは水ではなく脂肪で、脂肪の大部分をこぶにためておくと体のほかの部分は熱を逃がしやすくなります。でもラクダの仲間は約4500万年前に北アメリカで誕生し、カナダのエルズミーア島で見つかった約350万年前の脚の骨のかけらは、巨大なラクダが冬の長い北極圏の高緯度地域の森に暮らしていたことを示しています。研究を率いた科学者は、こぶが北の冬を乗り切るために進化したのかもしれないと考えています。ただし化石にこぶは残っていないため、これは仮説です。#ラクダ #動物 #野生動物 #北極 #進化"
+    },
+    "es": {
+      "title": "¿Por qué los camellos tienen joroba? 🤔",
+      "description": "La joroba del camello guarda grasa, no agua, y concentrar la mayor parte de esa grasa en las jorobas ayuda al resto del cuerpo a liberar calor. Pero la familia de los camellos empezó en Norteamérica hace unos 45 millones de años, y unos fragmentos de hueso de la pata de 3,5 millones de años hallados en la isla de Ellesmere, en Canadá, muestran que un camello gigante vivió en el Alto Ártico, en un bosque de inviernos largos. La investigadora principal sugiere que las jorobas podrían haber evolucionado para ayudar a los camellos a pasar los inviernos del norte. Es una hipótesis, porque los fósiles no conservan la joroba. #camello #animales #fauna #artico #evolucion"
+    },
+    "pt": {
+      "title": "Por que os camelos têm corcova? 🤔",
+      "description": "A corcova do camelo guarda gordura, não água, e concentrar a maior parte dessa gordura nas corcovas ajuda o resto do corpo a liberar calor. Mas a família dos camelos começou na América do Norte, há cerca de 45 milhões de anos, e fragmentos de um osso da perna com 3,5 milhões de anos, achados na ilha Ellesmere, no Canadá, mostram que um camelo gigante viveu no Alto Ártico, numa floresta de invernos longos. A pesquisadora principal sugere que as corcovas podem ter evoluído para ajudar os camelos a atravessar os invernos do norte. É uma hipótese, porque os fósseis não preservam a corcova. #camelo #animais #vidaselvagem #artico #evolucao"
+    },
+    "de": {
+      "title": "Warum haben Kamele Höcker? 🤔",
+      "description": "Der Kamelhöcker speichert Fett, kein Wasser, und wenn der größte Teil des Fetts in den Höckern sitzt, kann der restliche Körper leichter Wärme abgeben. Doch die Familie der Kamele entstand vor etwa 45 Millionen Jahren in Nordamerika, und 3,5 Millionen Jahre alte Beinknochen-Bruchstücke von der kanadischen Insel Ellesmere zeigen, dass ein Riesenkamel einst in der Hocharktis lebte, in einem Wald mit langen Wintern. Die Leiterin der Studie vermutet, dass sich Höcker entwickelt haben könnten, um Kamelen durch die Winter im Norden zu helfen. Das ist eine Hypothese, denn in den Fossilien ist kein Höcker erhalten. #kamel #tiere #wildtiere #arktis #evolution"
+    },
+    "fr": {
+      "title": "Pourquoi les chameaux ont-ils des bosses ? 🤔",
+      "description": "La bosse du chameau stocke de la graisse, pas de l'eau, et garder l'essentiel de cette graisse dans les bosses aide le reste du corps à évacuer la chaleur. Mais les camélidés sont apparus en Amérique du Nord il y a environ 45 millions d'années, et des fragments d'un os de patte vieux de 3,5 millions d'années, trouvés sur l'île d'Ellesmere, au Canada, montrent qu'un chameau géant vivait dans l'Extrême-Arctique, dans une forêt aux longs hivers. La chercheuse principale suggère que les bosses auraient pu évoluer pour aider les chameaux à passer les hivers du Nord. C'est une hypothèse, car les fossiles ne conservent pas de bosse. #chameau #animaux #faune #arctique #evolution"
+    },
+    "hi": {
+      "title": "ऊँटों के कूबड़ क्यों होते हैं? 🤔",
+      "description": "ऊँट के कूबड़ में पानी नहीं, चर्बी जमा होती है, और ज़्यादातर चर्बी कूबड़ में रखने से बाकी शरीर आसानी से गर्मी बाहर निकाल पाता है। लेकिन ऊँटों का परिवार लगभग 4.5 करोड़ साल पहले उत्तरी अमेरिका में शुरू हुआ, और कनाडा के एल्समीयर द्वीप पर मिले लगभग 35 लाख साल पुराने पैर की हड्डी के टुकड़े बताते हैं कि एक विशाल ऊँट कभी आर्कटिक के सुदूर उत्तरी इलाके में, लंबी सर्दियों वाले एक जंगल में रहता था। मुख्य शोधकर्ता का मानना है कि कूबड़ शायद उत्तर की सर्दियाँ काटने में मदद के लिए विकसित हुआ हो। यह एक परिकल्पना है, क्योंकि जीवाश्म में कूबड़ नहीं बचा है। #camel #animals #वन्यजीवन #आर्कटिक #विकास"
+    }
+  },
+  "captions": {
+    "ko": [
+      "낙타의 혹은 사막에 맞춰 생긴 것 같지만, 혹의 이야기는 훨씬 추운 곳으로 이어질지도 모릅니다.",
+      "굶주린 낙타의 혹은 거의 사라질 만큼 쪼그라들 수 있습니다. 혹에는 물이 아니라 지방, 즉 힘든 때를 위한 에너지가 저장돼 있기 때문입니다.",
+      "지방 대부분을 혹에 모아 두면 나머지 몸은 더운 날씨에 열을 더 쉽게 내보낼 수 있습니다.",
+      "그런데 낙타과는 아라비아나 아프리카에서 시작되지 않았습니다. 약 4,500만 년 전 북아메리카에서 시작됐고, 일부 낙타는 나중에 아주 먼 북쪽에서 살았습니다.",
+      "캐나다 북극의 엘즈미어섬에서 과학자들이 약 350만 년 전 거대한 낙타의 다리뼈 조각을 찾았습니다. 연구 책임자는 혹이 낙타가 북쪽의 긴 겨울을 나는 데 도움이 되도록 진화했을 수 있다고 봅니다.",
+      "그러니 사막의 유명한 도시락은 원래 겨울을 위해 싸 둔 것일지도 모릅니다."
+    ],
+    "ja": [
+      "ラクダのこぶは砂漠のためにあるように見えますが、その物語はもっと寒い場所につながるかもしれません。",
+      "飢えたラクダのこぶは、ほとんど消えるほど縮むことがあります。こぶに入っているのは水ではなく脂肪、つまり苦しい時期のためのエネルギーだからです。",
+      "脂肪の大部分をこぶにためておくと、体のほかの部分は暑いときに熱を逃がしやすくなります。",
+      "でもラクダの仲間はアラビアやアフリカで生まれたのではありません。約4500万年前に北アメリカで誕生し、のちに一部はずっと北の地で暮らしました。",
+      "カナダ北極圏のエルズミーア島で、科学者たちは約350万年前の巨大なラクダの脚の骨のかけらを見つけました。研究を率いた科学者は、こぶが北の長い冬を乗り切るために進化したのかもしれないと考えています。",
+      "砂漠でおなじみのお弁当は、もともと冬のために用意されたものかもしれません。"
+    ],
+    "es": [
+      "La joroba del camello parece hecha para el desierto, pero su historia podría llevarnos a un lugar mucho más frío.",
+      "La joroba de un camello hambriento puede encogerse hasta casi desaparecer. Es porque guarda grasa, no agua: una reserva de energía para los tiempos difíciles.",
+      "Guardar la mayor parte de la grasa en las jorobas también ayuda al resto del cuerpo a liberar calor con más facilidad cuando hace calor.",
+      "Pero la familia de los camellos no empezó en Arabia ni en África. Empezó en Norteamérica hace unos 45 millones de años, y algunos camellos vivieron después muy al norte.",
+      "En la isla de Ellesmere, en el Ártico canadiense, los científicos encontraron fragmentos de un hueso de la pata de un camello gigante de unos 3,5 millones de años. La investigadora principal sugiere que las jorobas podrían haber evolucionado para ayudar a los camellos a pasar los largos inviernos del norte.",
+      "Así que la famosa fiambrera del desierto quizá se preparó para el invierno."
+    ],
+    "pt": [
+      "A corcova do camelo parece feita para o deserto, mas a história dela pode levar a um lugar muito mais frio.",
+      "A corcova de um camelo faminto pode encolher até quase sumir. Isso porque ela guarda gordura, não água: uma reserva de energia para tempos difíceis.",
+      "Guardar a maior parte da gordura nas corcovas também ajuda o resto do corpo a liberar calor com mais facilidade no tempo quente.",
+      "Mas a família dos camelos não começou na Arábia nem na África. Começou na América do Norte, há cerca de 45 milhões de anos, e alguns camelos depois viveram bem ao norte.",
+      "Na ilha Ellesmere, no Ártico canadense, cientistas encontraram fragmentos de um osso da perna de um camelo gigante com cerca de 3,5 milhões de anos. A pesquisadora principal sugere que as corcovas podem ter evoluído para ajudar os camelos a atravessar os longos invernos do norte.",
+      "Então, a famosa marmita do deserto pode ter sido preparada para o inverno."
+    ],
+    "de": [
+      "Der Kamelhöcker wirkt wie für die Wüste gemacht, aber seine Geschichte könnte an einen viel kälteren Ort führen.",
+      "Bei einem hungernden Kamel kann der Höcker schrumpfen, bis er fast verschwindet. Denn er speichert Fett, kein Wasser: eine Energiereserve für harte Zeiten.",
+      "Wenn der größte Teil des Fetts in den Höckern sitzt, kann der restliche Körper bei Hitze auch leichter Wärme abgeben.",
+      "Doch die Familie der Kamele entstand nicht in Arabien oder Afrika. Sie entstand vor etwa 45 Millionen Jahren in Nordamerika, und manche Kamele lebten später hoch im Norden.",
+      "Auf der kanadischen Arktisinsel Ellesmere fanden Forscher Bruchstücke eines Beinknochens von einem Riesenkamel, etwa 3,5 Millionen Jahre alt. Die Leiterin der Studie vermutet, dass sich Höcker entwickelt haben könnten, um Kamelen durch lange Winter im Norden zu helfen.",
+      "Die berühmte Proviantdose der Wüste war also vielleicht für den Winter gepackt."
+    ],
+    "fr": [
+      "La bosse du chameau semble faite pour le désert, mais son histoire pourrait mener vers un endroit bien plus froid.",
+      "Chez un chameau affamé, la bosse peut rétrécir jusqu'à presque disparaître. C'est parce qu'elle stocke de la graisse, pas de l'eau : une réserve d'énergie pour les temps difficiles.",
+      "Garder l'essentiel de sa graisse dans ses bosses aide aussi le reste du corps à évacuer la chaleur plus facilement quand il fait chaud.",
+      "Mais les camélidés ne sont nés ni en Arabie ni en Afrique. Ils sont apparus en Amérique du Nord il y a environ 45 millions d'années, et certains chameaux ont ensuite vécu très au nord.",
+      "Sur l'île d'Ellesmere, dans l'Arctique canadien, des scientifiques ont trouvé des fragments d'un os de patte d'un chameau géant vieux d'environ 3,5 millions d'années. La chercheuse principale suggère que les bosses auraient pu évoluer pour aider les chameaux à passer les longs hivers du Nord.",
+      "Le célèbre panier-repas du désert aurait donc pu être préparé pour l'hiver."
+    ],
+    "hi": [
+      "ऊँट का कूबड़ रेगिस्तान के लिए बना लगता है, लेकिन कूबड़ की कहानी शायद किसी बहुत ठंडी जगह तक जाती है।",
+      "भूखे ऊँट का कूबड़ सिकुड़कर लगभग गायब हो सकता है। ऐसा इसलिए, क्योंकि इसमें पानी नहीं, चर्बी जमा रहती है, यानी मुश्किल दिनों के लिए ऊर्जा।",
+      "ज़्यादातर चर्बी कूबड़ में जमा रखने से गर्मी के मौसम में बाकी शरीर आसानी से गर्मी बाहर निकाल पाता है।",
+      "लेकिन ऊँटों का परिवार अरब या अफ्रीका में शुरू नहीं हुआ। यह लगभग 4.5 करोड़ साल पहले उत्तरी अमेरिका में शुरू हुआ, और बाद में कुछ ऊँट बहुत दूर उत्तर में भी रहे।",
+      "कनाडा के आर्कटिक में एल्समीयर द्वीप पर वैज्ञानिकों को एक विशाल ऊँट के पैर की हड्डी के टुकड़े मिले, जो लगभग 35 लाख साल पुराने हैं। मुख्य शोधकर्ता का मानना है कि कूबड़ शायद उत्तर की लंबी सर्दियाँ काटने में मदद के लिए विकसित हुआ हो।",
+      "तो रेगिस्तान का यह मशहूर टिफ़िन शायद सर्दियों के लिए पैक किया गया था।"
+    ]
+  },
+  "clips": [
+    [
+      14862729,
+      10405326,
+      37688203,
+      37443591
+    ],
+    [
+      36619755,
+      36216582,
+      36259626
+    ],
+    [
+      30783918,
+      32457191,
+      28344368,
+      7042452
+    ],
+    [
+      16051123,
+      39360064,
+      20413444
+    ]
+  ],
+  "images": [
+    {
+      "fact_index": 3,
+      "cut_index": 1,
+      "path": "queue/assets/012_camel_fossil.jpg",
+      "required": false
+    },
+    {
+      "fact_index": 3,
+      "cut_index": 2,
+      "path": "queue/assets/012_camel_arctic.jpg",
+      "required": false
+    }
+  ]
+}
