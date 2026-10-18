@@ -42,7 +42,7 @@ VIDEO_WIDTH = 1080
 VIDEO_HEIGHT = 1920
 VIDEO_FPS = 30
 VIDEO_DURATION_SEC = 60
-MIN_VIDEO_DURATION_SEC = 40  # 적응형 길이 하한 (composer: min(59.5, max(내레이션+3.5s, 이 값)))
+MIN_VIDEO_DURATION_SEC = 40  # 적응형 길이 하한 (composer: min(59.5, max(내레이션+0.6+0.9s, 이 값)), 2026-10-18 tail 0.9)
                              # 2026-09-03 주석 정정 — 실제 composer 는 tail 3.5s / cap 59.5s 를 쓴다.
 VIDEO_BITRATE = "7000k"   # 2026-09-03 화질 강화: 4500k → 7000k (쇼츠 재인코딩 여유)
 VIDEO_PRESET = "fast"     # veryfast → fast (같은 비트레이트에서 디테일 보존)
