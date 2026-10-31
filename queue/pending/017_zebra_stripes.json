@@ -1,0 +1,187 @@
+{
+  "author": "claude",
+  "animal_key": "zebra_stripes",
+  "display": "Zebras",
+  "single": "zebra",
+  "category": "mammal",
+  "angle": "anatomy_superpower",
+  "format": "why_question",
+  "hook_line": "Scientists have puzzled over zebra stripes for more than 150 years, and one of the best clues came from dressing horses up as zebras.",
+  "hook": "SCIENTISTS DRESSED HORSES AS ZEBRAS",
+  "intro": "Scientists have puzzled over zebra stripes for more than 150 years, and one of the best clues came from dressing horses up as zebras.",
+  "facts": [
+    "Camouflage seems like the obvious answer. But a 2016 study found that beyond about 50 meters in daylight, lions and hyenas would struggle to even make out the stripes.",
+    "So researchers watched horse flies on a farm in England. The flies circled zebras as often as horses, but failed to slow down when approaching zebras and landed less often.",
+    "Then the horses wore striped coats. Flies landed on the striped coats far less than on plain black or white coats, yet kept landing on the horses' bare heads.",
+    "It even works on cows. In Japan, black cows painted with zebra stripes had about half as many biting flies."
+  ],
+  "outro": "So those stripes may be less about lions and more about keeping biting flies off.",
+  "title_en": "Why Do Zebras Have Stripes? 🤔",
+  "title_ko": "얼룩말은 왜 줄무늬가 있을까? 🤔",
+  "description_en": "Zebra stripes have puzzled scientists for more than 150 years. A 2016 study modeling lion and spotted hyena vision found that beyond about 50 m in daylight (30 m at twilight), the stripes are hard for them to make out, so camouflage looks unlikely (Melin et al., PLOS ONE 2016). On a farm in North Somerset, England, horse flies circled zebras and horses about equally, but failed to slow down before reaching the zebras and landed on them less often. When horses wore striped coats, far fewer flies touched or landed on the coat than with plain black or white coats, while landings on their uncovered heads didn't change (Caro et al., PLOS ONE 2019). In Japan, black cows painted with white stripes had about half as many biting flies (Kojima et al., PLOS ONE 2019). #zebra #zebras #animals #wildlife #animalfacts",
+  "description_ko": "얼룩말 줄무늬는 150년 넘게 과학자들을 고민하게 했습니다. 2016년 연구에서 사자와 점박이하이에나의 시력을 모델링해 보니, 낮에는 약 50미터(해 질 녘에는 30미터)보다 멀어지면 이들이 줄무늬를 알아보기 어려워서 위장 효과는 가능성이 낮아 보였습니다(Melin 외, PLOS ONE 2016). 영국 노스서머싯의 한 농장에서는 등에가 얼룩말과 말 주위를 비슷하게 맴돌았지만, 얼룩말에 닿기 직전 속도를 늦추지 못했고 얼룩말에는 덜 내려앉았습니다. 말에게 줄무늬 옷을 입히자 검은색이나 흰색 민무늬 옷보다 옷에 닿거나 내려앉는 등에가 훨씬 적었고, 옷을 입지 않은 머리에 내려앉는 횟수는 달라지지 않았습니다(Caro 외, PLOS ONE 2019). 일본에서는 흰 줄무늬를 칠한 검은 소에 붙은 흡혈 파리가 절반 정도로 줄었습니다(Kojima 외, PLOS ONE 2019). #얼룩말 #동물 #야생동물 #동물상식 #줄무늬",
+  "comment": "Would you paint your cow like a zebra to get fewer flies landing on it? 🦓",
+  "tags": [
+    "shorts",
+    "animals",
+    "zebra",
+    "zebras",
+    "zebra stripes",
+    "wildlife",
+    "animal facts",
+    "horse flies",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "zebra",
+    "zebras",
+    "zebra close up",
+    "zebra herd savanna",
+    "horse grazing",
+    "black cow"
+  ],
+  "fact_keywords": [
+    "zebras savanna",
+    "zebra close up",
+    "horse grazing field",
+    "black cattle"
+  ],
+  "localizations": {
+    "ko": {
+      "title": "얼룩말은 왜 줄무늬가 있을까? 🤔",
+      "description": "얼룩말 줄무늬는 150년 넘게 과학자들을 고민하게 했습니다. 2016년 연구에서 사자와 점박이하이에나의 시력을 모델링해 보니, 낮에는 약 50미터(해 질 녘에는 30미터)보다 멀어지면 이들이 줄무늬를 알아보기 어려워서 위장 효과는 가능성이 낮아 보였습니다(Melin 외, PLOS ONE 2016). 영국 노스서머싯의 한 농장에서는 등에가 얼룩말과 말 주위를 비슷하게 맴돌았지만, 얼룩말에 닿기 직전 속도를 늦추지 못했고 얼룩말에는 덜 내려앉았습니다. 말에게 줄무늬 옷을 입히자 검은색이나 흰색 민무늬 옷보다 옷에 닿거나 내려앉는 등에가 훨씬 적었고, 옷을 입지 않은 머리에 내려앉는 횟수는 달라지지 않았습니다(Caro 외, PLOS ONE 2019). 일본에서는 흰 줄무늬를 칠한 검은 소에 붙은 흡혈 파리가 절반 정도로 줄었습니다(Kojima 외, PLOS ONE 2019). #얼룩말 #동물 #야생동물 #동물상식 #줄무늬"
+    },
+    "ja": {
+      "title": "シマウマはなぜしま模様なの？🤔",
+      "description": "シマウマのしま模様は、150年以上も科学者を悩ませてきました。2016年の研究でライオンとブチハイエナの視覚をモデル化したところ、日中なら約50メートル（薄暮なら30メートル）より離れると、しま模様は見分けにくく、カモフラージュ説は考えにくいことがわかりました（Melin ほか, PLOS ONE 2016）。イギリス・ノースサマセットの農場では、アブはシマウマの周りも馬の周りも同じくらい飛び回りましたが、シマウマの直前でうまく減速できず、シマウマに着地する回数は少なくなりました。馬にしま模様の服を着せると、黒や白の無地の服に比べて、服に触れたり着地したりするアブがずっと少なくなり、覆われていない頭への着地は変わりませんでした（Caro ほか, PLOS ONE 2019）。日本では、白いしまを塗った黒毛の牛にたかる吸血性のハエ類が、およそ半分に減りました（Kojima ほか, PLOS ONE 2019）。#シマウマ #動物 #野生動物 #動物雑学 #しま模様"
+    },
+    "es": {
+      "title": "¿Por qué las cebras tienen rayas? 🤔",
+      "description": "Las rayas de las cebras llevan más de 150 años intrigando a la comunidad científica. Un estudio de 2016 que modeló la vista de leones y hienas manchadas halló que, a más de unos 50 m de día (30 m al atardecer), les cuesta distinguir las rayas, así que el camuflaje parece poco probable (Melin et al., PLOS ONE 2016). En una granja de North Somerset, Inglaterra, los tábanos rondaban a cebras y caballos por igual, pero no lograban frenar justo antes de llegar a las cebras y se posaban menos en ellas. Cuando los caballos llevaron mantas a rayas, muchos menos tábanos tocaron la manta o se posaron en ella que con mantas lisas negras o blancas, mientras que los aterrizajes en la cabeza descubierta no cambiaron (Caro et al., PLOS ONE 2019). En Japón, unas vacas negras pintadas con rayas blancas tuvieron cerca de la mitad de moscas picadoras (Kojima et al., PLOS ONE 2019). #cebra #cebras #animales #fauna #datoscuriosos"
+    },
+    "pt": {
+      "title": "Por que as zebras têm listras? 🤔",
+      "description": "As listras da zebra intrigam cientistas há mais de 150 anos. Um estudo de 2016 que modelou a visão de leões e hienas-malhadas concluiu que, a mais de uns 50 m durante o dia (30 m ao entardecer), fica difícil para esses predadores distinguir as listras, então a camuflagem parece improvável (Melin et al., PLOS ONE 2016). Numa fazenda em North Somerset, na Inglaterra, as mutucas rodeavam zebras e cavalos na mesma medida, mas não conseguiam frear logo antes de chegar às zebras e pousavam menos nelas. Quando os cavalos usaram capas listradas, bem menos mutucas tocaram a capa ou pousaram nela do que com capas lisas pretas ou brancas, enquanto os pousos na cabeça descoberta não mudaram (Caro et al., PLOS ONE 2019). No Japão, vacas pretas pintadas com listras brancas tiveram cerca de metade das moscas que picam (Kojima et al., PLOS ONE 2019). #zebra #zebras #animais #vidaselvagem #curiosidades"
+    },
+    "de": {
+      "title": "Warum haben Zebras Streifen? 🤔",
+      "description": "Seit mehr als 150 Jahren rätseln Forschende, warum Zebras gestreift sind. Eine Studie von 2016, die das Sehvermögen von Löwen und Tüpfelhyänen modellierte, ergab: Ab etwa 50 m bei Tageslicht (30 m in der Dämmerung) können sie die Streifen kaum noch erkennen, Tarnung ist also unwahrscheinlich (Melin et al., PLOS ONE 2016). Auf einem Hof in North Somerset in England umkreisten Bremsen Zebras und Pferde etwa gleich oft, bremsten aber kurz vor den Zebras nicht kontrolliert ab und landeten seltener auf ihnen. Trugen Pferde gestreifte Decken, berührten weit weniger Bremsen die Decke oder landeten auf ihr als bei einfarbig schwarzen oder weißen Decken, während sich die Landungen auf den unbedeckten Köpfen nicht änderten (Caro et al., PLOS ONE 2019). In Japan hatten schwarze Rinder mit aufgemalten weißen Streifen nur etwa halb so viele stechende Fliegen (Kojima et al., PLOS ONE 2019). #zebra #zebras #tiere #wildtiere #tierfakten"
+    },
+    "fr": {
+      "title": "Pourquoi les zèbres ont-ils des rayures ? 🤔",
+      "description": "Les rayures des zèbres intriguent les scientifiques depuis plus de 150 ans. Une étude de 2016 modélisant la vision des lions et des hyènes tachetées a montré qu'au-delà d'environ 50 m en plein jour (30 m au crépuscule), ces prédateurs distinguent mal les rayures, ce qui rend l'hypothèse du camouflage peu probable (Melin et al., PLOS ONE 2016). Dans une ferme du North Somerset, en Angleterre, les taons tournaient autant autour des zèbres que des chevaux, mais ne parvenaient pas à ralentir juste avant d'atteindre les zèbres et s'y posaient moins souvent. Quand des chevaux portaient des couvertures rayées, bien moins de taons touchaient la couverture ou s'y posaient qu'avec des couvertures unies noires ou blanches, alors que les atterrissages sur la tête nue ne changeaient pas (Caro et al., PLOS ONE 2019). Au Japon, des vaches noires peintes de rayures blanches avaient environ deux fois moins de mouches piqueuses posées sur elles (Kojima et al., PLOS ONE 2019). #zebre #zebres #animaux #faune #anecdotes"
+    },
+    "hi": {
+      "title": "ज़ेबरा पर धारियाँ क्यों होती हैं? 🤔",
+      "description": "ज़ेबरा की धारियाँ 150 से ज़्यादा सालों से वैज्ञानिकों के लिए पहेली बनी हुई हैं। 2016 के एक अध्ययन में शेर और चित्तीदार लकड़बग्घे की नज़र का मॉडल बनाकर पाया गया कि दिन में लगभग 50 मीटर (शाम के धुंधलके में 30 मीटर) से ज़्यादा दूरी पर उन्हें धारियाँ पहचानना मुश्किल होता है, इसलिए छलावरण वाली बात कम संभव लगती है (Melin et al., PLOS ONE 2016)। इंग्लैंड के नॉर्थ समरसेट के एक फ़ार्म पर हॉर्स फ़्लाई नाम की काटने वाली मक्खियाँ ज़ेबरा और घोड़ों के आसपास लगभग बराबर मँडराईं, लेकिन ज़ेबरा तक पहुँचने से ठीक पहले रफ़्तार कम नहीं कर पाईं और उन पर कम बैठीं। जब घोड़ों को धारीदार कपड़े पहनाए गए, तो सादे काले या सफ़ेद कपड़ों की तुलना में कपड़े को छूने या उस पर बैठने वाली मक्खियों की संख्या बहुत कम थी, जबकि खुले सिर पर बैठने में कोई फ़र्क़ नहीं आया (Caro et al., PLOS ONE 2019)। जापान में सफ़ेद धारियों से रंगी काली गायों पर काटने वाली मक्खियाँ लगभग आधी रह गईं (Kojima et al., PLOS ONE 2019)। #zebra #animals #वन्यजीवन #जानवर #रोचकतथ्य"
+    }
+  },
+  "captions": {
+    "ko": [
+      "과학자들은 150년 넘게 얼룩말 줄무늬의 이유를 궁금해했는데, 가장 좋은 단서 중 하나는 말에게 얼룩말 옷을 입히는 실험에서 나왔습니다.",
+      "위장이라고 생각하기 쉽죠. 그런데 2016년 연구에 따르면, 낮에 약 50미터보다 멀리 떨어지면 사자와 하이에나는 줄무늬를 알아보는 것조차 힘들 것으로 보입니다.",
+      "그래서 연구진은 영국의 한 농장에서 등에를 지켜봤습니다. 등에는 얼룩말 주위를 말 주위만큼 자주 맴돌았지만, 얼룩말에 다가갈 때는 속도를 늦추지 못했고 덜 내려앉았습니다.",
+      "이번에는 말에게 줄무늬 옷을 입혔습니다. 등에는 검은색이나 흰색 민무늬 옷보다 줄무늬 옷에 훨씬 덜 내려앉았지만, 옷을 입지 않은 말 머리에는 계속 내려앉았습니다.",
+      "소에게도 통합니다. 일본에서 얼룩말 줄무늬를 칠한 검은 소에게는 흡혈 파리가 절반 정도만 붙었습니다.",
+      "그러니 그 줄무늬는 사자를 피하는 데보다 흡혈 파리가 덜 내려앉게 하는 데 더 의미가 있을지도 모릅니다."
+    ],
+    "ja": [
+      "科学者たちは150年以上もシマウマのしま模様の謎に頭を悩ませてきました。有力な手がかりのひとつは、馬にシマウマの服を着せる実験から得られました。",
+      "カモフラージュだと思いがちです。でも2016年の研究によると、昼間に約50メートル以上離れると、ライオンやハイエナにはしま模様を見分けることさえ難しいようです。",
+      "そこで研究チームは、イギリスの農場でアブを観察しました。アブはシマウマの周りも馬の周りも同じくらい飛び回りましたが、シマウマに近づくときはうまく減速できず、着地する回数も少なかったのです。",
+      "次に馬にしま模様の服を着せました。アブは黒や白の無地の服よりも、しま模様の服にずっと止まりにくくなりましたが、覆われていない馬の頭には変わらず止まりました。",
+      "牛にも効果があります。日本では、シマウマ模様を塗った黒毛の牛にたかる吸血性のハエ類が、およそ半分になりました。",
+      "つまりしま模様は、ライオン対策というより、吸血するハエ類を体に止まらせないためなのかもしれません。"
+    ],
+    "es": [
+      "Las rayas de las cebras llevan más de 150 años intrigando a la comunidad científica, y una de las mejores pistas salió de disfrazar caballos de cebra.",
+      "El camuflaje parece la respuesta obvia. Pero un estudio de 2016 halló que, a más de unos 50 metros y de día, a los leones y las hienas les costaría incluso distinguir las rayas.",
+      "Entonces, un equipo observó tábanos en una granja de Inglaterra. Los tábanos rondaban a las cebras tanto como a los caballos, pero no lograban frenar al acercarse a las cebras y se posaban menos.",
+      "Después, los caballos llevaron mantas a rayas. Los tábanos se posaron mucho menos en las mantas a rayas que en las lisas negras o blancas, pero siguieron posándose en la cabeza descubierta de los caballos.",
+      "Hasta funciona con vacas. En Japón, unas vacas negras pintadas con rayas de cebra tuvieron cerca de la mitad de moscas picadoras.",
+      "Así que esas rayas quizá tengan menos que ver con los leones y más con evitar que se posen las moscas picadoras."
+    ],
+    "pt": [
+      "As listras da zebra intrigam cientistas há mais de 150 anos, e uma das melhores pistas veio de vestir cavalos de zebra.",
+      "Camuflagem parece a resposta óbvia. Mas um estudo de 2016 concluiu que, a mais de uns 50 metros durante o dia, leões e hienas teriam dificuldade até para distinguir as listras.",
+      "Então, uma equipe de pesquisa observou mutucas numa fazenda na Inglaterra. As mutucas rodeavam as zebras tanto quanto os cavalos, mas não conseguiam frear ao se aproximar das zebras e pousavam menos.",
+      "Depois, os cavalos usaram capas listradas. As mutucas pousaram bem menos nas capas listradas do que nas capas lisas pretas ou brancas, mas continuaram pousando na cabeça descoberta dos cavalos.",
+      "Funciona até com vacas. No Japão, vacas pretas pintadas com listras de zebra tiveram cerca de metade das moscas que picam.",
+      "Então essas listras talvez tenham menos a ver com leões e mais com evitar que as moscas que picam pousem."
+    ],
+    "de": [
+      "Seit mehr als 150 Jahren rätseln Forschende, warum Zebras gestreift sind, und einer der besten Hinweise kam von Pferden im Zebrakostüm.",
+      "Tarnung scheint die naheliegende Antwort. Doch eine Studie von 2016 ergab, dass Löwen und Hyänen die Streifen bei Tageslicht ab etwa 50 Metern wohl kaum noch erkennen können.",
+      "Also beobachtete ein Team Bremsen auf einem Hof in England. Die Bremsen umkreisten Zebras genauso oft wie Pferde, bremsten beim Anflug auf die Zebras aber nicht richtig ab und landeten seltener.",
+      "Dann trugen die Pferde gestreifte Decken. Auf den gestreiften Decken landeten die Bremsen viel seltener als auf einfarbig schwarzen oder weißen Decken, auf den unbedeckten Köpfen der Pferde aber weiterhin.",
+      "Es funktioniert sogar bei Kühen. In Japan hatten schwarze Rinder mit aufgemalten Zebrastreifen nur etwa halb so viele stechende Fliegen.",
+      "Die Streifen haben also vielleicht weniger mit Löwen zu tun als damit, stechende Fliegen am Landen zu hindern."
+    ],
+    "fr": [
+      "Les rayures des zèbres intriguent les scientifiques depuis plus de 150 ans, et l'un des meilleurs indices est venu de chevaux déguisés en zèbres.",
+      "Le camouflage semble la réponse évidente. Mais une étude de 2016 a montré qu'au-delà d'environ 50 mètres en plein jour, lions et hyènes auraient même du mal à distinguer les rayures.",
+      "Une équipe a donc observé des taons dans une ferme en Angleterre. Les taons tournaient autant autour des zèbres que des chevaux, mais ne parvenaient pas à ralentir en approchant des zèbres et s'y posaient moins souvent.",
+      "Ensuite, les chevaux ont porté des couvertures rayées. Les taons se posaient bien moins sur les couvertures rayées que sur des couvertures unies noires ou blanches, mais continuaient à se poser sur la tête nue des chevaux.",
+      "Ça marche même sur les vaches. Au Japon, des vaches noires peintes de rayures de zèbre avaient environ deux fois moins de mouches piqueuses posées sur elles.",
+      "Ces rayures serviraient donc peut-être moins à se protéger des lions qu'à empêcher les mouches piqueuses de se poser."
+    ],
+    "hi": [
+      "वैज्ञानिक 150 से ज़्यादा सालों से ज़ेबरा की धारियों की पहेली सुलझाने में लगे हैं, और इसके सबसे अच्छे सुरागों में से एक घोड़ों को ज़ेबरा जैसा कपड़ा पहनाकर मिला।",
+      "छलावरण इसका सीधा जवाब लगता है। लेकिन 2016 के एक अध्ययन के मुताबिक़, दिन में लगभग 50 मीटर से ज़्यादा दूरी पर शेरों और लकड़बग्घों को धारियाँ पहचानने में भी मुश्किल होती होगी।",
+      "तो शोधकर्ताओं ने इंग्लैंड के एक फ़ार्म पर हॉर्स फ़्लाई नाम की काटने वाली मक्खियों पर नज़र रखी। ये ज़ेबरा के आसपास उतना ही मँडराईं जितना घोड़ों के, लेकिन ज़ेबरा के पास पहुँचते समय रफ़्तार कम नहीं कर पाईं और कम बार बैठीं।",
+      "फिर घोड़ों को धारीदार कपड़े पहनाए गए। मक्खियाँ सादे काले या सफ़ेद कपड़ों की तुलना में धारीदार कपड़ों पर बहुत कम बैठीं, लेकिन घोड़ों के खुले सिर पर बैठती रहीं।",
+      "यह गायों पर भी काम करता है। जापान में ज़ेबरा जैसी धारियों से रंगी काली गायों पर काटने वाली मक्खियाँ लगभग आधी रह गईं।",
+      "यानी ये धारियाँ शायद शेरों से कम और काटने वाली मक्खियों को बैठने से रोकने से ज़्यादा जुड़ी हैं।"
+    ]
+  },
+  "clips": [
+    [
+      37425426,
+      11760740,
+      37266667
+    ],
+    [
+      37425428,
+      39018818,
+      39328497
+    ],
+    [
+      40286731,
+      37477073,
+      17820996
+    ],
+    [
+      34328147,
+      34374446,
+      37425423,
+      36061959
+    ]
+  ],
+  "images": [
+    {
+      "fact_index": 0,
+      "cut_index": 1,
+      "path": "queue/assets/017_zebra_horse_coat.jpg",
+      "required": false
+    },
+    {
+      "fact_index": 1,
+      "cut_index": 0,
+      "path": "queue/assets/017_zebra_horsefly.jpg",
+      "required": false
+    },
+    {
+      "fact_index": 2,
+      "cut_index": 0,
+      "path": "queue/assets/017_zebra_coats_lineup.jpg",
+      "required": false
+    },
+    {
+      "fact_index": 3,
+      "cut_index": 1,
+      "path": "queue/assets/017_zebra_painted_cow.jpg",
+      "required": false
+    }
+  ]
+}
