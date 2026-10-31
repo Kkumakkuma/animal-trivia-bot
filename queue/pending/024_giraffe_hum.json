@@ -1,0 +1,169 @@
+{
+  "author": "claude",
+  "animal_key": "giraffe_hum",
+  "display": "Giraffes",
+  "single": "giraffe",
+  "category": "mammal",
+  "angle": "intelligence_senses",
+  "format": "why_question",
+  "hook_line": "Giraffes seem almost silent, so scientists left microphones running near them, and picked up something unexpected.",
+  "hook": "GIRAFFES HUM AT NIGHT",
+  "intro": "Giraffes seem almost silent, so scientists left microphones running near them, and picked up something unexpected.",
+  "facts": [
+    "The team recorded more than 947 hours of sound from giraffes at three European zoos.",
+    "Besides the snorts and grunts people already knew about, they heard a low, sustained hum, and it turned up in their night recordings.",
+    "The hums averaged about 92 hertz, low but within human hearing. The study found no evidence of the infrasonic communication people had suspected.",
+    "What the hum means is still a mystery. It might help a herd keep in touch in the dark, or it could be something like a snore."
+  ],
+  "outro": "So giraffes have a nighttime hum, and we still don't know exactly what it means.",
+  "title_en": "Do Giraffes Make Any Sound? 🤔",
+  "title_ko": "기린도 소리를 낼까? 🤔",
+  "description_en": "Giraffes were long thought to be nearly silent apart from snorts and grunts, and it was widely assumed they might communicate in infrasound like elephants. Researchers from the University of Vienna recorded giraffes at three European zoos, collecting more than 947 hours of audio, and found harmonic, sustained, frequency-modulated 'humming' sounds in the night recordings; none of the giraffe vocalizations identified in the study were infrasonic (Baotic, Sicks & Stoeger, BMC Research Notes 2015). News coverage reported that the hums averaged about 92 Hz, within human hearing, and that their purpose is unknown: they might help herd members stay in contact when they can't see each other, or they might be a passive sound, something like a snore. #giraffe #giraffes #animals #wildlife #animalfacts",
+  "description_ko": "기린은 콧김 소리와 그르렁거리는 소리 말고는 거의 소리를 내지 않는다고 여겨졌고, 코끼리처럼 초저주파로 소통할지도 모른다는 생각이 널리 퍼져 있었습니다. 빈대학교 연구진은 유럽 동물원 세 곳에서 기린 소리를 947시간 넘게 녹음했고, 밤 녹음에서 배음을 포함하고 길게 이어지며 음높이가 오르내리는 '허밍'을 찾아냈습니다. 연구에서 확인된 기린 발성 가운데 초저주파는 없었습니다(Baotic, Sicks & Stoeger, BMC Research Notes 2015). 언론 보도에 따르면 허밍은 평균 약 92Hz로 사람도 들을 수 있는 소리이며, 쓰임새는 아직 모릅니다. 서로 보이지 않을 때 무리가 연락을 유지하는 소리일 수도 있고, 코골이 같은 저절로 나는 소리일 수도 있습니다. #기린 #동물 #야생동물 #동물상식 #동물원",
+  "comment": "Contact call or giraffe snoring? What do you think? 🦒",
+  "tags": [
+    "shorts",
+    "animals",
+    "giraffe",
+    "giraffes",
+    "animal sounds",
+    "wildlife",
+    "animal facts",
+    "safari",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "giraffe",
+    "giraffes",
+    "giraffe close up",
+    "giraffe head",
+    "giraffe zoo",
+    "giraffe night"
+  ],
+  "fact_keywords": [
+    "giraffe zoo",
+    "giraffe head close up",
+    "giraffes standing together",
+    "giraffe evening"
+  ],
+  "localizations": {
+    "ko": {
+      "title": "기린도 소리를 낼까? 🤔",
+      "description": "기린은 콧김 소리와 그르렁거리는 소리 말고는 거의 소리를 내지 않는다고 여겨졌고, 코끼리처럼 초저주파로 소통할지도 모른다는 생각이 널리 퍼져 있었습니다. 빈대학교 연구진은 유럽 동물원 세 곳에서 기린 소리를 947시간 넘게 녹음했고, 밤 녹음에서 배음을 포함하고 길게 이어지며 음높이가 오르내리는 '허밍'을 찾아냈습니다. 연구에서 확인된 기린 발성 가운데 초저주파는 없었습니다(Baotic, Sicks & Stoeger, BMC Research Notes 2015). 언론 보도에 따르면 허밍은 평균 약 92Hz로 사람도 들을 수 있는 소리이며, 쓰임새는 아직 모릅니다. 서로 보이지 않을 때 무리가 연락을 유지하는 소리일 수도 있고, 코골이 같은 저절로 나는 소리일 수도 있습니다. #기린 #동물 #야생동물 #동물상식 #동물원"
+    },
+    "ja": {
+      "title": "キリンは声を出すの？🤔",
+      "description": "キリンは鼻を鳴らす音やうなり声のほかはほとんど声を出さないと考えられ、ゾウのように超低周波でコミュニケーションをとっているのではないかとも広く言われてきました。ウィーン大学の研究チームはヨーロッパの3つの動物園でキリンの音を947時間以上録音し、夜の録音の中に、倍音を含み、長く続き、音の高さが揺れる「ハミング」を見つけました。研究で確認されたキリンの発声に超低周波は含まれていませんでした（Baotic, Sicks & Stoeger, BMC Research Notes 2015）。報道によると、ハミングの平均は約92ヘルツで人にも聞こえる音域で、役割はまだわかっていません。互いが見えないときに群れが連絡を保つためかもしれないし、いびきのように自然に出る音かもしれません。#キリン #動物 #野生動物 #動物雑学 #動物園"
+    },
+    "es": {
+      "title": "¿Las jirafas hacen algún sonido? 🤔",
+      "description": "Durante mucho tiempo se pensó que las jirafas eran casi mudas, salvo resoplidos y gruñidos, y se suponía que tal vez se comunicaban con infrasonidos, como los elefantes. Un equipo de la Universidad de Viena grabó jirafas en tres zoológicos europeos, más de 947 horas de audio, y encontró en las grabaciones nocturnas unos zumbidos armónicos, sostenidos y modulados en frecuencia; ninguna de las vocalizaciones de jirafa identificadas en el estudio era infrasónica (Baotic, Sicks y Stoeger, BMC Research Notes 2015). Según la prensa, los zumbidos rondaban los 92 Hz, dentro del rango audible humano, y su función se desconoce: podrían ayudar a la manada a mantenerse en contacto cuando no se ven, o ser un sonido pasivo, algo parecido a un ronquido. #jirafa #jirafas #animales #fauna #datoscuriosos"
+    },
+    "pt": {
+      "title": "Girafas fazem algum som? 🤔",
+      "description": "Por muito tempo, achou-se que as girafas eram quase mudas, tirando bufos e grunhidos, e era comum supor que elas talvez se comunicassem por infrassom, como os elefantes. Uma equipe da Universidade de Viena gravou girafas em três zoológicos europeus, mais de 947 horas de áudio, e encontrou nas gravações noturnas zumbidos harmônicos, contínuos e modulados em frequência; nenhuma das vocalizações de girafa identificadas no estudo era infrassônica (Baotic, Sicks e Stoeger, BMC Research Notes 2015). Segundo a imprensa, os zumbidos ficavam em torno de 92 Hz, dentro da audição humana, e sua função é desconhecida: podem ajudar o grupo a manter contato quando não conseguem se ver, ou ser um som passivo, algo parecido com um ronco. #girafa #girafas #animais #vidaselvagem #curiosidades"
+    },
+    "de": {
+      "title": "Machen Giraffen überhaupt Geräusche? 🤔",
+      "description": "Giraffen galten lange als fast stumm, abgesehen von Schnauben und Grunzen, und oft wurde vermutet, dass sie wie Elefanten per Infraschall kommunizieren. Ein Team der Universität Wien nahm in drei europäischen Zoos mehr als 947 Stunden Giraffengeräusche auf und fand in den Nachtaufnahmen harmonische, anhaltende, frequenzmodulierte 'Summ'-Laute; keiner der in der Studie erkannten Giraffenlaute lag im Infraschallbereich (Baotic, Sicks & Stoeger, BMC Research Notes 2015). Laut Medienberichten lag das Summen im Schnitt bei etwa 92 Hz und damit im hörbaren Bereich, und seine Funktion ist unbekannt: Es könnte Herdenmitgliedern helfen, Kontakt zu halten, wenn sie einander nicht sehen, oder ein passives Geräusch sein, ähnlich einem Schnarchen. #giraffe #giraffen #tiere #wildtiere #tierfakten"
+    },
+    "fr": {
+      "title": "Les girafes émettent-elles des sons ? 🤔",
+      "description": "On a longtemps cru les girafes presque muettes, à part des ébrouements et des grognements, et l'on supposait souvent qu'elles communiquaient par infrasons, comme les éléphants. Une équipe de l'Université de Vienne a enregistré des girafes dans trois zoos européens, soit plus de 947 heures d'audio, et a trouvé dans les enregistrements de nuit des « bourdonnements » harmoniques, prolongés et modulés en fréquence ; aucune des vocalisations de girafe identifiées dans l'étude n'était infrasonore (Baotic, Sicks et Stoeger, BMC Research Notes 2015). Selon la presse, ces bourdonnements tournaient autour de 92 Hz, dans la plage audible pour l'humain, et leur fonction reste inconnue : ils pourraient aider le troupeau à garder le contact quand les girafes ne se voient pas, ou être un son passif, un peu comme un ronflement. #girafe #girafes #animaux #faune #anecdotes"
+    },
+    "hi": {
+      "title": "क्या जिराफ़ कोई आवाज़ निकालते हैं? 🤔",
+      "description": "लंबे समय तक माना जाता रहा कि जिराफ़ फुफकार और घुरघुराहट के अलावा लगभग बेआवाज़ होते हैं, और अक्सर यह भी माना गया कि वे हाथियों की तरह इन्फ़्रासाउंड से संचार करते होंगे। वियना विश्वविद्यालय की टीम ने यूरोप के तीन चिड़ियाघरों में जिराफ़ों की 947 घंटे से ज़्यादा की आवाज़ें रिकॉर्ड कीं और रात की रिकॉर्डिंग में हार्मोनिक, लंबी चलने वाली और ऊपर-नीचे होती 'गुनगुनाहट' पाई; अध्ययन में पहचानी गई जिराफ़ की कोई भी आवाज़ इन्फ़्रासाउंड नहीं थी (Baotic, Sicks & Stoeger, BMC Research Notes 2015)। ख़बरों के मुताबिक़ यह गुनगुनाहट औसतन लगभग 92 हर्ट्ज़ की थी, जो इंसानों को सुनाई देती है, और इसका काम अभी पता नहीं है: हो सकता है यह एक-दूसरे को न देख पाने पर झुंड को संपर्क में रखे, या यह खर्राटे जैसी अपने-आप निकलने वाली आवाज़ हो। #giraffe #animals #जिराफ़ #जानवर #रोचकतथ्य"
+    }
+  },
+  "captions": {
+    "ko": [
+      "기린은 거의 소리를 내지 않는 것처럼 보여서, 과학자들이 기린 곁에 마이크를 켜 두었더니 뜻밖의 소리가 잡혔습니다.",
+      "연구팀은 유럽 동물원 세 곳에서 기린 소리를 947시간 넘게 녹음했습니다.",
+      "이미 알려진 콧김 소리와 그르렁거리는 소리 말고도 낮고 길게 이어지는 허밍이 들렸는데, 그 소리는 밤 녹음에서 나왔습니다.",
+      "허밍은 평균 92헤르츠쯤으로, 낮지만 사람 귀에도 들리는 소리였습니다. 사람들이 짐작하던 초저주파 소통의 증거는 이 연구에서 나오지 않았습니다.",
+      "이 허밍이 무슨 뜻인지는 아직 수수께끼입니다. 어둠 속에서 무리끼리 연락하는 소리일 수도 있고, 코골이 같은 소리일 수도 있습니다.",
+      "기린은 밤에 허밍을 하지만, 그게 정확히 무슨 뜻인지는 아직 모릅니다."
+    ],
+    "ja": [
+      "キリンはほとんど鳴かないように見えるので、科学者たちがそばにマイクを置いて録音を続けたところ、思いがけない音をとらえました。",
+      "研究チームは、ヨーロッパの3つの動物園でキリンの音を947時間以上も録音しました。",
+      "すでに知られていた鼻を鳴らす音やうなり声のほかに、低く長く続くハミングが聞こえ、それは夜の録音に入っていました。",
+      "ハミングは平均約92ヘルツで、低いものの人の耳にも聞こえる音でした。考えられていた超低周波によるコミュニケーションの証拠は、この研究では見つかりませんでした。",
+      "このハミングの意味はまだ謎です。暗闇で群れが連絡を取り合うためかもしれないし、いびきのようなものかもしれません。",
+      "キリンには夜のハミングがあり、それが何を意味するのかは、まだはっきりわかっていません。"
+    ],
+    "es": [
+      "Las jirafas parecen casi mudas, así que un equipo científico dejó micrófonos grabando cerca de ellas, y captó algo inesperado.",
+      "El equipo grabó más de 947 horas de sonido de jirafas en tres zoológicos europeos.",
+      "Además de los resoplidos y gruñidos ya conocidos, oyeron un zumbido grave y prolongado, que aparecía en las grabaciones nocturnas.",
+      "Los zumbidos rondaban los 92 hercios: graves, pero audibles para los humanos. El estudio no encontró pruebas de la comunicación por infrasonidos que se sospechaba.",
+      "Qué significa el zumbido sigue siendo un misterio. Podría ayudar a la manada a mantenerse en contacto en la oscuridad, o podría ser algo parecido a un ronquido.",
+      "Así que las jirafas tienen un zumbido nocturno, y todavía no sabemos exactamente qué significa."
+    ],
+    "pt": [
+      "Girafas parecem quase mudas, então uma equipe de cientistas deixou microfones gravando perto delas e captou algo inesperado.",
+      "A equipe gravou mais de 947 horas de sons de girafas em três zoológicos europeus.",
+      "Além dos bufos e grunhidos já conhecidos, a equipe ouviu um zumbido grave e prolongado, que aparecia nas gravações noturnas.",
+      "Os zumbidos ficavam em torno de 92 hertz: graves, mas audíveis para humanos. O estudo não encontrou evidências da suposta comunicação por infrassom.",
+      "O que o zumbido significa ainda é um mistério. Pode ajudar o grupo a manter contato no escuro, ou pode ser algo parecido com um ronco.",
+      "Então as girafas têm um zumbido noturno, e ainda não sabemos exatamente o que ele significa."
+    ],
+    "de": [
+      "Giraffen wirken fast stumm, also ließ ein Forschungsteam in ihrer Nähe Aufnahmegeräte laufen und nahm etwas Unerwartetes auf.",
+      "Das Team nahm in drei europäischen Zoos mehr als 947 Stunden Giraffengeräusche auf.",
+      "Neben dem bekannten Schnauben und Grunzen entdeckte das Team ein tiefes, anhaltendes Summen, und das tauchte in den Nachtaufnahmen auf.",
+      "Das Summen lag im Schnitt bei etwa 92 Hertz, tief, aber für Menschen hörbar. Die Studie fand keine Hinweise auf die vermutete Kommunikation per Infraschall.",
+      "Was das Summen bedeutet, ist noch ein Rätsel. Es könnte einer Herde helfen, im Dunkeln Kontakt zu halten, oder es ist so etwas wie ein Schnarchen.",
+      "Giraffen haben also ein nächtliches Summen, und was es genau bedeutet, wissen wir noch nicht."
+    ],
+    "fr": [
+      "Les girafes semblent presque muettes, alors des scientifiques ont laissé tourner des micros près d'elles, et ont capté quelque chose d'inattendu.",
+      "L'équipe a enregistré plus de 947 heures de sons de girafes dans trois zoos européens.",
+      "En plus des ébrouements et des grognements déjà connus, l'équipe a entendu un bourdonnement grave et prolongé, qui apparaissait dans les enregistrements de nuit.",
+      "Ces bourdonnements tournaient autour de 92 hertz : graves, mais audibles pour l'oreille humaine. L'étude n'a trouvé aucune preuve de la communication par infrasons que l'on soupçonnait.",
+      "Ce que signifie ce bourdonnement reste un mystère. Il pourrait aider un troupeau à garder le contact dans le noir, ou ressembler à un ronflement.",
+      "Les girafes ont donc un bourdonnement nocturne, et on ne sait toujours pas exactement ce qu'il signifie."
+    ],
+    "hi": [
+      "जिराफ़ लगभग बेआवाज़ लगते हैं, इसलिए वैज्ञानिकों ने उनके पास माइक्रोफ़ोन चालू छोड़ दिए, और कुछ अनपेक्षित सुनाई दिया।",
+      "टीम ने यूरोप के तीन चिड़ियाघरों में जिराफ़ों की 947 घंटे से ज़्यादा की आवाज़ें रिकॉर्ड कीं।",
+      "पहले से ज्ञात फुफकार और घुरघुराहट के अलावा उन्हें एक गहरी, लगातार गुनगुनाहट सुनाई दी, जो रात की रिकॉर्डिंग में थी।",
+      "यह गुनगुनाहट औसतन लगभग 92 हर्ट्ज़ की थी, गहरी लेकिन इंसानों को सुनाई देने लायक़। जिस इन्फ़्रासाउंड संचार का अंदाज़ा लगाया जाता था, उसका कोई सबूत इस अध्ययन में नहीं मिला।",
+      "इस गुनगुनाहट का मतलब अब भी रहस्य है। हो सकता है यह अँधेरे में झुंड को आपस में जुड़े रहने में मदद करे, या यह खर्राटे जैसी कोई आवाज़ हो।",
+      "यानी जिराफ़ रात में गुनगुनाते हैं, और इसका ठीक-ठीक मतलब हमें अब भी नहीं पता।"
+    ]
+  },
+  "clips": [
+    [
+      38478942,
+      34428368,
+      35500069
+    ],
+    [
+      35681535,
+      34361644,
+      36148924
+    ],
+    [
+      37376692,
+      16762069,
+      39328734
+    ],
+    [
+      37470211,
+      37711945,
+      32615904,
+      36163027
+    ]
+  ],
+  "images": [
+    {
+      "fact_index": 0,
+      "cut_index": 1,
+      "path": "queue/assets/024_giraffe_night_mic.jpg",
+      "required": false
+    }
+  ]
+}
