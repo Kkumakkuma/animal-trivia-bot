@@ -1,0 +1,169 @@
+{
+  "author": "claude",
+  "animal_key": "penguin_taste",
+  "display": "Penguins",
+  "single": "penguin",
+  "category": "bird",
+  "angle": "weird_biology",
+  "format": "why_question",
+  "hook_line": "Penguins swallow their food whole. So what does a meal actually taste like to a penguin?",
+  "hook": "PENGUINS LACK 3 OF 5 TASTES",
+  "intro": "Penguins swallow their food whole. So what does a meal actually taste like to a penguin?",
+  "facts": [
+    "A 2015 study checked five penguin species and found all of them lack working genes for tasting sweet, bitter, and savory umami.",
+    "That's three of the five basic tastes. The lead scientist was puzzled too, since you'd expect a fish eater to need umami.",
+    "And it's an old loss. Bitter and umami disappeared in the common ancestor of all penguins, and sweet went even earlier.",
+    "One proposed explanation is the cold. In mice, a protein that carries these taste signals works poorly at low temperatures. Whether that explains the penguins' loss is still uncertain."
+  ],
+  "outro": "So those broken taste genes suggest penguins experience taste very differently from us.",
+  "title_en": "Can Penguins Taste Their Food? 🤔",
+  "title_ko": "펭귄은 음식 맛을 느낄까? 🤔",
+  "description_en": "A 2015 genetic study found that all five penguin species examined (Adélie, emperor, chinstrap, rockhopper and king) lack functional genes for the sweet, umami and bitter taste receptors, three of the five basic tastes. The authors concluded that umami and bitter were lost in the common ancestor of all penguins, while sweet was lost earlier (Zhao, Li & Zhang, Current Biology 2015). 'Penguins eat fish, so you would guess that they need the umami receptor genes, but for some reason they don't have them,' said lead scientist Jianzhi Zhang of the University of Michigan. Zhang's leading hypothesis is that cold Antarctic temperatures interfered with taste perception; studies in mice show the taste-signaling protein Trpm5 does not work well in the cold, though whether this explains the losses is uncertain. Penguins also swallow food whole, and it is unclear whether that is a cause or a consequence of the taste loss. #penguin #penguins #birds #animals #animalfacts",
+  "description_ko": "2015년 유전자 연구에서 조사한 펭귄 5종(아델리·황제·턱끈·바위뛰기·킹펭귄) 모두 기본 다섯 가지 맛 가운데 단맛·감칠맛·쓴맛 수용체 유전자가 제대로 작동하지 않았습니다. 연구진은 감칠맛과 쓴맛은 모든 펭귄의 공통 조상에서, 단맛은 그보다 먼저 사라졌다고 결론 내렸습니다(Zhao, Li & Zhang, Current Biology 2015). 연구를 이끈 미시간대학교 장젠즈 교수는 '펭귄은 물고기를 먹으니 감칠맛 수용체 유전자가 필요할 것 같은데, 어떤 이유에서인지 없다'고 말했습니다. 장 교수가 가장 유력하게 보는 가설은 남극의 추위가 맛 감지를 방해했다는 것이지만, 이것이 원인인지는 확실하지 않습니다. 생쥐 연구에서 맛 신호를 전달하는 단백질 Trpm5는 추위에서 제대로 작동하지 않았습니다. 펭귄은 먹이를 통째로 삼키기도 하는데, 이것이 맛을 잃은 원인인지 결과인지는 분명하지 않습니다. #펭귄 #새 #동물 #동물상식 #남극",
+  "comment": "If you lost three of your five tastes, which one would you miss most? 🐧",
+  "tags": [
+    "shorts",
+    "animals",
+    "penguin",
+    "penguins",
+    "birds",
+    "antarctica",
+    "animal facts",
+    "wildlife",
+    "did you know",
+    "trivia"
+  ],
+  "pexels_keywords": [
+    "penguin",
+    "penguins",
+    "penguin eating fish",
+    "penguin close up",
+    "penguins swimming",
+    "penguin colony"
+  ],
+  "fact_keywords": [
+    "penguin eating fish",
+    "penguin close up",
+    "penguins group",
+    "penguins swimming underwater"
+  ],
+  "localizations": {
+    "ko": {
+      "title": "펭귄은 음식 맛을 느낄까? 🤔",
+      "description": "2015년 유전자 연구에서 조사한 펭귄 5종(아델리·황제·턱끈·바위뛰기·킹펭귄) 모두 기본 다섯 가지 맛 가운데 단맛·감칠맛·쓴맛 수용체 유전자가 제대로 작동하지 않았습니다. 연구진은 감칠맛과 쓴맛은 모든 펭귄의 공통 조상에서, 단맛은 그보다 먼저 사라졌다고 결론 내렸습니다(Zhao, Li & Zhang, Current Biology 2015). 연구를 이끈 미시간대학교 장젠즈 교수는 '펭귄은 물고기를 먹으니 감칠맛 수용체 유전자가 필요할 것 같은데, 어떤 이유에서인지 없다'고 말했습니다. 장 교수가 가장 유력하게 보는 가설은 남극의 추위가 맛 감지를 방해했다는 것이지만, 이것이 원인인지는 확실하지 않습니다. 생쥐 연구에서 맛 신호를 전달하는 단백질 Trpm5는 추위에서 제대로 작동하지 않았습니다. 펭귄은 먹이를 통째로 삼키기도 하는데, 이것이 맛을 잃은 원인인지 결과인지는 분명하지 않습니다. #펭귄 #새 #동물 #동물상식 #남극"
+    },
+    "ja": {
+      "title": "ペンギンは食べ物の味がわかるの？🤔",
+      "description": "2015年の遺伝子研究で、調べたペンギン5種（アデリー、コウテイ、ヒゲ、イワトビ、キング）のすべてで、基本の5つの味のうち甘味・うま味・苦味の受容体遺伝子が働いていないことがわかりました。研究チームは、うま味と苦味はすべてのペンギンの共通祖先で、甘味はそれより前に失われたと結論づけました（Zhao, Li & Zhang, Current Biology 2015）。研究を率いたミシガン大学のジャンジー・チャン（Jianzhi Zhang）教授は「ペンギンは魚を食べるのだから、うま味の受容体遺伝子が必要だと思うだろうが、なぜか持っていない」と話しています。教授が最も有力とみる仮説は南極の寒さが味覚を妨げたというものですが、それが原因かどうかは確かではありません。マウスの研究では、味の信号を伝えるタンパク質Trpm5は寒さの中ではうまく働きません。ペンギンは食べ物を丸のみにしますが、それが味覚を失った原因なのか結果なのかははっきりしていません。#ペンギン #鳥 #動物 #動物雑学 #南極"
+    },
+    "es": {
+      "title": "¿Los pingüinos sienten el sabor de la comida? 🤔",
+      "description": "Un estudio genético de 2015 halló que las cinco especies de pingüinos examinadas (adelia, emperador, barbijo, de penacho amarillo y rey) carecen de genes funcionales para los receptores de lo dulce, el umami y lo amargo, tres de los cinco sabores básicos. El equipo de investigación concluyó que el umami y lo amargo se perdieron en el ancestro común de todos los pingüinos, y lo dulce, antes (Zhao, Li y Zhang, Current Biology 2015). 'Los pingüinos comen pescado, así que uno pensaría que necesitan los genes del receptor de umami, pero por alguna razón no los tienen', dijo Jianzhi Zhang, de la Universidad de Míchigan, quien dirigió el estudio. Su hipótesis principal es que el frío de la Antártida interfirió con la percepción del sabor, aunque no se sabe con certeza; estudios en ratones muestran que la proteína Trpm5, que transmite las señales del sabor, no funciona bien con frío. Además, los pingüinos se tragan la comida entera, y no está claro si eso es causa o consecuencia de la pérdida del gusto. #pinguino #pinguinos #aves #animales #datoscuriosos"
+    },
+    "pt": {
+      "title": "Pinguins sentem o gosto da comida? 🤔",
+      "description": "Um estudo genético de 2015 descobriu que as cinco espécies de pinguins examinadas (adélia, imperador, antártico, saltador-da-rocha e rei) não têm genes funcionais para os receptores de doce, umami e amargo, três dos cinco gostos básicos. A equipe de pesquisa concluiu que o umami e o amargo foram perdidos no ancestral comum de todos os pinguins, e o doce, antes (Zhao, Li e Zhang, Current Biology 2015). 'Pinguins comem peixe, então seria de imaginar que precisassem dos genes do receptor de umami, mas, por algum motivo, eles não os têm', disse Jianzhi Zhang, da Universidade de Michigan, que liderou o estudo. Sua principal hipótese é que o frio da Antártida atrapalhou a percepção do sabor, embora isso não seja certo; estudos com camundongos mostram que a proteína Trpm5, que transmite os sinais do sabor, não funciona bem no frio. Os pinguins também engolem a comida inteira, e não se sabe se isso é causa ou consequência da perda do paladar. #pinguim #pinguins #aves #animais #curiosidades"
+    },
+    "de": {
+      "title": "Schmecken Pinguine ihr Essen? 🤔",
+      "description": "Eine genetische Studie von 2015 ergab, dass allen fünf untersuchten Pinguinarten (Adélie-, Kaiser-, Zügel-, Felsen- und Königspinguin) funktionierende Gene für die Rezeptoren von süß, umami und bitter fehlen, also drei der fünf Grundgeschmäcker. Laut dem Forschungsteam gingen Umami und Bitter beim gemeinsamen Vorfahren aller Pinguine verloren, Süß schon früher (Zhao, Li & Zhang, Current Biology 2015). 'Pinguine fressen Fisch, man würde also denken, dass sie die Gene für den Umami-Rezeptor brauchen, aber aus irgendeinem Grund haben sie sie nicht', sagte Jianzhi Zhang von der University of Michigan, der die Studie leitete. Die wichtigste Hypothese von Zhang: Die Kälte der Antarktis hat die Geschmackswahrnehmung gestört, sicher ist das aber nicht; Studien an Mäusen zeigen, dass das Geschmackssignal-Protein Trpm5 bei Kälte schlecht funktioniert. Pinguine schlucken ihr Futter außerdem im Ganzen, und es ist unklar, ob das Ursache oder Folge des Geschmacksverlusts ist. #pinguin #pinguine #vögel #tiere #tierfakten"
+    },
+    "fr": {
+      "title": "Les manchots sentent-ils le goût de leur nourriture ? 🤔",
+      "description": "Une étude génétique de 2015 a montré que les cinq espèces de manchots examinées (Adélie, empereur, à jugulaire, gorfou sauteur et royal) n'ont plus de gènes fonctionnels pour les récepteurs du sucré, de l'umami et de l'amer, soit trois des cinq saveurs de base. Selon l'équipe de recherche, l'umami et l'amer ont disparu chez l'ancêtre commun de tous les manchots, et le sucré plus tôt encore (Zhao, Li et Zhang, Current Biology 2015). « Les manchots mangent du poisson, on pourrait donc penser qu'ils ont besoin des gènes du récepteur de l'umami, mais pour une raison inconnue, ils ne les ont pas », a déclaré Jianzhi Zhang, de l'Université du Michigan, qui a dirigé l'étude. Son hypothèse principale : le froid de l'Antarctique aurait perturbé la perception du goût, sans certitude ; chez la souris, la protéine Trpm5, qui transmet les signaux gustatifs, fonctionne mal au froid. Les manchots avalent aussi leur nourriture entière, et on ne sait pas si c'est une cause ou une conséquence de cette perte du goût. #manchot #manchots #oiseaux #animaux #anecdotes"
+    },
+    "hi": {
+      "title": "क्या पेंगुइन को खाने का स्वाद आता है? 🤔",
+      "description": "2015 के एक आनुवंशिक अध्ययन में जाँची गई पेंगुइन की पाँचों प्रजातियों (एडेली, एम्परर, चिनस्ट्रैप, रॉकहॉपर और किंग) में मीठे, उमामी और कड़वे स्वाद के रिसेप्टर वाले जीन काम नहीं करते थे, यानी पाँच बुनियादी स्वादों में से तीन। शोध टीम के मुताबिक़ उमामी और कड़वा सभी पेंगुइनों के साझा पूर्वज में ख़त्म हुए, और मीठा उससे भी पहले (Zhao, Li & Zhang, Current Biology 2015)। अध्ययन का नेतृत्व करने वाले मिशिगन विश्वविद्यालय के जियानज़ी झांग ने कहा, 'पेंगुइन मछली खाते हैं, तो लगता है कि उन्हें उमामी रिसेप्टर के जीन चाहिए होंगे, लेकिन किसी वजह से उनके पास ये नहीं हैं।' उनका मुख्य अनुमान है कि अंटार्कटिका की ठंड ने स्वाद पहचानने में बाधा डाली, हालाँकि यह पक्का नहीं है; चूहों पर हुए अध्ययन बताते हैं कि स्वाद-संकेत पहुँचाने वाला प्रोटीन Trpm5 ठंड में ठीक से काम नहीं करता। पेंगुइन खाना पूरा निगल भी जाते हैं, और यह साफ़ नहीं है कि यह स्वाद खोने की वजह है या नतीजा। #penguin #animals #पेंगुइन #जानवर #रोचकतथ्य"
+    }
+  },
+  "captions": {
+    "ko": [
+      "펭귄은 먹이를 통째로 삼킵니다. 그렇다면 펭귄에게 식사는 실제로 어떤 맛일까요?",
+      "2015년 연구에서 펭귄 5종을 조사해 보니, 모두 단맛과 쓴맛, 감칠맛을 느끼는 유전자가 제대로 작동하지 않았습니다.",
+      "기본 다섯 가지 맛 중 세 가지입니다. 연구를 이끈 과학자도 물고기를 먹는 동물이라면 감칠맛이 필요할 거라며 의아해했죠.",
+      "게다가 오래전 일입니다. 쓴맛과 감칠맛은 모든 펭귄의 공통 조상에서 사라졌고, 단맛은 그보다 더 일찍 없어졌습니다.",
+      "한 가지 가설은 추위입니다. 생쥐에서는 이 맛 신호를 전달하는 단백질이 낮은 온도에서 제대로 작동하지 않습니다. 이것이 펭귄이 맛을 잃은 이유인지는 아직 확실하지 않습니다.",
+      "그러니 망가진 맛 유전자들을 보면, 펭귄은 우리와 아주 다르게 맛을 느끼는 것 같습니다."
+    ],
+    "ja": [
+      "ペンギンは食べ物を丸のみにします。では、ペンギンにとって食事は実際どんな味なのでしょう？",
+      "2015年の研究で5種のペンギンを調べると、どれも甘味、苦味、うま味を感じる遺伝子が働いていませんでした。",
+      "基本の5つの味のうち3つです。研究を率いた科学者も、魚を食べるならうま味が必要なはずなのにと首をかしげました。",
+      "しかも古い話です。苦味とうま味はすべてのペンギンの共通祖先で失われ、甘味はそれよりさらに前に失われていました。",
+      "ひとつの説は寒さです。マウスでは、こうした味の信号を伝えるタンパク質が低い温度ではうまく働きません。それがペンギンが甘味・うま味・苦味を感じる能力を失った理由なのかは、まだわかっていません。",
+      "壊れた味覚の遺伝子から見ると、ペンギンは私たちとは大きく違うかたちで味を感じているようです。"
+    ],
+    "es": [
+      "Los pingüinos se tragan la comida entera. Entonces, ¿a qué les sabe de verdad una comida?",
+      "Un estudio de 2015 revisó cinco especies de pingüinos y vio que a todas les faltan genes funcionales para percibir lo dulce, lo amargo y el umami.",
+      "Son tres de los cinco sabores básicos. Hasta quien dirigió el estudio se extrañó, porque cabría esperar que un animal que come pescado necesitara el umami.",
+      "Y es una pérdida antigua. Lo amargo y el umami desaparecieron en el ancestro común de todos los pingüinos, y lo dulce, aún antes.",
+      "Una explicación propuesta es el frío. En ratones, una proteína que transmite esas señales de sabor funciona mal a bajas temperaturas. Sigue sin estar claro si eso explica la pérdida en los pingüinos.",
+      "Así que esos genes del gusto que ya no funcionan sugieren que los pingüinos perciben el sabor de una forma muy distinta a la nuestra."
+    ],
+    "pt": [
+      "Pinguins engolem a comida inteira. Então, que gosto uma refeição tem de verdade para um pinguim?",
+      "Um estudo de 2015 examinou cinco espécies de pinguins e descobriu que nenhuma tem genes funcionais para sentir doce, amargo e umami.",
+      "São três dos cinco gostos básicos. Até quem liderou o estudo estranhou, já que seria de esperar que um bicho que come peixe precisasse do umami.",
+      "E a perda é antiga. O amargo e o umami sumiram no ancestral comum de todos os pinguins, e o doce, antes ainda.",
+      "Uma explicação proposta é o frio. Em camundongos, uma proteína que transmite esses sinais de sabor funciona mal em temperaturas baixas. Se isso explica a perda nos pinguins ainda não se sabe.",
+      "Então esses genes do paladar que já não funcionam sugerem que os pinguins sentem o sabor de um jeito muito diferente do nosso."
+    ],
+    "de": [
+      "Pinguine schlucken ihr Futter im Ganzen. Wie schmeckt einem Pinguin also tatsächlich eine Mahlzeit?",
+      "Eine Studie von 2015 untersuchte fünf Pinguinarten: Allen fehlen funktionierende Gene, um süß, bitter und umami zu schmecken.",
+      "Das sind drei der fünf Grundgeschmäcker. Selbst die Studienleitung wunderte sich, denn von einem Fischfresser würde man erwarten, dass er Umami braucht.",
+      "Und der Verlust ist alt. Bitter und Umami verschwanden beim gemeinsamen Vorfahren aller Pinguine, Süß sogar noch früher.",
+      "Eine vorgeschlagene Erklärung ist die Kälte. Bei Mäusen arbeitet ein Protein, das diese Geschmackssignale weiterleitet, bei niedrigen Temperaturen schlecht. Ob das den Verlust bei Pinguinen erklärt, ist noch unklar.",
+      "Die defekten Geschmacksgene deuten also darauf hin, dass Pinguine Geschmack ganz anders erleben als wir."
+    ],
+    "fr": [
+      "Les manchots avalent leur nourriture tout entière. Alors, quel goût a vraiment un repas pour un manchot ?",
+      "Une étude de 2015 a examiné cinq espèces de manchots : aucune n'a plus de gènes fonctionnels pour percevoir le sucré, l'amer et l'umami.",
+      "Cela fait trois des cinq saveurs de base. Même la personne qui dirigeait l'étude s'en étonnait, car on s'attendrait à ce qu'un animal qui mange du poisson ait besoin de l'umami.",
+      "Et cette perte est ancienne. L'amer et l'umami ont disparu chez l'ancêtre commun de tous les manchots, et le sucré encore plus tôt.",
+      "Une explication proposée, c'est le froid. Chez la souris, une protéine qui transmet ces signaux gustatifs fonctionne mal à basse température. Reste à savoir si cela explique la perte chez les manchots.",
+      "Ces gènes du goût devenus inactifs suggèrent donc que les manchots perçoivent le goût très différemment de nous."
+    ],
+    "hi": [
+      "पेंगुइन अपना खाना साबुत ही निगल जाते हैं। तो पेंगुइन के लिए असल में खाने का स्वाद कैसा होता है?",
+      "2015 के एक अध्ययन में पेंगुइन की पाँच प्रजातियों की जाँच हुई, और सभी में मीठा, कड़वा और उमामी स्वाद पहचानने वाले जीन काम नहीं करते थे।",
+      "यानी पाँच बुनियादी स्वादों में से तीन। अध्ययन का नेतृत्व करने वाले वैज्ञानिक भी हैरान थे, क्योंकि मछली खाने वाले जीव को उमामी की ज़रूरत होनी चाहिए।",
+      "और यह क्षमता बहुत पहले ही ख़त्म हो गई थी। कड़वा और उमामी सभी पेंगुइनों के साझा पूर्वज में ही ख़त्म हो गए, और मीठा उससे भी पहले।",
+      "एक प्रस्तावित वजह ठंड है। चूहों में इन स्वाद-संकेतों को आगे पहुँचाने वाला एक प्रोटीन कम तापमान पर ठीक से काम नहीं करता। क्या यही पेंगुइनों में स्वाद खोने की वजह है, यह अभी पक्का नहीं है।",
+      "यानी ये बेकार हो चुके स्वाद-जीन संकेत देते हैं कि पेंगुइन स्वाद को हमसे बहुत अलग तरह से महसूस करते हैं।"
+    ]
+  },
+  "clips": [
+    [
+      9140356,
+      34660141,
+      31750543
+    ],
+    [
+      35279584,
+      6299729,
+      11403283
+    ],
+    [
+      31750544,
+      35325871,
+      34155582
+    ],
+    [
+      30152182,
+      12802151,
+      35899030,
+      34214608
+    ]
+  ],
+  "images": [
+    {
+      "fact_index": 0,
+      "cut_index": 1,
+      "path": "queue/assets/025_penguin_swallow.jpg",
+      "required": false
+    }
+  ]
+}
